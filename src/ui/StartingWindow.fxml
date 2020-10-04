@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+   <children>
+      <Label layoutX="145.0" layoutY="14.0" prefHeight="30.0" prefWidth="140.0" text="Prikaz Radnika">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+       <TextField fx:id="searchField" layoutX="26.0" layoutY="199.0" onAction="#setSearchParameter" prefHeight="30.0" prefWidth="124.0" promptText=" unesite ovdje" />
+       <Button fx:id="editWorkerButton" disable="true" layoutX="491.0" layoutY="202.0" mnemonicParsing="false" onAction="#setEditWorkerButton" prefHeight="25.0" prefWidth="71.0" text="Edit" />
+       <Button fx:id="addWorkerButton" layoutX="404.0" layoutY="202.0" mnemonicParsing="false" onAction="#setAddPersonButton" prefHeight="25.0" prefWidth="71.0" text="Add" />
+
+       <TableView fx:id="table" editable="true" layoutX="26.0" layoutY="242.0" onMouseClicked="#settingLabels" prefHeight="209.0" prefWidth="449.0">
+        <columns>
+            <TableColumn fx:id="Name" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="Surname" prefWidth="75.0" text="Surname" />
+             <TableColumn fx:id="Paymant" prefWidth="75.0" text="Payment" />
+             <TableColumn fx:id="Workplace" prefWidth="124.0" text="Workplace" />
+            <TableColumn fx:id="idWorker" prefWidth="99.0" text="idWorker" />
+        </columns>
+      </TableView>
+
+      <Pane fx:id="pane" layoutX="8.0" layoutY="41.0" prefHeight="149.0" prefWidth="564.0" visible="false">
+
+
+          <Label layoutX="14.0" layoutY="30.0" text="BrojRadnika">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font></Label>
+          <Label fx:id="labalIdworker" layoutX="14.0" layoutY="75.0" text="Label">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label layoutX="121.0" layoutY="30.0" text="Ime">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label fx:id="labelName" layoutX="117.0" layoutY="75.0" text="Label">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label layoutX="215.0" layoutY="30.0" text="prezime">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label fx:id="labelSurname" layoutX="215.0" layoutY="75.0" text="Label">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label layoutX="311" layoutY="30.0" text="plata">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label fx:id="labelPayment" layoutX="309.0" layoutY="75.0" text="Label">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label layoutX="382.0" layoutY="30.0" text="radno mjesto">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+          <Label fx:id="labelWorkplace" layoutX="382.0" layoutY="75.0" text="Label">
+              <font>
+                  <Font name="System Bold" size="14.0" />
+              </font>
+          </Label>
+      </Pane>
+    </children>
+</AnchorPane>

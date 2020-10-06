@@ -120,10 +120,10 @@ public class DBquery extends DBcon {
           preparedStatement.setString(i++, worker.getName());
           preparedStatement.setString(i++, worker.getSurname());
           // payment is int value so it need to be casted to String
-          preparedStatement.setInt(i++, worker.getPaymant());
+            preparedStatement.setInt(i++, worker.getPaymant());
           preparedStatement.setString(i++, worker.getWorkplace());
           // idworker is int value so it need to be casted to String
-          preparedStatement.setInt(i, worker.getIdWorker());
+        preparedStatement.setInt(i, worker.getIdWorker());
         preparedStatement.executeUpdate();
     }
 }

@@ -37,27 +37,34 @@ public class AddingController extends Xon implements Initializable {
 
         //  promjeniti nazit metode,  dodati exceptione posebnop za idworker  da na label izbacuje da
      //   nemoze da vec ima itd.
-         worker = new Worker();
-         dBquery = new DBquery();
-         worker.setName(name.getText().trim());
-         worker.setSurname(surname.getText().trim());
-         worker.setPaymant(Integer.valueOf(paymant.getText().trim()));
-         worker.setWorkplace(workplace.getText().trim());
-         worker.setIdWorker(Integer.valueOf(idWorker.getText().trim()));
 
-
-     //    System.out.println("*****************************");
-        //  System.out.println(worker.toString());     for geting in console printout
-        if (editable)
-        {
-            dBquery.LoaderForSearch(definderForSetupOfWindow);
-            dBquery.editWorker(worker);
-            infoLine.setText("Radnik je izmjenjen pod idWokrer: "+definderForSetupOfWindow);
-        }
-        else
-            {  dBquery.inputOfWorker(worker);
-            infoLine.setText("Radnik je dodan u bazu podataka");
-            }
+         if (!paymant.getText().isEmpty() && !name.getText().isEmpty() && !surname.getText().isEmpty()
+                 && !workplace.getText().isEmpty() && !idWorker.getText().isEmpty())
+         {
+             worker = new Worker();
+             dBquery = new DBquery();
+             worker.setName(name.getText().trim());
+             worker.setSurname(surname.getText().trim());
+             worker.setPaymant(Integer.valueOf(paymant.getText().trim()));
+             worker.setWorkplace(workplace.getText().trim());
+             worker.setIdWorker(Integer.valueOf(idWorker.getText().trim()));
+             //    System.out.println("*****************************");
+             //  System.out.println(worker.toString());     for geting in console printout
+             if (editable)
+             {
+                 dBquery.LoaderForSearch(definderForSetupOfWindow);
+                 dBquery.editWorker(worker);
+                 infoLine.setText("Radnik je izmjenjen pod idWokrer: "+definderForSetupOfWindow);
+             }
+             else
+             {  dBquery.inputOfWorker(worker);
+                 infoLine.setText("Radnik je dodan u bazu podataka");
+             }
+         }
+         else {
+             System.out.println("niste unijeli sve zahtjevne podatke");
+            infoLine.setText("niste unijeli sve zahtjevne podatke");
+         }
     }
 
 

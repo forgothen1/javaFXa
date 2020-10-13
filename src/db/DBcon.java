@@ -2,6 +2,7 @@
 /* class that connect to DB  ,has stored user , pass and location of DB*/
 package db;
 
+import entites.Articles;
 import entites.Worker;
 import fechingData.FechingData;
 
@@ -22,6 +23,7 @@ public class DBcon {
     PreparedStatement preparedStatement;
     ResultSet resultSet;
     Worker worker;
+
     public DBcon() throws SQLException {
     }
 

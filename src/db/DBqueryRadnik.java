@@ -6,12 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBquery extends DBcon {
+public class DBqueryRadnik extends DBcon {
     private String variableForSearch;
     
     List<Worker> worker_collection =new ArrayList<>();
 
-    public DBquery() throws SQLException {
+    public DBqueryRadnik() throws SQLException {
     }
 /*basic  method to get all workers from DB */
     public List<Worker> gettingAllWorkers() throws SQLException {

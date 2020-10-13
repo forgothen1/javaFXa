@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ArtickleController">
+
+
+    <TableView fx:id="table" editable="true" layoutX="26.0" layoutY="242.0" prefHeight="209.0" prefWidth="700.0">
+
+        <columns>
+            <TableColumn fx:id="idArtickle" prefWidth="75.0" text="ID Article" />
+            <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="serialNumber" prefWidth="75.0" text="Serial number" />
+            <TableColumn fx:id="description" prefWidth="75.0" text="description" />
+            <TableColumn fx:id="quantity" prefWidth="124.0" text="quantity" />
+            <TableColumn fx:id="quantityInUse" prefWidth="99.0" text="quantityInUse" />
+            <TableColumn fx:id="price" prefWidth="99" text="price" />
+        </columns>
+    </TableView>
+   <Button layoutX="39.0" layoutY="138.0" mnemonicParsing="false" text="ADD" onAction="#settingArticle" />
+   <Button layoutX="147.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
+
+</AnchorPane>

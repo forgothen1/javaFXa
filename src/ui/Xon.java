@@ -1,9 +1,9 @@
 package ui;
 
-import db.DBquery;
+import db.DBqueryRadnik;
 import entites.Worker;
 
 public abstract class Xon   {
     Worker worker;
-    DBquery dBquery;
+    DBqueryRadnik dBquery;
 }

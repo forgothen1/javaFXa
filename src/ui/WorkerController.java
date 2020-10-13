@@ -19,7 +19,7 @@ import db.*;
 import javafx.util.Callback;
 
 
-public class MainController extends Xon implements Initializable {
+public class WorkerController extends Xon implements Initializable {
 
     @FXML
     public TextField searchField;
@@ -44,7 +44,7 @@ public class MainController extends Xon implements Initializable {
     //table adding all content to table from DB
 
     public void tableCollectingData() throws SQLException {
-        DBquery dBquery = new DBquery();
+        DBqueryRadnik dBquery = new DBqueryRadnik();
         try {
             table.getItems().addAll(dBquery.gettingAllWorkers());
         } catch (SQLException e) {
@@ -59,6 +59,7 @@ public class MainController extends Xon implements Initializable {
             Parent root1 = FXMLLoader.load(getClass().getResource("../ui/AddingGUI.fxml"));
             Stage stage = new Stage();
             stage.setTitle("menaging");
+
             stage.setScene(new Scene(root1));
             stage.show();
             /*takes action when u close extra window and it refresh  table  with .clear and calling metode to write to table
@@ -120,7 +121,7 @@ public void setEditWorkerButton() {
 }
     @FXML
     public void settingLabels() throws SQLException {
-         dBquery = new DBquery();
+         dBquery = new DBqueryRadnik();
 
         int indexOfRow= table.getSelectionModel().getFocusedIndex();
         Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
@@ -147,7 +148,7 @@ public void setEditWorkerButton() {
     //react on pressing ENTER in textField  filters table but its attached directly to DB
     @FXML
     public void setSearchParameter() throws SQLException {
-        DBquery dBquery = new DBquery();
+        DBqueryRadnik dBquery = new DBqueryRadnik();
 
         table.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
@@ -175,6 +176,7 @@ public void setEditWorkerButton() {
         Paymant.setCellValueFactory(new PropertyValueFactory<>("paymant"));
         Workplace.setCellValueFactory(new PropertyValueFactory<>("workplace"));
         idWorker.setCellValueFactory(new PropertyValueFactory<>("idWorker"));
+
         //calling methot that fill table in GUI.
         try {
             tableCollectingData();

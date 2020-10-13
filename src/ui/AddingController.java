@@ -1,7 +1,7 @@
 package ui;
 
 /*Controller class for AddingGUI.fxml class  controlle flow from gui to work classes*/
-import db.DBquery;
+import db.DBqueryRadnik;
 import entites.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +26,7 @@ public class AddingController extends Xon implements Initializable {
             // method for removing worker from DB  with idWorker
         @FXML
         public void remove() throws SQLException {
-            DBquery dBquery= new DBquery();
+            DBqueryRadnik dBquery= new DBqueryRadnik();
             dBquery.remove(definderForSetupOfWindow);
             System.out.println("removed "+ definderForSetupOfWindow);
             infoLine.setText("Radnik je obrisan ");
@@ -42,7 +42,7 @@ public class AddingController extends Xon implements Initializable {
                  && !workplace.getText().isEmpty() && !idWorker.getText().isEmpty())
          {
              worker = new Worker();
-             dBquery = new DBquery();
+             dBquery = new DBqueryRadnik();
              worker.setName(name.getText().trim());
              worker.setSurname(surname.getText().trim());
              worker.setPaymant(Integer.valueOf(paymant.getText().trim()));
@@ -70,7 +70,7 @@ public class AddingController extends Xon implements Initializable {
 
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
     public void settingEditingWindow() throws SQLException {
-        dBquery= new DBquery();
+        dBquery= new DBqueryRadnik();
         System.out.println("u novom prozoru    "+ editable);
         if(editable){
             button.setText("EDIT");

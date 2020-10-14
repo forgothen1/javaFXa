@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -18,13 +19,15 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ArtickleController implements Initializable {
+
     @FXML
     public TableView<Articles> table;
     @FXML
     public TableColumn<Articles, String> name,serialNumber,description;
-    //ovjde negdje problem
+
     @FXML
     public TableColumn<Articles, Integer> idArtickle ;
+    public TextField searchField;
     @FXML
     private TableColumn<Articles, Integer> quantity;
     @FXML
@@ -62,7 +65,22 @@ public class ArtickleController implements Initializable {
         }
         System.out.println("Button works fine");
     }
+     @FXML
+    public void SearchArticle()
+    {   table.getItems().clear();
+    if (searchField.getText().isEmpty())
+        {settingTable();}
+    else {
+        try {
 
+            DBqueryArtikl dBqueryArtikl = new DBqueryArtikl();
+            dBqueryArtikl.LoaderForSearch(searchField.getText().trim());
+            table.getItems().addAll(dBqueryArtikl.searchArticles());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idArtickle.setCellValueFactory(new PropertyValueFactory<>("IdArticles"));
@@ -72,7 +90,6 @@ public class ArtickleController implements Initializable {
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityInUse.setCellValueFactory(new PropertyValueFactory<>("quantityUse"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
-
         settingTable();
     }
 }

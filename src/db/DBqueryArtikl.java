@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBqueryArtikl extends DBcon {
- Articles articles;
+    Articles articles;
+    private String variableForSearch;
     List<Articles> artikle_collection = new ArrayList<>();
     public DBqueryArtikl() throws SQLException {
     }
@@ -47,5 +48,23 @@ public class DBqueryArtikl extends DBcon {
         preparedStatement.setInt(i++,articles.getQuantity());
         preparedStatement.setInt(i,articles.getPrice());
         preparedStatement.executeUpdate();
+    }
+    public void LoaderForSearch(String optionWhatToSearch)
+    {variableForSearch=optionWhatToSearch;}
+    public List<Articles> searchArticles() throws SQLException {
+        artikle_collection.clear();
+        String sqlQuerry = "SELECT name, serialNumber, idArtickle, description, quantity, quantityInUse, price FROM artikli " +
+                "WHERE name like '%"+ variableForSearch + "%' or serialNumber like '%"+variableForSearch+"%' or idArtickle  like" +
+                "'%"+variableForSearch+"%' or description like '%"+variableForSearch+"%'";
+        System.out.println(sqlQuerry);
+        resultSet=statement.executeQuery(sqlQuerry);
+        while(resultSet.next())
+        {
+            articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
+                    resultSet.getInt("idArtickle"),resultSet.getString("description"),
+                    resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getInt("price"));
+            artikle_collection.add(articles);
+        }
+        return artikle_collection;
     }
 }

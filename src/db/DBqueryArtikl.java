@@ -65,6 +65,7 @@ public class DBqueryArtikl extends DBcon {
                     resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getInt("price"));
             artikle_collection.add(articles);
         }
+
         return artikle_collection;
     }
 }

@@ -17,3 +17,9 @@ kako nemam pojma.
 
 /*nemam pojma hmm  podesiti table za artoikle , podesiti adding , editing
 * adding : znaci da ako vec ima taj serial number dda ga nadje i doda na kolicinu umjesto da doda novi artikal */
+
+/* 14.10.2020 23>12
+znaci treba dodati kategorije u artikle  kao sto su brand ,  dobavljac,  razmisljamo o opciji slike  :D
+napraviti u artiklima posebno  da radi pretragu za serialNumber  zbog mogucnosti podudaranja serial i djelova iz imena, opisa itd
+
+* */

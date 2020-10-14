@@ -1,4 +1,4 @@
-package ui;
+package ui.articles;
 
 import db.DBqueryArtikl;
 import entites.Articles;
@@ -45,7 +45,7 @@ public class ArtickleController implements Initializable {
     @FXML
     public void settingArticle(javafx.event.ActionEvent actionEvent) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../ui/AddingAtricle.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("articles/AddingAtricle.fxml"));
             Stage stage = new Stage();
             stage.setTitle("ading");
             stage.setScene(new Scene(root));

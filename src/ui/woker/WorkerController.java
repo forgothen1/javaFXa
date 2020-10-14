@@ -1,4 +1,4 @@
-package ui;
+package ui.woker;
 /* controller that interact with starting gui window, and its asinged for all comunication from starting window to other classes*/
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import db.*;
 import javafx.util.Callback;
+import ui.Xon;
 
 
 public class WorkerController extends Xon implements Initializable {
@@ -41,6 +42,8 @@ public class WorkerController extends Xon implements Initializable {
     private Pane pane;
     @FXML
     private Button editWorkerButton;
+    Worker worker;
+    DBqueryRadnik dBquery;
     //table adding all content to table from DB
 
     public void tableCollectingData() throws SQLException {

@@ -1,4 +1,4 @@
-package ui;
+package ui.woker;
 
 /*Controller class for AddingGUI.fxml class  controlle flow from gui to work classes*/
 import db.DBqueryRadnik;
@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import ui.Xon;
 
 
 import java.net.URL;
@@ -23,6 +24,8 @@ public class AddingController extends Xon implements Initializable {
     public boolean editable;
     @FXML
     public Label infoLine;
+    Worker worker;
+    DBqueryRadnik dBquery;
             // method for removing worker from DB  with idWorker
         @FXML
         public void remove() throws SQLException {

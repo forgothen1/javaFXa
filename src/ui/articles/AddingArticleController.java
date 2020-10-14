@@ -1,4 +1,4 @@
-package ui;
+package ui.articles;
 
 import db.DBqueryArtikl;
 import entites.Articles;

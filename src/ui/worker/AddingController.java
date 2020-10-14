@@ -1,4 +1,4 @@
-package ui.woker;
+package ui.worker;
 
 /*Controller class for AddingGUI.fxml class  controlle flow from gui to work classes*/
 import db.DBqueryRadnik;

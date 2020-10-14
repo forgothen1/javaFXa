@@ -16,7 +16,7 @@ public class FechingData {
                     int index = line.indexOf("@")+1;
                      sub= line.substring(index);
 
-                    System.out.println(sub.trim());
+                 //   System.out.println(sub.trim());
 
                 }
             }
@@ -38,7 +38,7 @@ public class FechingData {
                     int index = line.indexOf("@")+1;
                      sub= line.substring(index);
 
-                    System.out.println(sub.trim());
+                //    System.out.println(sub.trim());
 
                 }
             }
@@ -60,7 +60,7 @@ public class FechingData {
                     int index = line.indexOf("@")+1;
                      sub= line.substring(index).trim();
 
-                    System.out.println(sub);
+              //      System.out.println(sub);
 
                 }
             }

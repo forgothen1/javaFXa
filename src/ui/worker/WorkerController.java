@@ -1,4 +1,4 @@
-package ui.woker;
+package ui.worker;
 /* controller that interact with starting gui window, and its asinged for all comunication from starting window to other classes*/
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +59,7 @@ public class WorkerController extends Xon implements Initializable {
     @FXML
     public void setAddPersonButton(javafx.event.ActionEvent actionEvent) {
              try {
-            Parent root1 = FXMLLoader.load(getClass().getResource("../ui/AddingGUI.fxml"));
+            Parent root1 = FXMLLoader.load(getClass().getResource("../worker/AddingGUI.fxml"));
             Stage stage = new Stage();
             stage.setTitle("menaging");
 
@@ -85,7 +85,7 @@ public class WorkerController extends Xon implements Initializable {
 @FXML
 public void setEditWorkerButton() {
     try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/AddingGUI.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../worker/AddingGUI.fxml"));
         //alowing to connect 2 controllers and to transfer data , that from 1st window travel true here to second window
 
         fxmlLoader.setControllerFactory(new Callback<>() {

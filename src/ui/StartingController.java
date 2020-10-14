@@ -17,7 +17,7 @@ Pane secPane;
     @FXML
     public void loadWorkerMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("woker/WorkerDisplay.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("worker/WorkerDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
     }
     /*method that load  table and buttons for article into pane element but 1st clears pane*/

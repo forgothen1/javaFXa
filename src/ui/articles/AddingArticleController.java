@@ -25,6 +25,13 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
      articles.setPrice(Integer.valueOf(price.getText().trim()));
     dBqueryArtikl.addingToArticles(articles);
  }
+ @FXML
+ public  void getSerialNumber() throws SQLException {
+     DBqueryArtikl dBqueryArtikl = new DBqueryArtikl();
+
+     dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
+
+ }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

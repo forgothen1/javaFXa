@@ -8,10 +8,10 @@ public class Articles {
     String description;
     Integer quantity;
     Integer quantityUse;
-    Integer price;
+    Float price;
     public Articles()
     {}
-    public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Integer price) {
+    public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price) {
         this.id = id;
         this.name = name;
          SerialNumber = serialNumber;
@@ -22,11 +22,11 @@ public class Articles {
         this.price=price;
     }
 
-    public Integer getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

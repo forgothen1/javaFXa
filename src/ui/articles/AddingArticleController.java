@@ -25,22 +25,27 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
      articles.setSerialNumber(serialNumber.getText().trim());
      articles.setDescription(description.getText().trim());
      articles.setQuantity(Integer.valueOf(quantity.getText().trim()));
-     articles.setPrice(Integer.valueOf(price.getText().trim()));
-    dBqueryArtikl.addingToArticles(articles);
+     articles.setPrice(Float.valueOf(price.getText().trim()));
+        if(sendingDataButton.getText().equals("Add")) {
+            dBqueryArtikl.addingToArticles(articles);
+        }
+        if (sendingDataButton.getText().equals("Edditing")) {
+            dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
+            dBqueryArtikl.editingArticle(articles);
+        }
  }
  @FXML
  public  void getSerialNumber() throws SQLException {
      DBqueryArtikl dBqueryArtikl = new DBqueryArtikl();
-
+ /* when textfield called serialNumber lost focus and there is more then 3 letter we search DB  and collect data*/
         serialNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-            if (!t1 && serialNumber.getText().length()>3) {
+            if (!t1 && serialNumber.getText().length()>2) {
                 dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
                 System.out.println(serialNumber.getText().trim());
                 Articles articles;
 
-                try {
-                    articles = dBqueryArtikl.searchArticles().get(0);
-
+                try{
+                    articles = dBqueryArtikl.searchBySerialNumber().get(0);
                     if (!articles.getSerialNumber().isEmpty()) {
                         System.out.println(articles.toString());
                         sendingDataButton.setText("Edditing");
@@ -51,8 +56,8 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
                         price.setText(String.valueOf(articles.getPrice()));
                         description.setText(articles.getDescription());
                     }
-                } catch (SQLException e) {
-                   System.out.println("nije bilo podudarnosti u bazi");
+                   } catch (Exception e) {
+                    System.out.println("nema veze");
                 }
             }
      });

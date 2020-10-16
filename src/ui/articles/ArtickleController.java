@@ -74,8 +74,7 @@ public class ArtickleController implements Initializable {
         try {
 
             DBqueryArtikl dBqueryArtikl = new DBqueryArtikl();
-            dBqueryArtikl.LoaderForSearch(searchField.getText().trim());
-            table.getItems().addAll(dBqueryArtikl.searchArticles());
+            table.getItems().addAll(dBqueryArtikl.searchArticles(searchField.getText().trim()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

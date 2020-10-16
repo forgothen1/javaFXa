@@ -30,8 +30,8 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
             dBqueryArtikl.addingToArticles(articles);
         }
         if (sendingDataButton.getText().equals("Edditing")) {
-            dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
-            dBqueryArtikl.editingArticle(articles);
+          //  dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
+            dBqueryArtikl.editingArticle(articles,serialNumber.getText().trim());
         }
  }
  @FXML
@@ -40,12 +40,11 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
  /* when textfield called serialNumber lost focus and there is more then 3 letter we search DB  and collect data*/
         serialNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (!t1 && serialNumber.getText().length()>2) {
-                dBqueryArtikl.LoaderForSearch(serialNumber.getText().trim());
                 System.out.println(serialNumber.getText().trim());
                 Articles articles;
 
                 try{
-                    articles = dBqueryArtikl.searchBySerialNumber().get(0);
+                    articles = dBqueryArtikl.searchBySerialNumber(serialNumber.getText().trim()).get(0);
                     if (!articles.getSerialNumber().isEmpty()) {
                         System.out.println(articles.toString());
                         sendingDataButton.setText("Edditing");

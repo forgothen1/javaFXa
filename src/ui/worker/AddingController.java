@@ -55,8 +55,7 @@ public class AddingController extends Xon implements Initializable {
              //  System.out.println(worker.toString());     for geting in console printout
              if (editable)
              {
-                 dBquery.LoaderForSearch(definderForSetupOfWindow);
-                 dBquery.editWorker(worker);
+                 dBquery.editWorker(worker,definderForSetupOfWindow);
                  infoLine.setText("Radnik je izmjenjen pod idWokrer: "+definderForSetupOfWindow);
              }
              else
@@ -79,9 +78,8 @@ public class AddingController extends Xon implements Initializable {
             button.setText("EDIT");
             removeButton.visibleProperty().setValue(true);
             System.out.println(definderForSetupOfWindow);
-            dBquery.LoaderForSearch(String.valueOf(definderForSetupOfWindow));
             try {
-                worker=dBquery.searchOfWorkerByIdWorker().get(0);
+                worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
                 name.setText(worker.getName());
                 surname.setText(worker.getSurname());
                 paymant.setText(String.valueOf(worker.getPaymant()));

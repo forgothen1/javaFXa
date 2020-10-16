@@ -48,11 +48,7 @@ public class WorkerController extends Xon implements Initializable {
 
     public void tableCollectingData() throws SQLException {
         DBqueryRadnik dBquery = new DBqueryRadnik();
-        try {
-            table.getItems().addAll(dBquery.gettingAllWorkers());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        table.getItems().addAll(dBquery.gettingAllWorkers());
     }
     //button  that activates new window for adding, removing , editing new worker  to table/DB
 
@@ -130,8 +126,7 @@ public void setEditWorkerButton() {
         Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
      //   System.out.println("index of row: "+indexOfRow); // ready for console check up
      //   System.out.println("value of idWorker: "+valueOfRow); // ready for console check up
-        dBquery.LoaderForSearch(String.valueOf(valueOfRow));
-        worker=dBquery.searchOfWorkerByIdWorker().get(0);
+        worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(valueOfRow)).get(0);
    //     System.out.println( worker.toString());  // ready for console check up
      //   System.out.println(worker.getName());   // ready for console check up
        labelName.setText(worker.getName());
@@ -162,9 +157,8 @@ public void setEditWorkerButton() {
             }
         }
         else if (searchField.getText().length() >= 3) {
-            dBquery.LoaderForSearch(searchField.getText().trim());
             try {
-                table.getItems().addAll(dBquery.searchOfWorkers());
+                table.getItems().addAll(dBquery.searchOfWorkers(searchField.getText().trim()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }

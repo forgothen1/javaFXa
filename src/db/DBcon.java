@@ -12,12 +12,13 @@ import static java.sql.DriverManager.getConnection;
 
 public class DBcon {
     FechingData fechingData = new FechingData();
-    String base = fechingData.fechingDB();
+    String path ="E://dev stuff/fileName.txt";
+    String base = fechingData.nesto("database",path);
             //"jdbc:mysql://localhost:3306/osoblje" +
             //after ? is code for ssl cript pass and for time zone  so you dont get timed out
               //        "?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    String user=fechingData.fechingUser();
-    String pass = fechingData.fechingPassowrd(); //treba se dodati sifra...
+    String user=fechingData.nesto("username",path);
+    String pass = fechingData.nesto("password",path);
     Connection con=getConnection(base, user, pass);
     Statement statement=con.createStatement();
     PreparedStatement preparedStatement;

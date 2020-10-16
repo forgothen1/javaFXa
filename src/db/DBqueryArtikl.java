@@ -107,5 +107,10 @@ public class DBqueryArtikl extends DBcon {
         return artikle_collection;
     }
 
+    public void nesto (String sqlQuerry) throws SQLException {
+        resultSet=statement.executeQuery(sqlQuerry);
 
+
+
+    }
 }

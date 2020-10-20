@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="487.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.startingWindow.StartingController">
+   <children>
+      <VBox layoutX="21.0" layoutY="14.0" prefHeight="378.0" prefWidth="100.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="89.0" prefWidth="170.0" text="WorkQuerry" />
+            <Button mnemonicParsing="false" onAction="#loadArtikleMenu" prefHeight="68.0" prefWidth="100.0" text="Article" />
+            <Button mnemonicParsing="false" onAction="#loadWorkerMenu" prefHeight="69.0" prefWidth="100.0" text="Workers" />
+            <Button mnemonicParsing="false" prefHeight="69.0" prefWidth="110.0" text="Brands" />
+         </children></VBox>
+      <Pane fx:id="secPane" layoutX="121.0" layoutY="14.0" prefHeight="357.0" prefWidth="474.0" />
+   </children>
+</AnchorPane>

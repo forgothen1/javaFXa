@@ -19,13 +19,23 @@ public class DBcon {
               //        "?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
     String user=fechingData.nesto("username",path);
     String pass = fechingData.nesto("password",path);
-    Connection con=getConnection(base, user, pass);
-    Statement statement=con.createStatement();
+    Connection con;
+    Statement statement;
+
+    {
+        try {
+            con = getConnection(base, user, pass);
+             statement=con.createStatement();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     PreparedStatement preparedStatement;
     ResultSet resultSet;
     Worker worker;
 
-    public DBcon() throws SQLException {
-    }
+
+
 
 }

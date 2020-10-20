@@ -7,12 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBqueryRadnik extends DBcon {
-    private String variableForSearch;
     
     List<Worker> worker_collection =new ArrayList<>();
 
-    public DBqueryRadnik() throws SQLException {
-    }
     public void settingForImput(String sqlQuery, Worker worker) {
         System.out.println(sqlQuery);
         int i = 1;
@@ -41,7 +38,8 @@ public class DBqueryRadnik extends DBcon {
             while (resultSet.next()) {
                 // za poslije prebacivanje  na GUI i vizual
                 worker = new Worker(null, resultSet.getString("Name"), resultSet.getString("Surname"),
-                        resultSet.getInt("payment"), resultSet.getString("workplace"), resultSet.getInt("idWorker"));
+                        resultSet.getInt("payment"), resultSet.getString("workplace"),
+                        resultSet.getInt("idWorker"));
                 worker_collection.add(worker);
             }
         } catch (SQLException e) {
@@ -59,7 +57,7 @@ public class DBqueryRadnik extends DBcon {
     }
 /* getting  stuff for selecter / searcher  reciving to this class a string */
     /*this is  method that collect from DB selected in table  and sending it to  labels*/
-    public List<Worker> searchOfWorkerByIdWorker(String variableForSearch) throws SQLException {
+    public List<Worker> searchOfWorkerByIdWorker(String variableForSearch)  {
         // need to be cleared or it just stack inside LIST
         worker_collection.clear();
         String sqlQuerry="select * from radnik where idWorker="+variableForSearch;
@@ -68,7 +66,7 @@ public class DBqueryRadnik extends DBcon {
         return worker_collection;
     }
     /* method that get string from textfield to search in DB*/
-    public List<Worker> searchOfWorkers(String variableForSearch) throws SQLException {
+    public List<Worker> searchOfWorkers(String variableForSearch)  {
         worker_collection.clear();
         String sqlQuerry = "SELECT * FROM radnik where name like'%" + variableForSearch + "%' or " +
                 "surname like '%" + variableForSearch + "%' or workplace like '%" + variableForSearch + "%'";
@@ -78,7 +76,7 @@ public class DBqueryRadnik extends DBcon {
     }
 
     //adding to DB value by value
-    public void inputOfWorker(Worker worker) throws SQLException {
+    public void inputOfWorker(Worker worker)  {
         String sqlQuestion = "insert into Radnik (name,surname,payment,workplace,idWorker) values (?,?,?,?,?)";
         settingForImput(sqlQuestion,worker);
     }

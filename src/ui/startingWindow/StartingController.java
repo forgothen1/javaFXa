@@ -1,4 +1,4 @@
-package ui;
+package ui.startingWindow;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,14 +17,14 @@ Pane secPane;
     @FXML
     public void loadWorkerMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("worker/WorkerDisplay.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../worker/WorkerDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
     }
     /*method that load  table and buttons for article into pane element but 1st clears pane*/
     @FXML
     public void loadArtikleMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("articles/ArticleDisplay.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../articles/ArticleDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
 
     }

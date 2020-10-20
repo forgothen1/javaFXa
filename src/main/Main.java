@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/ui/StartingDisplay.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ui/startingWindow/StartingDisplay.fxml"));
         primaryStage.setTitle("Prikaz Radnika");
         primaryStage.setScene(new Scene(root, 800, 530));
         primaryStage.show();

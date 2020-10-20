@@ -157,11 +157,7 @@ public void setEditWorkerButton() {
             }
         }
         else if (searchField.getText().length() >= 3) {
-            try {
-                table.getItems().addAll(dBquery.searchOfWorkers(searchField.getText().trim()));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            table.getItems().addAll(dBquery.searchOfWorkers(searchField.getText().trim()));
         }
     }
     @Override

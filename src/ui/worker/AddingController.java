@@ -78,18 +78,12 @@ public class AddingController extends Xon implements Initializable {
             button.setText("EDIT");
             removeButton.visibleProperty().setValue(true);
             System.out.println(definderForSetupOfWindow);
-            try {
-                worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
-                name.setText(worker.getName());
-                surname.setText(worker.getSurname());
-                paymant.setText(String.valueOf(worker.getPaymant()));
-                workplace.setText(worker.getWorkplace());
-                idWorker.setText(String.valueOf(worker.getIdWorker()));
-
-
-            } catch (SQLException e) {
-           System.out.println("nesto nece");
-            }
+            worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
+            name.setText(worker.getName());
+            surname.setText(worker.getSurname());
+            paymant.setText(String.valueOf(worker.getPaymant()));
+            workplace.setText(worker.getWorkplace());
+            idWorker.setText(String.valueOf(worker.getIdWorker()));
         }
     }
 

@@ -10,8 +10,6 @@ import java.util.List;
 public class DBqueryArtikl extends DBcon {
     Articles articles;
     List<Articles> artikle_collection = new ArrayList<>();
-    public DBqueryArtikl() throws SQLException {
-    }
     /*method that do loging for geting data from DB used by other methods*/
     public void settingForOuput(String sqlQuerry) throws SQLException {
         resultSet=statement.executeQuery(sqlQuerry);
@@ -46,7 +44,8 @@ public class DBqueryArtikl extends DBcon {
     }
     /*this allows to add new artickle in DB*/
     public void addingToArticles(Articles articles) throws SQLException {
-        String sqlQuerry = "insert into artikli (name,serialNumber,idArtickle,description,quantity,price) values (?,?,?,?,?,?)";
+        String sqlQuerry =
+                "insert into artikli (name,serialNumber,idArtickle,description,quantity,price) values (?,?,?,?,?,?)";
        settingForInput(sqlQuerry,articles);
     }
 
@@ -54,7 +53,8 @@ public class DBqueryArtikl extends DBcon {
     // edditing  existing  article probably gona need refactoring
     public void editingArticle(Articles articles,String variableForSearch) throws SQLException {
 
-        String sqlQuerry = "update artikli set name=? , serialNumber=? , idArtickle=? , description=? , quantity=? , price=? " +
+        String sqlQuerry =
+                "update artikli set name=? , serialNumber=? , idArtickle=? , description=? , quantity=? , price=? " +
                 " where serialNumber='"+variableForSearch+"'";
         System.out.println(sqlQuerry);
      settingForInput(sqlQuerry,articles);
@@ -73,8 +73,10 @@ public class DBqueryArtikl extends DBcon {
     /* searching  artickles by name , description ,serial number or id by part of word*/
     public List<Articles> searchArticles(String variableForSearch) throws SQLException {
         artikle_collection.clear();
-        String sqlQuerry = "SELECT name, serialNumber, idArtickle, description, quantity, quantityInUse, price FROM artikli " +
-                "WHERE name like '%"+ variableForSearch + "%' or serialNumber like '%"+variableForSearch+"%' or idArtickle  like" +
+        String sqlQuerry =
+                "SELECT name, serialNumber, idArtickle, description, quantity, quantityInUse, price FROM artikli " +
+                "WHERE name like '%"+ variableForSearch + "%' or serialNumber like '%"+
+                        variableForSearch+"%' or idArtickle  like" +
                 "'%"+variableForSearch+"%' or description like '%"+variableForSearch+"%'";
         System.out.println(sqlQuerry);
         settingForOuput(sqlQuerry);

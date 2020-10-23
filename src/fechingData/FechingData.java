@@ -8,7 +8,12 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FechingData {
-
+    /**
+     *
+     * @param requarment
+     * @param pathFile
+     * @return
+     */
  public String nesto(String requarment, String pathFile)
  {
      String sub = null;

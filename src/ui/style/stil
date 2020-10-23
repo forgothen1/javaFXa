@@ -1,4 +1,4 @@
-.text {
- -fx-text-fill: white;
-
+#secPane
+{
+-fx-background-color:#080d63
 }

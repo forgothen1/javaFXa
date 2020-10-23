@@ -2,20 +2,34 @@ package ui.articles;
 
 import db.DBqueryArtikl;
 import entites.Articles;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import security.Securty;
+
+import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.security.Security;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddingArticleController implements Initializable {
+public class AddingArticleController extends Securty implements Initializable {
 @FXML
 public TextField name, serialNumber,idArticle,description,quantity,price;
     public Button sendingDataButton;
 
     /*alowing to add more articles into table/DB  probably need refactor to reedo for adding existing*/
+
+    /**
+     *
+     * @throws SQLException
+     */
  @FXML
  public void adding() throws SQLException {
      Articles articles= new Articles();
@@ -34,8 +48,12 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
             dBqueryArtikl.editingArticle(articles,serialNumber.getText().trim());
         }
  }
+
+    /**
+     *
+     */
  @FXML
- public  void getSerialNumber() throws SQLException {
+ public  void getSerialNumber() {
      DBqueryArtikl dBqueryArtikl = new DBqueryArtikl();
  /* when textfield called serialNumber lost focus and there is more then 3 letter we search DB  and collect data*/
         serialNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
@@ -61,17 +79,23 @@ public TextField name, serialNumber,idArticle,description,quantity,price;
             }
      });
 
-
-
  }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        try {
-            getSerialNumber();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        addTetLimiter(serialNumber,15);
+       addTetLimiter(name,10);
+        addTetLimiter(idArticle, 10);
+        addTetLimiter(description, 100);
+        addTetLimiter(quantity, 5);
+        addTetLimiter(price ,9);
+        addTetLimiter1(quantity);
+        addTetLimiter1(idArticle);
+        addTetLimiter2(price);
+        getSerialNumber();
     }
 }

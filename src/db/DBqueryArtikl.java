@@ -1,13 +1,15 @@
 package db;
 
 import entites.Articles;
-
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class DBqueryArtikl extends DBcon {
+
     Articles articles;
     List<Articles> artikle_collection = new ArrayList<>();
     /*method that do loging for geting data from DB used by other methods*/
@@ -22,6 +24,13 @@ public class DBqueryArtikl extends DBcon {
         }
     }
     /*method that  have essential for imputing into DB*/
+
+    /**
+     *
+     * @param sqlQuerry
+     * @param articles
+     * @throws SQLException
+     */
     public void settingForInput(String sqlQuerry, Articles articles) throws SQLException {
         int i =1;
         preparedStatement= con.prepareStatement(sqlQuerry);

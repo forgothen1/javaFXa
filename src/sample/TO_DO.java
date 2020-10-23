@@ -23,3 +23,5 @@ znaci treba dodati kategorije u artikle  kao sto su brand ,  dobavljac,  razmisl
 napraviti u artiklima posebno  da radi pretragu za serialNumber  zbog mogucnosti podudaranja serial i djelova iz imena, opisa itd
 
 * */
+
+/*log moram napraviti XD*/

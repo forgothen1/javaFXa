@@ -24,7 +24,6 @@ public class ArtickleController implements Initializable {
     public TableView<Articles> table;
     @FXML
     public TableColumn<Articles, String> name,serialNumber,description;
-
     @FXML
     public TableColumn<Articles, Integer> idArtickle ;
     public TextField searchField;

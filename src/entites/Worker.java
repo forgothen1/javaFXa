@@ -3,14 +3,13 @@ package entites;
 import java.util.ArrayList;
 
 public class Worker {
-    Integer id;
-    String Name;
-    String Surname;
-    Integer paymant;
-    String workplace;
-    Integer idWorker;
-    public Worker()
-    {}
+    private  Integer id;
+    private   String Name;
+    private  String Surname;
+    private Integer paymant;
+    private String workplace;
+    private Integer idWorker;
+    public Worker(){}
     //to have constructor with id where its needed like getting data from DB
     public Worker(Integer id, String name, String surname, Integer paymant, String workplace, Integer idWorker) {
         this.id = id;

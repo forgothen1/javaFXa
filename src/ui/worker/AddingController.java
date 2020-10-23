@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import security.Securty;
 import ui.Xon;
 
 
@@ -15,7 +16,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddingController extends Xon implements Initializable {
+public class AddingController extends Securty implements Initializable {
     @FXML
    public TextField name,surname,paymant,workplace,idWorker;
     public Button button;
@@ -28,7 +29,7 @@ public class AddingController extends Xon implements Initializable {
     DBqueryRadnik dBquery;
             // method for removing worker from DB  with idWorker
         @FXML
-        public void remove() throws SQLException {
+        public void remove()  {
             DBqueryRadnik dBquery= new DBqueryRadnik();
             dBquery.remove(definderForSetupOfWindow);
             System.out.println("removed "+ definderForSetupOfWindow);
@@ -36,7 +37,7 @@ public class AddingController extends Xon implements Initializable {
              }
     @FXML
     // method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
-    public void inserintIntoDBWorker() throws SQLException {
+    public void inserintIntoDBWorker()  {
 
         //  promjeniti nazit metode,  dodati exceptione posebnop za idworker  da na label izbacuje da
      //   nemoze da vec ima itd.
@@ -71,9 +72,9 @@ public class AddingController extends Xon implements Initializable {
 
 
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
-    public void settingEditingWindow() throws SQLException {
+    public void settingEditingWindow() {
         dBquery= new DBqueryRadnik();
-        System.out.println("u novom prozoru    "+ editable);
+        System.out.println("u novom prozoru   "+ editable);
         if(editable){
             button.setText("EDIT");
             removeButton.visibleProperty().setValue(true);
@@ -95,11 +96,14 @@ public class AddingController extends Xon implements Initializable {
         *  i onda da se moze izmjenjat i na pritsak dugmeta da se pokupi trenutni value textfildova i posalje u metodu
         * koja ce imati sqlquery za alter table
         */
-        try {
-            settingEditingWindow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        addTetLimiter(name,20);
+        addTetLimiter(surname,20);
+        addTetLimiter(paymant, 7);
+        addTetLimiter(workplace, 10);
+        addTetLimiter(idWorker, 5);
+        addTetLimiter1(paymant);
+        addTetLimiter1(idWorker);
+        settingEditingWindow();
 
 
     }

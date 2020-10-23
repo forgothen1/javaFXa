@@ -1,0 +1,22 @@
+.root
+{
+-fx-background-color:#072e70;
+
+}
+.button
+{
+ -fx-background-color:#072e70;
+ -fx-text-fill: #ffffff;
+}
+#pane Label
+{
+
+    -fx-text-fill:#ffffff;
+      -fx-font-family:System bold;
+      -fx-font-size: 14;
+}
+.labelOfWorker
+{
+ -fx-text-fill:#ffffff;
+      -fx-font-family:System bold;
+}

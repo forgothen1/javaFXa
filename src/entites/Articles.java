@@ -1,16 +1,15 @@
 package entites;
 
 public class Articles {
-    Integer id;
-    String name;
-    String SerialNumber;
-    Integer IdArticles;
-    String description;
-    Integer quantity;
-    Integer quantityUse;
-    Float price;
-    public Articles()
-    {}
+   private Integer id;
+    private  String name;
+    private   String SerialNumber;
+    private   Integer IdArticles;
+    private   String description;
+    private   Integer quantity;
+    private   Integer quantityUse;
+    private  Float price;
+    public Articles() {}
     public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price) {
         this.id = id;
         this.name = name;

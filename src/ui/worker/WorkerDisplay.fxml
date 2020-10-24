@@ -15,7 +15,7 @@
        <Button fx:id="editWorkerButton" disable="true" layoutX="491.0" layoutY="202.0" mnemonicParsing="false" onAction="#setEditWorkerButton" prefHeight="25.0" prefWidth="71.0" text="Edit" />
        <Button fx:id="addWorkerButton" layoutX="404.0" layoutY="202.0" mnemonicParsing="false" onAction="#setAddPersonButton" prefHeight="25.0" prefWidth="71.0" text="Add" />
 
-       <TableView fx:id="table" editable="true" layoutX="26.0" layoutY="242.0" onMouseClicked="#settingLabels" prefHeight="209.0" prefWidth="449.0">
+       <TableView  styleClass="table" fx:id="table"  layoutX="26.0" layoutY="242.0" onMouseClicked="#settingLabels" prefHeight="209.0" prefWidth="449.0">
         <columns>
             <TableColumn fx:id="Name" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="Surname" prefWidth="75.0" text="Surname" />

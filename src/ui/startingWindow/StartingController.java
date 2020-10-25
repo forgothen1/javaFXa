@@ -9,10 +9,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+/* class that have controller for starting window few buttons and pane to load other fxml*/
 public class StartingController implements Initializable {
 @FXML
-Pane secPane;
+ private Pane secPane;
+
+    /**
+     * method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear
+     * @throws IOException somwehere will be fixed
+     */
  /*  method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear*/
     @FXML
     public void loadWorkerMenu() throws IOException {
@@ -20,6 +25,11 @@ Pane secPane;
         Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../worker/WorkerDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
     }
+
+    /**
+     *  method that load  table and buttons for article into pane element but 1st clears pane
+     * @throws IOException omwehere will be fixed
+     */
     /*method that load  table and buttons for article into pane element but 1st clears pane*/
     @FXML
     public void loadArtikleMenu() throws IOException {

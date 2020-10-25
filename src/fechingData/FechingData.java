@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 public class FechingData {
     /**
-     *
-     * @param requarment
-     * @param pathFile
-     * @return
+     *  getting paremets from property for DB con
+     * @param requarment its specify what is ask for
+     * @param pathFile where to find file
+     * @return sub its string that is usable in connection for db
      */
- public String nesto(String requarment, String pathFile)
+ public String excractor(String requarment, String pathFile)
  {
      String sub = null;
      try {

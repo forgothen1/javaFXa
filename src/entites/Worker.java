@@ -2,16 +2,33 @@ package entites;
 
 import java.util.ArrayList;
 
+/**
+ * view for worker
+ */
 public class Worker {
     private  Integer id;
     private   String Name;
     private  String Surname;
-    private Integer paymant;
+    private Float paymant;
     private String workplace;
     private Integer idWorker;
+
+    /**
+     * empty constructor
+     */
     public Worker(){}
+
+    /**
+     * constructor
+     * @param id if needed id from DB
+     * @param name name of worker
+     * @param surname last name of worker
+     * @param paymant  its float payment for work
+     * @param workplace place where they work
+     * @param idWorker manual id of worker
+     */
     //to have constructor with id where its needed like getting data from DB
-    public Worker(Integer id, String name, String surname, Integer paymant, String workplace, Integer idWorker) {
+    public Worker(Integer id, String name, String surname, Float paymant, String workplace, Integer idWorker) {
         this.id = id;
         this.Name = name;
         this.Surname = surname;
@@ -52,11 +69,11 @@ public class Worker {
         Surname = surname;
     }
 
-    public Integer getPaymant() {
+    public Float getPaymant() {
         return paymant;
     }
 
-    public void setPaymant(Integer paymant) {
+    public void setPaymant(Float paymant) {
         this.paymant = paymant;
     }
 

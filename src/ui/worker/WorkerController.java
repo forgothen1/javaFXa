@@ -17,10 +17,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import db.*;
 import javafx.util.Callback;
-import ui.Xon;
 
 
-public class WorkerController extends Xon implements Initializable {
+public class WorkerController  implements Initializable {
 
     @FXML
     public TextField searchField;
@@ -42,12 +41,16 @@ public class WorkerController extends Xon implements Initializable {
     private Pane pane;
     @FXML
     private Button editWorkerButton;
-    Worker worker;
-    DBqueryRadnik dBquery;
+   private Worker worker;
+   private DBQuerrys dBquery;
     //table adding all content to table from DB
 
+    /**
+     *
+     * @throws SQLException
+     */
     public void tableCollectingData() throws SQLException {
-        DBqueryRadnik dBquery = new DBqueryRadnik();
+        DBQuerrys dBquery = new DBQuerrys();
         table.getItems().addAll(dBquery.gettingAllWorkers());
     }
     //button  that activates new window for adding, removing , editing new worker  to table/DB
@@ -120,7 +123,7 @@ public void setEditWorkerButton() {
 }
     @FXML
     public void settingLabels() throws SQLException {
-         dBquery = new DBqueryRadnik();
+         dBquery = new DBQuerrys();
 
         int indexOfRow= table.getSelectionModel().getFocusedIndex();
         Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
@@ -146,7 +149,7 @@ public void setEditWorkerButton() {
     //react on pressing ENTER in textField  filters table but its attached directly to DB
     @FXML
     public void setSearchParameter() throws SQLException {
-        DBqueryRadnik dBquery = new DBqueryRadnik();
+        DBQuerrys dBquery = new DBQuerrys();
 
         table.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {

@@ -9,7 +9,23 @@ public class Articles {
     private   Integer quantity;
     private   Integer quantityUse;
     private  Float price;
+
+    /**
+     * empty constructor
+     */
     public Articles() {}
+
+    /**
+     *  constructor
+     * @param id return int when needed
+     * @param name name of article return String
+     * @param serialNumber  serial number specific for every article
+     * @param idArticles id of article that is put manualy *posible to be deleted later
+     * @param description of article
+     * @param quantity ...
+     * @param quantityUse how much article is used in production , this is difrent of sold  someting like sold but not yet
+     * @param price its float
+     */
     public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price) {
         this.id = id;
         this.name = name;

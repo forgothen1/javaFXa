@@ -1,7 +1,7 @@
 package ui.worker;
 
 /*Controller class for AddingGUI.fxml class  controlle flow from gui to work classes*/
-import db.DBqueryRadnik;
+import db.DBQuerrys;
 import entites.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import security.Securty;
-import ui.Xon;
 
 
 import java.net.URL;
@@ -26,18 +25,27 @@ public class AddingController extends Securty implements Initializable {
     @FXML
     public Label infoLine;
     Worker worker;
-    DBqueryRadnik dBquery;
-            // method for removing worker from DB  with idWorker
-        @FXML
-        public void remove()  {
-            DBqueryRadnik dBquery= new DBqueryRadnik();
-            dBquery.remove(definderForSetupOfWindow);
-            System.out.println("removed "+ definderForSetupOfWindow);
-            infoLine.setText("Radnik je obrisan ");
-             }
+    DBQuerrys dBquery;
+
+    /**
+     * method for removing worker from DB with idWorker
+     */
+    // method for removing worker from DB with idWorker
     @FXML
+    public void remove()  {
+        DBQuerrys dBquery= new DBQuerrys();
+        dBquery.remove(definderForSetupOfWindow);
+        System.out.println("removed "+ definderForSetupOfWindow);
+        infoLine.setText("Radnik je obrisan ");
+    }
+
+    /**
+     *
+     * @throws SQLException somwhere will be fixxed
+     */
     // method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
-    public void inserintIntoDBWorker()  {
+    @FXML
+    public void inserintIntoDBWorker() throws SQLException {
 
         //  promjeniti nazit metode,  dodati exceptione posebnop za idworker  da na label izbacuje da
      //   nemoze da vec ima itd.
@@ -46,17 +54,21 @@ public class AddingController extends Securty implements Initializable {
                  && !workplace.getText().isEmpty() && !idWorker.getText().isEmpty())
          {
              worker = new Worker();
-             dBquery = new DBqueryRadnik();
+             dBquery = new DBQuerrys();
              worker.setName(name.getText().trim());
              worker.setSurname(surname.getText().trim());
-             worker.setPaymant(Integer.valueOf(paymant.getText().trim()));
+             worker.setPaymant(Float.valueOf(paymant.getText().trim()));
              worker.setWorkplace(workplace.getText().trim());
              worker.setIdWorker(Integer.valueOf(idWorker.getText().trim()));
              //    System.out.println("*****************************");
              //  System.out.println(worker.toString());     for geting in console printout
              if (editable)
              {
-                 dBquery.editWorker(worker,definderForSetupOfWindow);
+                 try {
+                     dBquery.editWorker(worker,definderForSetupOfWindow);
+                 } catch (SQLException e) {
+                     e.printStackTrace();
+                 }
                  infoLine.setText("Radnik je izmjenjen pod idWokrer: "+definderForSetupOfWindow);
              }
              else
@@ -72,8 +84,8 @@ public class AddingController extends Securty implements Initializable {
 
 
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
-    public void settingEditingWindow() {
-        dBquery= new DBqueryRadnik();
+    public void settingEditingWindow() throws SQLException {
+        dBquery= new DBQuerrys();
         System.out.println("u novom prozoru   "+ editable);
         if(editable){
             button.setText("EDIT");
@@ -103,7 +115,11 @@ public class AddingController extends Securty implements Initializable {
         addTetLimiter(idWorker, 5);
         addTetLimiter1(paymant);
         addTetLimiter1(idWorker);
-        settingEditingWindow();
+        try {
+            settingEditingWindow();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }

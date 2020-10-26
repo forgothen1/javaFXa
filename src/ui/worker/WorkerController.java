@@ -17,9 +17,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import db.*;
 import javafx.util.Callback;
+import security.Securty;
 
 
-public class WorkerController  implements Initializable {
+public class WorkerController extends Securty implements Initializable {
 
     @FXML
     public TextField searchField;
@@ -46,13 +47,18 @@ public class WorkerController  implements Initializable {
     //table adding all content to table from DB
 
     /**
-     *
-     * @throws SQLException
+     * collecting all data for workers
+     * @throws SQLException it will be fixxed somwhere
      */
     public void tableCollectingData() throws SQLException {
         DBQuerrys dBquery = new DBQuerrys();
         table.getItems().addAll(dBquery.gettingAllWorkers());
     }
+
+    /**
+     * button  that activates new window for adding, removing , editing new worker  to table/DB
+     * @param actionEvent to reflect on button in fxml
+     */
     //button  that activates new window for adding, removing , editing new worker  to table/DB
 
     @FXML
@@ -80,47 +86,56 @@ public class WorkerController  implements Initializable {
         }
         System.out.println("Button works fine");
     }
-    /*getting  from  gui table select of row and getting labels set*/
-@FXML
-public void setEditWorkerButton() {
-    try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../worker/AddingGUI.fxml"));
-        //alowing to connect 2 controllers and to transfer data , that from 1st window travel true here to second window
 
-        fxmlLoader.setControllerFactory(new Callback<>() {
-            AddingController addingController = new AddingController();
-            @Override
-            public Object call(Class<?> mainController) {
-                if (mainController == AddingController.class) {
-                    addingController.definderForSetupOfWindow = labalIdworker.getText();
-                    addingController.editable = true;
+    /**
+     * getting  from  gui table select of row and getting labels set
+     * @return addingController sending parameter to other conntroller in 1 part
+     */
+    /*getting  from  gui table select of row and getting labels set*/
+    @FXML
+    public void setEditWorkerButton() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../worker/AddingGUI.fxml"));
+            //alowing to connect 2 controllers and to transfer data , that from 1st window travel true here to second window
+
+            fxmlLoader.setControllerFactory(new Callback<>() {
+                AddingController addingController = new AddingController();
+                @Override
+                public Object call(Class<?> mainController) {
+                    if (mainController == AddingController.class) {
+                        addingController.definderForSetupOfWindow = labalIdworker.getText();
+                        addingController.editable = true;
+                    }
+                    return addingController;
                 }
-                return addingController;
-            }
-        });
-        Parent root1 = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setTitle("menaging");
-        stage.setScene(new Scene(root1));
-        stage.show();
-        /*takes action when u close extra window and it refresh  table  with .clear and calling metode to write to table
-         * */
-        stage.setOnCloseRequest(windowEvent -> {
-            table.getItems().clear();
-            try {
-                tableCollectingData();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("proda dali se zatvorilo");
-            System.out.println("Button works fine");
-        });
-    } catch (IOException e) {
-        System.out.println("button don't work ");
+            });
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("menaging");
+            stage.setScene(new Scene(root1));
+            stage.show();
+            /*takes action when u close extra window and it refresh  table  with .clear and calling metode to write to table
+             * */
+            stage.setOnCloseRequest(windowEvent -> {
+                table.getItems().clear();
+                try {
+                    tableCollectingData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("proda dali se zatvorilo");
+                System.out.println("Button works fine");
+            });
+        } catch (IOException e) {
+            System.out.println("button don't work ");
+        }
     }
 
+    /**
+     * showing pane with labels of info  worker that is clicked, and enables editing button
+     * @throws SQLException will be fixxed somwhere
 
-}
+     */
     @FXML
     public void settingLabels() throws SQLException {
          dBquery = new DBQuerrys();
@@ -145,7 +160,10 @@ public void setEditWorkerButton() {
 
                 }
 
-
+    /**
+     * basic search in table if search field is empty  then u will get full list
+     * @throws SQLException
+     */
     //react on pressing ENTER in textField  filters table but its attached directly to DB
     @FXML
     public void setSearchParameter() throws SQLException {
@@ -172,7 +190,7 @@ public void setEditWorkerButton() {
         Paymant.setCellValueFactory(new PropertyValueFactory<>("paymant"));
         Workplace.setCellValueFactory(new PropertyValueFactory<>("workplace"));
         idWorker.setCellValueFactory(new PropertyValueFactory<>("idWorker"));
-
+        addTetLimiter(searchField, 20);
         //calling methot that fill table in GUI.
         try {
             tableCollectingData();

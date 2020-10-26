@@ -40,7 +40,7 @@ public class AddingController extends Securty implements Initializable {
     }
 
     /**
-     *
+     * method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
      * @throws SQLException somwhere will be fixxed
      */
     // method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
@@ -82,7 +82,10 @@ public class AddingController extends Securty implements Initializable {
          }
     }
 
-
+    /**
+     * method that set up new window for editing or adding , changing name of button add/eddit show remove button
+     * @throws SQLException
+     */
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
     public void settingEditingWindow() throws SQLException {
         dBquery= new DBQuerrys();

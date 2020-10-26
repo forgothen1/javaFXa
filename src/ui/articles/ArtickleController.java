@@ -12,13 +12,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import security.Securty;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ArtickleController implements Initializable {
+public class ArtickleController extends Securty implements Initializable {
 
     @FXML
     private TableView<Articles> table;
@@ -110,6 +111,7 @@ public class ArtickleController implements Initializable {
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityInUse.setCellValueFactory(new PropertyValueFactory<>("quantityUse"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        addTetLimiter(searchField,20);
         try {
             settingTable();
         } catch (SQLException e) {

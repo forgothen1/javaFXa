@@ -1,2 +1,4 @@
 # Project exclude paths
 /out/
+/logs/DB connection/logFileOfConn.properties
+/logs/logFileOfProject.properties

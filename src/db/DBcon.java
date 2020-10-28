@@ -5,12 +5,19 @@ package db;
 
 import fechingData.FechingData;
 import java.sql.*;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import recordInfo.RecordInfo;
+
 import static java.sql.DriverManager.getConnection;
 
 /**
  * class for connection with DB here is i location to prop for db ,user ,and  pass
  */
-public class DBcon {
+public class DBcon extends RecordInfo {
+  //  Logger logCon = Logger.getLogger(DBcon.class);
     FechingData fechingData = new FechingData();
     String path ="C://branesStuff/programingStuff/FileName.txt";
     String base = fechingData.excractor("database",path);
@@ -24,16 +31,15 @@ public class DBcon {
 
     {
         try {
+          //  PropertyConfigurator.configure("resources/connection4j.properties");
             con = getConnection(base, user, pass);
              statement=con.createStatement();
+             forConnection().info("ajmo neki testic oko glupostima");
+            // logCon.info("halleeeeluja heaven gate open");
+
 
         } catch (SQLException e) {
-            e.printStackTrace();
+          //logCon.error("feild to connect to DB ");
         }
     }
-
-
-
-
-
 }

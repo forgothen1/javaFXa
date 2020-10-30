@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ui.servis.AddingWindow"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.AddController">
+   <children>
+      <Button layoutX="293.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+      <TextField fx:id="name" layoutX="36.0" layoutY="27.0"  promptText="name"/>
+      <TextField fx:id="owner" layoutX="29.0" layoutY="83.0" promptText="owner"/>
+      <TextField fx:id="telephone" layoutX="29.0" layoutY="131.0" promptText="telephone"/>
+      <TextArea fx:id="description" layoutX="29.0" layoutY="174.0" promptText="description"/>
+   </children>
 </AnchorPane>

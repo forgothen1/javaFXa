@@ -1,6 +1,7 @@
 package db;
 
 import entites.Articles;
+import entites.Service;
 import entites.Worker;
 import org.apache.log4j.Logger;
 
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public class DBQuerrys extends DBcon {
     private Worker worker;
     private List<Worker> worker_collection =new ArrayList<>();
     private Articles articles;
-   private List<Articles> article_collection = new ArrayList<>();
+    private List<Articles> article_collection = new ArrayList<>();
 
     /**
      *  loading all data from articles table of DB and seding to table  in gui
@@ -269,22 +271,30 @@ public class DBQuerrys extends DBcon {
         preparedStatement.setInt(i, worker.getIdWorker());
         preparedStatement.executeUpdate();
     }
+
+    // *********************************************************************
+    // part for services
+    /**
+     *  ***********************************
+     *  part for services
+     */
+
+    public void getingLastservice() {}
+
+    public void addServices(Service service) throws SQLException {
+        int i=1;
+        String sqlQuery="INSERT INTO servisi (nameOfproduct,owner,description,cijenaservisa,servis_number,telephone,time) values (?,?,?,?,?,?,?)";
+        preparedStatement=con.prepareStatement(sqlQuery);
+        preparedStatement.setString(i++,service.getName());
+        preparedStatement.setString(i++,service.getOwner());
+        preparedStatement.setString(i++,service.getDescription());
+        preparedStatement.setFloat(i++,service.getPrice());
+
+        //preparedStatement.setString(i++,); //treba logika za povlacenje najveceg broja i onda dodavanja +1
+
+
+    }
 }
 
 
-/*
-// returning array of strings to get all columns in DB in case of need
-public String[] OutputofColums() throws SQLException {
 
-        String columnsOfDB="SHOW COLUMNS FROM osoblje.radnik";
-        ResultSet resultSet = dataBase.statement.executeQuery(columnsOfDB);
-        String collumsName=null;
-        String[] collumsOfDB = new String[6];
-        int i=0; //counter for array collumsOfDB;
-        while(resultSet.next()) {
-        collumsName=resultSet.getString(1);
-        collumsOfDB[i]=collumsName;
-        i++;
-        }
-        return collumsOfDB;
-        } */

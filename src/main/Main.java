@@ -1,5 +1,6 @@
 package main;
 
+import db.DBQuerrys;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
+
+import java.sql.SQLException;
 
 
 /**
@@ -39,7 +42,7 @@ public class Main extends Application {
      * main metod that calls start gui + some loggers for now
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         logger.info("elooo");
         logger.trace("nesto");
         logger.error("neki problemi");

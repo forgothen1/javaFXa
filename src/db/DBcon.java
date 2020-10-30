@@ -4,22 +4,22 @@
 package db;
 
 import fechingData.FechingData;
-import java.sql.*;
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import recordInfo.RecordInfo;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static java.sql.DriverManager.getConnection;
 
 /**
  * class for connection with DB here is i location to prop for db ,user ,and  pass
  */
-public class DBcon extends RecordInfo {
-  //  Logger logCon = Logger.getLogger(DBcon.class);
+public abstract class DBcon extends RecordInfo {
+    Logger logCon = Logger.getLogger(DBcon.class);
     FechingData fechingData = new FechingData();
-    String path ="C://branesStuff/programingStuff/FileName.txt";
+    String path ="E://dev stuff/fileName.txt";
     String base = fechingData.excractor("database",path);
             //"jdbc:mysql://localhost:3306/osoblje" +
             //after ? is code for ssl cript pass and for time zone  so you dont get timed out
@@ -31,15 +31,15 @@ public class DBcon extends RecordInfo {
 
     {
         try {
-          //  PropertyConfigurator.configure("resources/connection4j.properties");
+         //   PropertyConfigurator.configure("resources/connection4j.properties");
             con = getConnection(base, user, pass);
              statement=con.createStatement();
-             forConnection().info("ajmo neki testic oko glupostima");
+             forConnection().info("connected to db with no problem");
             // logCon.info("halleeeeluja heaven gate open");
 
 
         } catch (SQLException e) {
-          //logCon.error("feild to connect to DB ");
+       forConnection().error("feild to connect to DB ");
         }
     }
 }

@@ -3,7 +3,6 @@ package db;
 import entites.Articles;
 import entites.Worker;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -217,7 +216,7 @@ public class DBQuerrys extends DBcon {
      * @throws SQLException  exception that will be done somewhere else
      */
     //adding to DB value by value
-    public void inputOfWorker(@NotNull Worker worker) throws SQLException {
+    public void inputOfWorker( Worker worker) throws SQLException {
         String sqlQuery = "insert into Radnik (name,surname,payment,workplace,idWorker) values (?,?,?,?,?)";
         System.out.println(sqlQuery);
         int i = 1;

@@ -1,5 +1,8 @@
 package ui.worker;
 /* controller that interact with starting gui window, and its asinged for all comunication from starting window to other classes*/
+
+import db.DBQuerrys;
+import entites.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,15 +12,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import entites.Worker;
+import javafx.util.Callback;
+import security.Securty;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import db.*;
-import javafx.util.Callback;
-import security.Securty;
 
 
 public class WorkerController extends Securty implements Initializable {
@@ -184,7 +185,6 @@ public class WorkerController extends Securty implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
  // seting up table cells  where what to hook
-
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         Surname.setCellValueFactory(new PropertyValueFactory<>("Surname"));
         Paymant.setCellValueFactory(new PropertyValueFactory<>("paymant"));

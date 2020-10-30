@@ -7,7 +7,7 @@
    <children>
       <VBox layoutX="21.0" layoutY="14.0" prefHeight="378.0" prefWidth="100.0">
          <children>
-            <Button styleClass="button" mnemonicParsing="false" prefHeight="89.0" prefWidth="170.0" text="WorkQuerry" />
+            <Button styleClass="button" mnemonicParsing="false" onAction="#loadServisMenu" prefHeight="89.0" prefWidth="170.0" text="servises" />
             <Button styleClass="button" mnemonicParsing="false" onAction="#loadArtikleMenu" prefHeight="68.0" prefWidth="100.0" text="Article" />
             <Button styleClass="button" mnemonicParsing="false" onAction="#loadWorkerMenu" prefHeight="69.0" prefWidth="100.0" text="Workers" />
             <Button styleClass="button" mnemonicParsing="false" prefHeight="69.0" prefWidth="110.0" text="Brands" />

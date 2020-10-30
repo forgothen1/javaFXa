@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisController">
+
+    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="700.0">
+        <columns>
+            <TableColumn fx:id="numberOfTicket" text="numberOfTicket" />
+            <TableColumn fx:id="name" prefWidth="126.0" text="name of article" />
+            <TableColumn fx:id="owner" prefWidth="88.0" text="owner" />
+            <TableColumn fx:id="number" prefWidth="89.0" text="number" />
+            <TableColumn fx:id="description" prefWidth="190.0" text="description" />
+            <TableColumn fx:id="time" prefWidth="101.0" text="time" />
+
+        </columns>
+    </TableView>
+   <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" text="dodaj" />
+   <TextField layoutX="176.0" layoutY="14.0" />
+</AnchorPane>

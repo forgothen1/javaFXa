@@ -38,6 +38,12 @@ public class StartingController implements Initializable {
         secPane.getChildren().add(newLoadedPane);
 
     }
+    @FXML
+    public void loadServisMenu() throws IOException {
+    secPane.getChildren().clear();
+    Pane newLoadedPane =FXMLLoader.load(getClass().getResource("../servis/servisGui.fxml"));
+    secPane.getChildren().add(newLoadedPane);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /*idealogy for log stuff here shud be all stuff  determent for logging and all that*/
-public class RecordInfo {
+public class  RecordInfo {
     Logger logger = Logger.getLogger(RecordInfo.class);
 
     public Logger forConnection()
@@ -14,7 +14,7 @@ public class RecordInfo {
     }
     public Logger imputOfStuff()
     {
-            PropertyConfigurator.configure("");
+            PropertyConfigurator.configure("resources/imputofstuff.properties");
         return logger;
     }
 }

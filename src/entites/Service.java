@@ -8,10 +8,14 @@ public class Service {
     private String telephone;
     private Integer serivisNumber;
     private String description;
+    private String time;
+    private Integer status;
+    private String status1;
+
 
     public  Service() {}
 
-    public Service(Integer id, String name, Float price, String owner, String telephone, Integer serivisNumber, String description) {
+    public Service(Integer id, String name, Float price, String owner, String telephone, Integer serivisNumber, String description, String time,Integer status) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -19,6 +23,8 @@ public class Service {
         this.telephone = telephone;
         this.serivisNumber = serivisNumber;
         this.description = description;
+        this.time=time;
+        this.status=status;
     }
 
     public Integer getId() {
@@ -76,6 +82,21 @@ public class Service {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getTime(){return time ;}
+
+    public void setTime(String time){this.time=time ;}
+
+    public void setStatus(Integer status) {this.status=status;}
+    public String getStatus(){
+        if (status == 1)
+                return status1="prijem";
+        else if (status== 2)
+            return status1="obrada";
+        else
+            return status1="zavrseno";
+    }
+
 
     @Override
     public String toString() {

@@ -12,8 +12,10 @@
             <TableColumn fx:id="owner" prefWidth="88.0" text="owner" />
             <TableColumn fx:id="telephone" prefWidth="89.0" text="telephone" />
             <TableColumn fx:id="description" prefWidth="190.0" text="description" />
-            <TableColumn fx:id="time" prefWidth="101.0" text="time" />
+            <TableColumn fx:id="time" prefWidth="120.0" text="time" />
             <TableColumn fx:id="price" prefWidth="101.0" text="price" />
+            <TableColumn fx:id="status" prefWidth="101.0" text="status" />
+
 
         </columns>
     </TableView>

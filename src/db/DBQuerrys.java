@@ -8,8 +8,9 @@ import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public class DBQuerrys extends DBcon {
     private List<Worker> worker_collection =new ArrayList<>();
     private Articles articles;
     private List<Articles> article_collection = new ArrayList<>();
+    private List<Service> service_collection= new ArrayList<>();
+    private  Service service = new Service();
 
     /**
      *  loading all data from articles table of DB and seding to table  in gui
@@ -277,23 +280,58 @@ public class DBQuerrys extends DBcon {
     /**
      *  ***********************************
      *  part for services
+     * @return
      */
 
-    public void getingLastservice() {}
+    public Integer getingLastservice() throws SQLException {
+        Integer neko = null;
+        String sqlQuery="SELECT  MAX(servis_number) as largest FROM servisi";
+        resultSet= statement.executeQuery(sqlQuery);
+        System.out.println(resultSet.toString());
+        if(resultSet.next())
+        {neko=resultSet.getInt(1);}
+        System.out.println(neko );
+
+        return neko+1;
+        /*napraviti logiku za citanje zadnjeg servisa */
+    }
 
     public void addServices(Service service) throws SQLException {
         int i=1;
-        String sqlQuery="INSERT INTO servisi (nameOfproduct,owner,description,cijenaservisa,servis_number,telephone,time) values (?,?,?,?,?,?,?)";
+        DateTimeFormatter myFormat= DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+        LocalDateTime time = LocalDateTime.now();
+
+        String timeFreez= time.format(myFormat);
+        String sqlQuery="INSERT INTO servisi (nameOfproduct,owner,description,servis_number,telephone,time,status) values (?,?,?,?,?,?,?)";
+        System.out.println(sqlQuery);
         preparedStatement=con.prepareStatement(sqlQuery);
         preparedStatement.setString(i++,service.getName());
         preparedStatement.setString(i++,service.getOwner());
         preparedStatement.setString(i++,service.getDescription());
-        preparedStatement.setFloat(i++,service.getPrice());
-
-        //preparedStatement.setString(i++,); //treba logika za povlacenje najveceg broja i onda dodavanja +1
-
-
+        //preparedStatement.setFloat(i++,service.getPrice());
+        preparedStatement.setInt(i++,getingLastservice());
+        preparedStatement.setString(i++,service.getTelephone());
+        preparedStatement.setString(i++,timeFreez);
+        preparedStatement.setInt(i++,1);
+        preparedStatement.executeUpdate();
     }
+    public List<Service> tableservis() throws SQLException {
+
+        String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status  from servisi";
+        resultSet=statement.executeQuery(sqlQuery);
+        while(resultSet.next()) {
+            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                    resultSet.getString("owner"), resultSet.getString("telephone"),
+                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+
+            service_collection.add(service);
+          //uradi sutra nastavak pisanja  dodavanja u servis entitet  + pokusaj da neide u worker gore ,
+            // nego da ide resultset.get to servis.set  ili tako nesto na ljepsi nacin
+        }
+        return service_collection;
+    }
+
+
 }
 
 

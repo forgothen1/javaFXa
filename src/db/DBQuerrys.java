@@ -330,7 +330,14 @@ public class DBQuerrys extends DBcon {
         }
         return service_collection;
     }
+    public List<Service> searchOfService(String variableForSearch) throws SQLException {
+        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
+                " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
+                +"%' or servis_number like '%" + variableForSearch +"%'";
+        resultSet= statement.executeQuery(sqlQuerry);
 
+        return service_collection;
+    }
 
 }
 

@@ -120,7 +120,11 @@ public class ServisTableController implements Initializable {
         }
         System.out.println("Button works fine");
     }
+    @FXML
+    public void searchoFservice()
+    {
 
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

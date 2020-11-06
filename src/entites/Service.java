@@ -9,8 +9,8 @@ public class Service {
     private Integer serivisNumber;
     private String description;
     private String time;
-    private Integer status;
-    private String status1;
+    private Integer statusInt;
+    private String satusStrg;
 
 
     public  Service() {}
@@ -24,7 +24,7 @@ public class Service {
         this.serivisNumber = serivisNumber;
         this.description = description;
         this.time=time;
-        this.status=status;
+        this.statusInt =status;
     }
 
     public Integer getId() {
@@ -87,14 +87,14 @@ public class Service {
 
     public void setTime(String time){this.time=time ;}
 
-    public void setStatus(Integer status) {this.status=status;}
-    public String getStatus(){
-        if (status == 1)
-                return status1="prijem";
-        else if (status== 2)
-            return status1="obrada";
+    public void setStatusInt(Integer statusInt) {this.statusInt = statusInt;}
+    public String getStatusInt(){
+        if (statusInt == 1)
+                return satusStrg ="prijem";
+        else if (statusInt == 2)
+            return satusStrg ="obrada";
         else
-            return status1="zavrseno";
+            return satusStrg ="zavrseno";
     }
 
 
@@ -108,6 +108,9 @@ public class Service {
                 ", telephone='" + telephone + '\'' +
                 ", serivisNumber=" + serivisNumber +
                 ", description='" + description + '\'' +
+                ", time='" + time + '\'' +
+                ", status=" + statusInt +
+                ", status1='" + satusStrg + '\'' +
                 '}';
     }
 }

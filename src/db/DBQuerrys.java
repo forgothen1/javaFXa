@@ -316,7 +316,7 @@ public class DBQuerrys extends DBcon {
         preparedStatement.executeUpdate();
     }
     public List<Service> tableservis() throws SQLException {
-        worker_collection.clear();
+        service_collection.clear();
         String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status  from servisi";
         resultSet=statement.executeQuery(sqlQuery);
         while(resultSet.next()) {
@@ -325,17 +325,22 @@ public class DBQuerrys extends DBcon {
                     resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
 
             service_collection.add(service);
-          //uradi sutra nastavak pisanja  dodavanja u servis entitet  + pokusaj da neide u worker gore ,
-            // nego da ide resultset.get to servis.set  ili tako nesto na ljepsi nacin
         }
         return service_collection;
     }
     public List<Service> searchOfService(String variableForSearch) throws SQLException {
+        service_collection.clear();
         String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
                 " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
                 +"%' or servis_number like '%" + variableForSearch +"%'";
         resultSet= statement.executeQuery(sqlQuerry);
+        while(resultSet.next()) {
+            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                    resultSet.getString("owner"), resultSet.getString("telephone"),
+                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
 
+            service_collection.add(service);
+        }
         return service_collection;
     }
 

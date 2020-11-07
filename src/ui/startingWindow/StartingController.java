@@ -15,6 +15,16 @@ public class StartingController implements Initializable {
  private Pane secPane;
 
     /**
+     * simple way to reload pane
+     */
+    @FXML
+        public void resetPane() throws IOException {
+            secPane.getChildren().clear();
+            Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
+            secPane.getChildren().add(newLoadedPane);
+
+        }
+    /**
      * method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear
      * @throws IOException somwehere will be fixed
      */
@@ -52,6 +62,13 @@ public class StartingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Pane newLoadedPane = null;
+        try {
+            newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
+            secPane.getChildren().add(newLoadedPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

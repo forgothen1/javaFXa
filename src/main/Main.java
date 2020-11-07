@@ -1,13 +1,10 @@
 package main;
 
-import db.DBQuerrys;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
@@ -30,7 +27,7 @@ public class Main extends Application {
        // primaryStage.initStyle(StageStyle.UNDECORATED);
        // BorderPane borderPane = new BorderPane();
       //  borderPane.setStyle("-fx-background-color: #00FF00");
-        primaryStage.setScene(new Scene(root, 800, 530));
+        primaryStage.setScene(new Scene(root, 1100, 530));
         primaryStage.show();
 
     }

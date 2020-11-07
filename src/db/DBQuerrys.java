@@ -316,7 +316,7 @@ public class DBQuerrys extends DBcon {
         preparedStatement.executeUpdate();
     }
     public List<Service> tableservis() throws SQLException {
-
+        worker_collection.clear();
         String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status  from servisi";
         resultSet=statement.executeQuery(sqlQuery);
         while(resultSet.next()) {

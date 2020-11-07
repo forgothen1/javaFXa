@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -22,32 +23,19 @@ import java.util.ResourceBundle;
 
 public class ServisTableController implements Initializable {
 
+    public TextField searchField;
     @FXML
-    private TableColumn price;
-    @FXML
-    private TableColumn name;
-    @FXML
-    private TableColumn time;
-    @FXML
-    private TableColumn description;
-    @FXML
-    private TableColumn owner;
-    @FXML
-    private TableColumn telephone;
-    @FXML
-    private TableColumn numberOfTicket;
-    @FXML
-    private TableColumn status;
+    private TableColumn price,name,time,description,owner,telephone,numberOfTicket,status;
     @FXML
     private TableView<Service> table;
-
     Service service= new Service();
+    DBQuerrys dbQuerrys = new DBQuerrys();
 
     private RecordInfo info = new RecordInfo();
 
     @FXML
     public void setTable() throws SQLException {
-        DBQuerrys dbQuerrys = new DBQuerrys();  name.setCellValueFactory(new PropertyValueFactory<>("name"));
+         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
         time.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -121,9 +109,22 @@ public class ServisTableController implements Initializable {
         System.out.println("Button works fine");
     }
     @FXML
-    public void searchoFservice()
-    {
-
+    public void searchoFservice() {
+        table.getItems().clear();
+        if (searchField.getText().trim().isEmpty()) {
+            try {
+                setTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else
+        {
+            try {
+                table.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

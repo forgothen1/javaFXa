@@ -116,7 +116,7 @@ public class AddingController extends Securty implements Initializable {
         addTetLimiter(paymant, 7);
         addTetLimiter(workplace, 10);
         addTetLimiter(idWorker, 5);
-        addTetLimiter1(paymant);
+        addTetLimiter2(paymant);
         addTetLimiter1(idWorker);
         try {
             settingEditingWindow();

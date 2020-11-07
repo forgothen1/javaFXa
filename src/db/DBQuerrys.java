@@ -203,7 +203,8 @@ public class DBQuerrys extends DBcon {
     public List<Worker> searchOfWorkers(String variableForSearch) throws SQLException {
         worker_collection.clear();
         String sqlQuerry = "SELECT * FROM radnik where name like'%" + variableForSearch + "%' or " +
-                "surname like '%" + variableForSearch + "%' or workplace like '%" + variableForSearch + "%'";
+                "surname like '%" + variableForSearch + "%' or workplace like '%" + variableForSearch
+                + "%' or idWorker like '%"+variableForSearch+"%'";
         resultSet = statement.executeQuery(sqlQuerry);
         while (resultSet.next()) {
             // za poslije prebacivanje  na GUI i vizual

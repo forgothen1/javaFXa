@@ -11,9 +11,9 @@
 
         <columns>
             <TableColumn fx:id="idArtickle" prefWidth="48.0" text="ID Article"  styleClass="columOfnumb" />
-            <TableColumn fx:id="name" prefWidth="87.0" text="Name" />
+            <TableColumn fx:id="name" prefWidth="87.0" text="Name" styleClass="columOfword"/>
             <TableColumn fx:id="serialNumber" prefWidth="90.0" text="Serial number" styleClass="columOfnumb"  />
-            <TableColumn fx:id="description" prefWidth="197.0" text="description" />
+            <TableColumn fx:id="description" prefWidth="197.0" text="description" styleClass="columOfTxt"/>
             <TableColumn fx:id="quantity" prefWidth="60.0" text="quantity" styleClass="columOfnumb"  />
             <TableColumn fx:id="quantityInUse" prefWidth="65.0" text="quantityInUse" styleClass="columOfnumb"  />
             <TableColumn fx:id="price" prefWidth="89.0" text="price" styleClass="columOfnumb"  />

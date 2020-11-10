@@ -1,0 +1,30 @@
+
+
+.columOfnumb{
+ -fx-alignment: CENTER-RIGHT;
+}
+
+.columOfTxt{
+-fx-alignment: CENTER;
+}
+
+.columOfword {
+
+-fx-padding: 20px;
+-fx-alignment: CENTER-LEFT;
+}
+ .table-view {
+        -fx-base: #1d1d1d;
+        -fx-control-inner-background: #1d1d1d;
+       -fx-background-color: #1d1d1d;
+        -fx-table-cell-border-color: transparent;
+        -fx-table-header-border-color: transparent;
+        -fx-padding: 5;
+    }
+    .table-cell: odd {
+     -fx-background-color: #1d1d1d;
+    }
+    .table-row-cell: even {
+    -fx-background-color: #333333;
+    }
+

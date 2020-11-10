@@ -25,7 +25,21 @@ public class ServisTableController implements Initializable {
 
     public TextField searchField;
     @FXML
-    private TableColumn price,name,time,description,owner,telephone,numberOfTicket,status;
+    private TableColumn<Object, Object> price;
+    @FXML
+    private TableColumn name;
+    @FXML
+    private TableColumn time;
+    @FXML
+    private TableColumn description;
+    @FXML
+    private TableColumn owner;
+    @FXML
+    private TableColumn telephone;
+    @FXML
+    private TableColumn numberOfTicket;
+    @FXML
+    private TableColumn status;
     @FXML
     private TableView<Service> table;
     Service service= new Service();
@@ -41,23 +55,10 @@ public class ServisTableController implements Initializable {
         time.setCellValueFactory(new PropertyValueFactory<>("time"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         telephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-        numberOfTicket.setCellFactory(column -> {
-            return new TableCell<Service, Integer>() {
-                @Override
-                protected void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (!empty ) {
-                        setStyle("-fx-alignment: CENTER-RIGHT;");
-                        int currentIndex = indexProperty()
-                                .getValue() < 0 ? 0
-                                : indexProperty().getValue();
-                        item = getTableColumn().getTableView().getItems().get(currentIndex).getSerivisNumber();
-                        setText(String.valueOf(item));
+        numberOfTicket.setCellValueFactory(new PropertyValueFactory<>("serivisNumber"));
+   //     status.setCellValueFactory(new PropertyValueFactory<>("statusInt"));
 
-                    }
-                }
-            };
-        });
+
         //  status.setCellValueFactory(new PropertyValueFactory<>("status"));
         status.setCellFactory(column -> {
             return new TableCell<Service, String>() {
@@ -65,7 +66,7 @@ public class ServisTableController implements Initializable {
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty) {
-                        setStyle("-fx-alignment: CENTER-LEFT;");
+                      //  setStyle("-fx-alignment: CENTER-LEFT;");
                         int currentIndex = indexProperty()
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
@@ -82,10 +83,34 @@ public class ServisTableController implements Initializable {
                         }
                         setText(item);
                     }
+                    if (empty)
+                    {
+                        setText(null);
+                        setTextFill(null);
+                    }
+
                 }
             };
         });
         table.getItems().addAll(dbQuerrys.tableservis());
+     //   neka stoji za poslije mozda zatreba po potrebi
+    /*   int d =table.getItems().size();
+            System.out.println(d);
+            table.getStylesheets().add("ui/style/stil.css");
+            for (int i=0;i<d;i++)
+            {
+
+
+                String valueOfRow = String.valueOf(table.getColumns().get(2).getCellObservableValue(i).getValue());
+
+                if (valueOfRow.equals("brane"))
+                {
+                     owner.getStyleClass().set(i,"my");
+                }
+                else
+                    owner.getStyleClass().set(i,"ti");
+                System.out.println(valueOfRow);
+            } */
     }
     @FXML
     public void openAddingWindow()
@@ -121,6 +146,7 @@ public class ServisTableController implements Initializable {
         {
             try {
                 table.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

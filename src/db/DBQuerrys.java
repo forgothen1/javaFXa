@@ -281,22 +281,28 @@ public class DBQuerrys extends DBcon {
     /**
      *  ***********************************
      *  part for services
-     * @return
+     *
      */
 
+    /**
+     * this is just to get last  number of service and to report it
+     * @return incrising service number +1  and sending it to add new service
+     * @throws SQLException
+     */
     public Integer getingLastservice() throws SQLException {
         Integer neko = null;
         String sqlQuery="SELECT  MAX(servis_number) as largest FROM servisi";
         resultSet= statement.executeQuery(sqlQuery);
-        System.out.println(resultSet.toString());
         if(resultSet.next())
         {neko=resultSet.getInt(1);}
-        System.out.println(neko );
-
         return neko+1;
-        /*napraviti logiku za citanje zadnjeg servisa */
     }
 
+    /**
+     * adding additional service
+     * @param service collecting entiti
+     * @throws SQLException
+     */
     public void addServices(Service service) throws SQLException {
         int i=1;
         DateTimeFormatter myFormat= DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
@@ -316,6 +322,12 @@ public class DBQuerrys extends DBcon {
         preparedStatement.setInt(i++,1);
         preparedStatement.executeUpdate();
     }
+
+    /**
+     *  loading services from table
+     * @return service_collection as list
+     * @throws SQLException
+     */
     public List<Service> tableservis() throws SQLException {
         service_collection.clear();
         String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status  from servisi";
@@ -334,6 +346,20 @@ public class DBQuerrys extends DBcon {
         String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
                 " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
                 +"%' or servis_number like '%" + variableForSearch +"%'";
+        resultSet= statement.executeQuery(sqlQuerry);
+        while(resultSet.next()) {
+            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                    resultSet.getString("owner"), resultSet.getString("telephone"),
+                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+
+            service_collection.add(service);
+        }
+        return service_collection;
+    }
+    public List<Service> searchOfServiceByServiceNumber(String variableForSearch) throws SQLException {
+        service_collection.clear();
+        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
+                " from servisi where  servis_number like '%" + variableForSearch +"%'";
         resultSet= statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),

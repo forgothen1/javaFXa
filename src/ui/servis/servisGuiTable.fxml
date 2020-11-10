@@ -3,18 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisTableController">
+<AnchorPane prefHeight="400.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisTableController"
+            >
 
-    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="925.0">
+    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="925.0"
+               stylesheets="@../style/Tables.css" styleClass="table">
         <columns>
-            <TableColumn fx:id="numberOfTicket" text="numberOfTicket" />
-            <TableColumn fx:id="name" prefWidth="126.0" text="name of article" />
-            <TableColumn fx:id="owner" prefWidth="88.0" text="owner" />
-            <TableColumn fx:id="telephone" prefWidth="89.0" text="telephone" />
-            <TableColumn fx:id="description" prefWidth="190.0" text="description" />
-            <TableColumn fx:id="time" prefWidth="120.0" text="time" />
-            <TableColumn fx:id="price" prefWidth="101.0" text="price" />
-            <TableColumn fx:id="status" prefWidth="101.0" text="status" />
+            <TableColumn fx:id="numberOfTicket" text="numberOfTicket" styleClass="columOfnumb" />
+            <TableColumn fx:id="name" prefWidth="126.0" text="name of article"  styleClass="columOfTxt" />
+            <TableColumn fx:id="owner" prefWidth="88.0" text="owner" styleClass="columOfword" />
+            <TableColumn fx:id="telephone" prefWidth="89.0" text="telephone" styleClass="columOfTxt" />
+            <TableColumn fx:id="description" prefWidth="190.0" text="description" styleClass="columOfTxt" />
+            <TableColumn fx:id="time" prefWidth="120.0" text="time"  styleClass="columOfTxt"/>
+            <TableColumn fx:id="price" prefWidth="101.0" text="price" styleClass="columOfnumb"  />
+            <TableColumn fx:id="status"  prefWidth="101.0" text="status" styleClass="columOfword" />
 
 
         </columns>

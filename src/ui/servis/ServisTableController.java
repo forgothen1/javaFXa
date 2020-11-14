@@ -71,15 +71,17 @@ public class ServisTableController implements Initializable {
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
                         item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusInt();
-                        if (item.equals("prijem")) {
-                            setTextFill(Color.BLUE);
-                        } else if (item.equals("obrada")){
-                            setTextFill(Color.GREEN);
-                        }
-                        else if (item.equals("zavrseno"))
-                        {
-                            setTextFill(Color.RED);
-                            setStyle("-fx-font-family:System bold;");
+                        switch (item) {
+                            case "prijem":
+                                setTextFill(Color.BLUE);
+                                break;
+                            case "obrada":
+                                setTextFill(Color.GREEN);
+                                break;
+                            case "zavrseno":
+                                setTextFill(Color.RED);
+                                setStyle("-fx-font-family:System bold;");
+                                break;
                         }
                         setText(item);
                     }

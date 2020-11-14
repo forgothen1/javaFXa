@@ -1,6 +1,7 @@
 package ui.servis;
 
 import db.DBQuerrys;
+import entites.Articles;
 import entites.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,21 +16,32 @@ import java.util.ResourceBundle;
 
 public class ServiceController  implements Initializable {
     public Label descriptions,servicNUmber,phone,ownerofprod,nameofprod;
-    public Pane pane;
-    public TextField searchField;
+    public Pane selectPane,workPane,selectArticklePane;
+    public TextField searchField,priceOfServis;
+    public ChoiceBox statusOfServis;
+    public Button addToSerivis;
     @FXML
-    private TableView<Service> table;
+    private TableView<Articles> articleTableOUT;
+    @FXML
+    private TableColumn serialNumberOUT,priceArticleOUT,quantityArticleOUT,nameArticleOUT;
+    @FXML
+    private TableView<Articles> articleTableIN;
+    @FXML
+    private TableColumn serialNumberIN,priceArticleIN,articleNameIN,quantityArticleIN;
+    @FXML
+    private TableView<Service> serviceTable;
     @FXML
     private TableColumn price,owner,time,description,telephone,numberOfTicket,status,name;
     DBQuerrys dbQuerrys = new DBQuerrys();
     Service service = new Service();
-    public ServiceController() {
-
-    }
+    Articles articles= new Articles();
+    public ServiceController() {}
+    //////////////////////////
+    // logic for selectPane
 
     @FXML
     public void setTable() throws SQLException {
-        DBQuerrys dbQuerrys = new DBQuerrys();
+        serviceTable.getItems().clear();
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
@@ -37,7 +49,6 @@ public class ServiceController  implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         telephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         numberOfTicket.setCellValueFactory(new PropertyValueFactory<>("serivisNumber"));
-
         //  status.setCellValueFactory(new PropertyValueFactory<>("status"));
         status.setCellFactory(column -> {
             return new TableCell<Service, String>() {
@@ -50,15 +61,17 @@ public class ServiceController  implements Initializable {
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
                         item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusInt();
-                        if (item.equals("prijem")) {
-                            setTextFill(Color.BLUE);
-                        } else if (item.equals("obrada")){
-                            setTextFill(Color.GREEN);
-                        }
-                        else if (item.equals("zavrseno"))
-                        {
-                            setTextFill(Color.RED);
-                            setStyle("-fx-font-family:System bold;");
+                        switch (item) {
+                            case "prijem":
+                                setTextFill(Color.BLUE);
+                                break;
+                            case "obrada":
+                                setTextFill(Color.GREEN);
+                                break;
+                            case "zavrseno":
+                                setTextFill(Color.RED);
+                                setStyle("-fx-font-family:System bold;");
+                                break;
                         }
                         setText(item);
                     }
@@ -70,29 +83,57 @@ public class ServiceController  implements Initializable {
                 }
             };
         });
-        table.getItems().addAll(dbQuerrys.tableservis());
+        serviceTable.getItems().addAll(dbQuerrys.tableservis());
     }
-@FXML
-public void hideTable(){
-    if (pane.isVisible()==true){
-        pane.setVisible(false);
-    }
+    @FXML
+    public void hideTable(){
+        if (selectPane.isVisible()){
+            selectPane.setVisible(false);
+        }
         else
         {
-            pane.setVisible(true);
+            selectPane.setVisible(true);
         }
 
-}
+    }
+    @FXML
+    public void searchOfService(){
+        serviceTable.getItems().clear();
+        if (searchField.getText().trim().isEmpty()) {
+            try {
+                setTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else
+        {
+            try {
+                serviceTable.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    /////////////////////////////////////
+    //  logic for workPane
+
+    @FXML
+    public void changeOfStatus() throws SQLException {
+   //set try method if has someting else  to be disabled
+        String serviceNumber = servicNUmber.getText();
+     Integer status= statusOfServis.getSelectionModel().getSelectedIndex()+1;
+     System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
+     dbQuerrys.statusChange(status,serviceNumber);
+
+        setTable();
+    }
     @FXML
     public void pullingService() throws SQLException {
-        int indexOfRow= table.getSelectionModel().getFocusedIndex();
-        String d = String.valueOf(table.getColumns().get(0));
-       // System.out.println(d);
+        statusOfServis.setDisable(false);
+        int indexOfRow= serviceTable.getSelectionModel().getFocusedIndex();
 
         System.out.println(indexOfRow);
-        //amazing  problem sa ovom gluposti oko editovanja  izgleda
-
-        String valueOfRow = String.valueOf(table.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
+        String valueOfRow = String.valueOf(serviceTable.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
         System.out.println(valueOfRow);
         service = dbQuerrys.searchOfServiceByServiceNumber(valueOfRow).get(0);
       //  price.setText(String.valueOf(service.getPrice()));
@@ -103,27 +144,47 @@ public void hideTable(){
      //   time.setText(service.getTime());
         servicNUmber.setText(String.valueOf(service.getSerivisNumber()));
         System.out.println(servicNUmber);
-      //  status.setText(service.getStatusInt());
+        String status=service.getStatusInt();
 
-    }
-    @FXML
-    public void searchOfService(){
-        table.getItems().clear();
-        if (searchField.getText().trim().isEmpty()) {
-            try {
-                setTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else
-        {
-            try {
-                table.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        switch (status) {
+            case("prijem"): statusOfServis.getSelectionModel().select(0);
+            break;
+            case("obrada"): statusOfServis.getSelectionModel().select(1);
+            break;
+            case("zavrseno"): statusOfServis.getSelectionModel().select(2);
+                break;
         }
     }
+    @FXML
+    public void addArticleToServis(){
+    //what if no
+
+        //just make another fxml that will open table with artikles and just get id row and send it back
+      //  someting with factory redoo
+    }
+    @FXML
+    public void openTableArtikle() throws SQLException {
+        //add to db and to table probably above method will do this all
+
+        if (selectArticklePane.isVisible()){
+            articleTableIN.getItems().clear();
+            selectArticklePane.setVisible(false);
+        }
+        else {
+
+            selectArticklePane.setVisible(true);
+            selectArticklePane.toFront();
+            serialNumberIN.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+            articleNameIN.setCellValueFactory(new PropertyValueFactory<>("name"));
+            quantityArticleIN.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            priceArticleIN.setCellValueFactory(new PropertyValueFactory<>("price"));
+            articleTableIN.getItems().addAll(dbQuerrys.gettingAllArtikles());
+        }
+
+
+    }
+
+
 
 
     @Override

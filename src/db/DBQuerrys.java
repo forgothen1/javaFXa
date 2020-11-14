@@ -34,7 +34,7 @@ public class DBQuerrys extends DBcon {
      */
     /* loading all data from artikle table to table in gui*/
     public List<Articles> gettingAllArtikles() throws SQLException {
-
+        article_collection.clear();
         /*query for DB*/
         String sqlQuerry = "select  name, serialNumber, idArtickle, description, quantity, quantityInUse, price  from artikli ";
                 resultSet=statement.executeQuery(sqlQuerry);
@@ -356,6 +356,13 @@ public class DBQuerrys extends DBcon {
         }
         return service_collection;
     }
+
+    /**
+     * get services with specific serviceNumber
+     * @param variableForSearch string that u get value for serviceNumber
+     * @return list of services  for further use
+     * @throws SQLException
+     */
     public List<Service> searchOfServiceByServiceNumber(String variableForSearch) throws SQLException {
         service_collection.clear();
         String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
@@ -369,6 +376,13 @@ public class DBQuerrys extends DBcon {
             service_collection.add(service);
         }
         return service_collection;
+    }
+    public void statusChange(Integer status,String serviceNumber) throws SQLException {
+  String sqlQuerry="update servisi set status=? where servis_number="+serviceNumber;
+  preparedStatement = con.prepareStatement(sqlQuerry);
+    preparedStatement.setInt(1,status);
+    preparedStatement.executeUpdate();
+
     }
 
 }

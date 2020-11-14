@@ -19,7 +19,8 @@ import static java.sql.DriverManager.getConnection;
 public abstract class DBcon extends RecordInfo {
     Logger logCon = Logger.getLogger(DBcon.class);
     FechingData fechingData = new FechingData();
-    String path ="C://branesStuff/programingStuff/FileName.txt";
+    String path ="E://dev Stuff/FileName.txt";
+
     String base = fechingData.excractor("database",path);
             //"jdbc:mysql://localhost:3306/osoblje" +
             //after ? is code for ssl cript pass and for time zone  so you dont get timed out

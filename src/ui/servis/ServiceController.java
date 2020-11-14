@@ -20,6 +20,7 @@ public class ServiceController  implements Initializable {
     public TextField searchField,priceOfServis;
     public ChoiceBox statusOfServis;
     public Button addToSerivis;
+    public ToggleButton lookServis;
     @FXML
     private TableView<Articles> articleTableOUT;
     @FXML
@@ -130,18 +131,19 @@ public class ServiceController  implements Initializable {
     @FXML
     public void pullingService() throws SQLException {
         statusOfServis.setDisable(false);
-        int indexOfRow= serviceTable.getSelectionModel().getFocusedIndex();
-
-        System.out.println(indexOfRow);
-        String valueOfRow = String.valueOf(serviceTable.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
-        System.out.println(valueOfRow);
-        service = dbQuerrys.searchOfServiceByServiceNumber(valueOfRow).get(0);
+       service= serviceTable.getSelectionModel().getSelectedItem();
+        lookServis.toFront();
+        // what to do  to call for db or not to call db
+      //  System.out.println(indexOfRow);
+      //  String valueOfRow = String.valueOf(serviceTable.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
+       // System.out.println(valueOfRow);
+      //  service = dbQuerrys.searchOfServiceByServiceNumber(valueOfRow).get(0);
       //  price.setText(String.valueOf(service.getPrice()));
         nameofprod.setText(service.getName());
         ownerofprod.setText(service.getOwner());
         descriptions.setText(service.getDescription());
         phone.setText(service.getTelephone());
-     //   time.setText(service.getTime());
+
         servicNUmber.setText(String.valueOf(service.getSerivisNumber()));
         System.out.println(servicNUmber);
         String status=service.getStatusInt();
@@ -155,12 +157,17 @@ public class ServiceController  implements Initializable {
                 break;
         }
     }
+    //////////////////////////////////////////////////////
+    // logic for selectArticklePane
     @FXML
-    public void addArticleToServis(){
-    //what if no
+    public void addArticleToServis() throws SQLException {
+        int indexOfRow= articleTableIN.getSelectionModel().getFocusedIndex();
+        // what to do  to call for db or not to call db but i need to send data to db  altho i just select it  no need for db to recall it need to implent it to others
+        System.out.println(indexOfRow);
+        String valueOfRow = String.valueOf(articleTableIN.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
+        System.out.println(valueOfRow);
+        articles = dbQuerrys.searchBySerialNumber(valueOfRow).get(0);
 
-        //just make another fxml that will open table with artikles and just get id row and send it back
-      //  someting with factory redoo
     }
     @FXML
     public void openTableArtikle() throws SQLException {
@@ -168,7 +175,9 @@ public class ServiceController  implements Initializable {
 
         if (selectArticklePane.isVisible()){
             articleTableIN.getItems().clear();
+            selectArticklePane.toBack();
             selectArticklePane.setVisible(false);
+
         }
         else {
 

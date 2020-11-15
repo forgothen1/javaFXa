@@ -134,18 +134,17 @@ public class WorkerController extends Securty implements Initializable {
 
     /**
      * showing pane with labels of info  worker that is clicked, and enables editing button
-     * @throws SQLException will be fixxed somwhere
 
      */
     @FXML
-    public void settingLabels() throws SQLException {
+    public void settingLabels()  {
          dBquery = new DBQuerrys();
 
-        int indexOfRow= table.getSelectionModel().getFocusedIndex();
-        Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
+        worker= table.getSelectionModel().getSelectedItem();
+      //  Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
      //   System.out.println("index of row: "+indexOfRow); // ready for console check up
      //   System.out.println("value of idWorker: "+valueOfRow); // ready for console check up
-        worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(valueOfRow)).get(0);
+       // worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(valueOfRow)).get(0);
    //     System.out.println( worker.toString());  // ready for console check up
      //   System.out.println(worker.getName());   // ready for console check up
        labelName.setText(worker.getName());

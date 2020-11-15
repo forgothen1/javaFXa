@@ -176,6 +176,7 @@ public class ServiceController  implements Initializable {
         if (selectArticklePane.isVisible()){
             articleTableIN.getItems().clear();
             selectArticklePane.toBack();
+
             selectArticklePane.setVisible(false);
 
         }

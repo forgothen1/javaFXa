@@ -84,7 +84,7 @@ public class AddingArticleController extends Securty implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addTetLimiter(serialNumber, 15);
-        addTetLimiter(name, 10);
+        addTetLimiter(name, 20);
         addTetLimiter(idArticle, 10);
         addTetLimiter(description, 100);
         addTetLimiter(quantity, 5);

@@ -11,6 +11,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * class for adding new services and modifiang basic  info
+ */
 public class AddController implements Initializable {
     @FXML
     private TextField name,owner,telephone;
@@ -18,9 +21,12 @@ public class AddController implements Initializable {
     private TextArea description;
     Service service= new Service();
     DBQuerrys dbQuerrys= new DBQuerrys();
+
+    /**
+     * sending data about new services
+     */
     @FXML
     private void sendData() {
-
     service.setName(name.getText().trim());
     service.setOwner(owner.getText().trim());
     service.setTelephone(telephone.getText().trim());

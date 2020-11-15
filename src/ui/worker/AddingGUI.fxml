@@ -7,24 +7,21 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.worker.AddingController" stylesheets="@../style/stil.css">
    <children>
 
-                        <Button fx:id="button" layoutX="446.0" layoutY="43.0" mnemonicParsing="false" onAction="#inserintIntoDBWorker" text="Dodaj" />
-                        <Label layoutX="127.0" layoutY="38.0" text="Name:" styleClass="nameOfBoxes" />
-                        <Label layoutX="119.0" layoutY="79.0" text="Surname:" styleClass="nameOfBoxes" />
-                        <Label layoutX="120.0" layoutY="114.0" text="paymant:" styleClass="nameOfBoxes" />
-                        <Label layoutX="116.0" layoutY="155.0" prefHeight="17.0" prefWidth="58.0" text="workplace:" styleClass="nameOfBoxes" />
-                        <Label layoutX="119.0" layoutY="196.0" text="idWorker:"  styleClass="nameOfBoxes"/>
-                        <TextField fx:id="name" layoutX="228.0" layoutY="34.0" promptText="insert name" />
-                        <TextField fx:id="surname" layoutX="228.0" layoutY="75.0" promptText="insert surname" />
-                        <TextField fx:id="paymant" layoutX="228.0" layoutY="110.0" promptText="insert paymant" />
-                        <TextField fx:id="workplace" layoutX="228.0" layoutY="151.0" promptText="insert workplace" />
-                        <TextField fx:id="idWorker" layoutX="228.0" layoutY="192.0" promptText="insert id of your choise" />
-
-
-
-                        <Button fx:id="removeButton" layoutX="438.0" layoutY="119.0" mnemonicParsing="false" onAction="#remove" text="REMOVE" visible="false" />
+       <Button fx:id="button" layoutX="446.0" layoutY="43.0" mnemonicParsing="false" onAction="#inserintIntoDBWorker" text="Dodaj" />
+       <Label layoutX="127.0" layoutY="38.0" text="Name:" styleClass="nameOfBoxes" />
+       <Label layoutX="119.0" layoutY="79.0" text="Surname:" styleClass="nameOfBoxes" />
+       <Label layoutX="120.0" layoutY="114.0" text="paymant:" styleClass="nameOfBoxes" />
+       <Label layoutX="116.0" layoutY="155.0" prefHeight="17.0" prefWidth="58.0" text="workplace:" styleClass="nameOfBoxes" />
+       <Label layoutX="119.0" layoutY="196.0" text="idWorker:"  styleClass="nameOfBoxes"/>
+       <TextField fx:id="name" layoutX="228.0" layoutY="34.0" promptText="insert name" />
+       <TextField fx:id="surname" layoutX="228.0" layoutY="75.0" promptText="insert surname" />
+       <TextField fx:id="paymant" layoutX="228.0" layoutY="110.0" promptText="insert paymant" />
+       <TextField fx:id="workplace" layoutX="228.0" layoutY="151.0" promptText="insert workplace" />
+       <TextField fx:id="idWorker" layoutX="228.0" layoutY="192.0" promptText="insert id of your choise" />
+       <Button fx:id="removeButton" layoutX="438.0" layoutY="119.0" mnemonicParsing="false" onAction="#remove" text="REMOVE" visible="false" />
       <Label fx:id="infoLine" layoutX="105.0" layoutY="274.0" prefHeight="76.0" prefWidth="524.0" textFill="#eb0909">
          <font>
-            <Font name="System Bold" size="25.0" />
+             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
    </children>

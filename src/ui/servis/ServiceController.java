@@ -3,12 +3,16 @@ package ui.servis;
 import db.DBQuerrys;
 import entites.Articles;
 import entites.Service;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import org.w3c.dom.NodeList;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -40,8 +44,12 @@ public class ServiceController  implements Initializable {
     //////////////////////////
     // logic for selectPane
 
+    /**
+     * seting servis table for chosing servis
+     * @throws SQLException
+     */
     @FXML
-    public void setTable() throws SQLException {
+    private void setTable() throws SQLException {
         serviceTable.getItems().clear();
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -86,8 +94,12 @@ public class ServiceController  implements Initializable {
         });
         serviceTable.getItems().addAll(dbQuerrys.tableservis());
     }
+
+    /**
+     * for button to show or hide whole pane with table and searchbox
+     */
     @FXML
-    public void hideTable(){
+    private void hideTable(){
         if (selectPane.isVisible()){
             selectPane.setVisible(false);
         }
@@ -97,8 +109,12 @@ public class ServiceController  implements Initializable {
         }
 
     }
+
+    /**
+     * search of service in table
+     */
     @FXML
-    public void searchOfService(){
+    private void searchOfService(){
         serviceTable.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
             try {
@@ -128,45 +144,71 @@ public class ServiceController  implements Initializable {
 
         setTable();
     }
+
+    /**
+     * sending servis data from selectpane to workpane and arange it
+     */
     @FXML
-    public void pullingService() throws SQLException {
-        statusOfServis.setDisable(false);
-       service= serviceTable.getSelectionModel().getSelectedItem();
-        lookServis.toFront();
-        // what to do  to call for db or not to call db
-      //  System.out.println(indexOfRow);
-      //  String valueOfRow = String.valueOf(serviceTable.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
-       // System.out.println(valueOfRow);
-      //  service = dbQuerrys.searchOfServiceByServiceNumber(valueOfRow).get(0);
-      //  price.setText(String.valueOf(service.getPrice()));
-        nameofprod.setText(service.getName());
-        ownerofprod.setText(service.getOwner());
-        descriptions.setText(service.getDescription());
-        phone.setText(service.getTelephone());
+    public void pullingService()  {
+         serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                //making sure that is avaible for clicking
+                lookServis.toFront();
+                // aloving to be modifyed
+                statusOfServis.setDisable(false);
+                service = serviceTable.getSelectionModel().getSelectedItem();
 
-        servicNUmber.setText(String.valueOf(service.getSerivisNumber()));
-        System.out.println(servicNUmber);
-        String status=service.getStatusInt();
+                //  price.setText(String.valueOf(service.getPrice()));
+                nameofprod.setText(service.getName());
+                ownerofprod.setText(service.getOwner());
+                descriptions.setText(service.getDescription());
+                phone.setText(service.getTelephone());
+                servicNUmber.setText(String.valueOf(service.getSerivisNumber()));
+                System.out.println(servicNUmber);
+                String status = service.getStatusInt();
 
-        switch (status) {
-            case("prijem"): statusOfServis.getSelectionModel().select(0);
-            break;
-            case("obrada"): statusOfServis.getSelectionModel().select(1);
-            break;
-            case("zavrseno"): statusOfServis.getSelectionModel().select(2);
-                break;
-        }
+                switch (status) {
+                    case ("prijem"):
+                        statusOfServis.getSelectionModel().select(0);
+                        break;
+                    case ("obrada"):
+                        statusOfServis.getSelectionModel().select(1);
+                        break;
+                    case ("zavrseno"):
+                        statusOfServis.getSelectionModel().select(2);
+                        break;
+                }
+                    }
+                }
+            }
+        });
     }
     //////////////////////////////////////////////////////
     // logic for selectArticklePane
     @FXML
-    public void addArticleToServis() throws SQLException {
-        int indexOfRow= articleTableIN.getSelectionModel().getFocusedIndex();
-        // what to do  to call for db or not to call db but i need to send data to db  altho i just select it  no need for db to recall it need to implent it to others
-        System.out.println(indexOfRow);
-        String valueOfRow = String.valueOf(articleTableIN.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
-        System.out.println(valueOfRow);
-        articles = dbQuerrys.searchBySerialNumber(valueOfRow).get(0);
+    public void addArticleToServis()  {
+        serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        int indexOfRow = articleTableIN.getSelectionModel().getFocusedIndex();
+                        // what to do  to call for db or not to call db but i need to send data to db  altho i just select it  no need for db to recall it need to implent it to others
+                        System.out.println(indexOfRow);
+                        String valueOfRow = String.valueOf(articleTableIN.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
+                        System.out.println(valueOfRow);
+                        try {
+                            articles = dbQuerrys.searchBySerialNumber(valueOfRow).get(0);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            });
 
     }
     @FXML

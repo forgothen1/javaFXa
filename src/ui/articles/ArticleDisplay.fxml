@@ -3,20 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
+<AnchorPane prefHeight="400.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
 
 
-    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="700.0"
-               stylesheets="@../style/Tables.css">
+    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="776.0" stylesheets="@../style/Tables.css">
 
         <columns>
-            <TableColumn fx:id="idArtickle" prefWidth="48.0" text="ID Article"  styleClass="columOfnumb" />
-            <TableColumn fx:id="name" prefWidth="87.0" text="Name" styleClass="columOfword"/>
-            <TableColumn fx:id="serialNumber" prefWidth="90.0" text="Serial number" styleClass="columOfnumb"  />
-            <TableColumn fx:id="description" prefWidth="197.0" text="description" styleClass="columOfTxt"/>
-            <TableColumn fx:id="quantity" prefWidth="60.0" text="quantity" styleClass="columOfnumb"  />
-            <TableColumn fx:id="quantityInUse" prefWidth="65.0" text="quantityInUse" styleClass="columOfnumb"  />
-            <TableColumn fx:id="price" prefWidth="89.0" text="price" styleClass="columOfnumb"  />
+            <TableColumn fx:id="idArtickle" prefWidth="48.0" styleClass="columOfnumb" text="ID Article" />
+            <TableColumn fx:id="name" prefWidth="87.0" styleClass="columOfword" text="Name" />
+            <TableColumn fx:id="serialNumber" prefWidth="90.0" styleClass="columOfnumb" text="Serial number" />
+            <TableColumn fx:id="description" prefWidth="197.0" styleClass="columOfTxt" text="description" />
+            <TableColumn fx:id="quantity" prefWidth="60.0" styleClass="columOfnumb" text="quantity" />
+            <TableColumn fx:id="quantityInUse" prefWidth="65.0" styleClass="columOfnumb" text="quantityInUse" />
+            <TableColumn fx:id="price" prefWidth="89.0" styleClass="columOfnumb" text="price" />
         </columns>
     </TableView>
    <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#settingArticle" text="ADD" />

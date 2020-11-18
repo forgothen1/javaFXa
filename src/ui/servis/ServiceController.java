@@ -12,14 +12,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import org.w3c.dom.NodeList;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServiceController  implements Initializable {
-    public Label descriptions,servicNUmber,phone,ownerofprod,nameofprod;
+    public Label descriptions, servicNumber,phone,ownerofprod,nameofprod;
     public Pane selectPane,workPane,selectArticklePane;
     public TextField searchField,priceOfServis;
     public ChoiceBox statusOfServis;
@@ -137,7 +136,7 @@ public class ServiceController  implements Initializable {
     @FXML
     public void changeOfStatus() throws SQLException {
    //set try method if has someting else  to be disabled
-        String serviceNumber = servicNUmber.getText();
+        String serviceNumber = servicNumber.getText();
      Integer status= statusOfServis.getSelectionModel().getSelectedIndex()+1;
      System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
      dbQuerrys.statusChange(status,serviceNumber);
@@ -160,14 +159,13 @@ public class ServiceController  implements Initializable {
                 // aloving to be modifyed
                 statusOfServis.setDisable(false);
                 service = serviceTable.getSelectionModel().getSelectedItem();
-
                 //  price.setText(String.valueOf(service.getPrice()));
                 nameofprod.setText(service.getName());
                 ownerofprod.setText(service.getOwner());
                 descriptions.setText(service.getDescription());
                 phone.setText(service.getTelephone());
-                servicNUmber.setText(String.valueOf(service.getSerivisNumber()));
-                System.out.println(servicNUmber);
+                servicNumber.setText(String.valueOf(service.getSerivisNumber()));
+                System.out.println(servicNumber);
                 String status = service.getStatusInt();
 
                 switch (status) {
@@ -190,7 +188,7 @@ public class ServiceController  implements Initializable {
     // logic for selectArticklePane
     @FXML
     public void addArticleToServis()  {
-        serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        articleTableIN.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
@@ -199,12 +197,16 @@ public class ServiceController  implements Initializable {
                         // what to do  to call for db or not to call db but i need to send data to db  altho i just select it  no need for db to recall it need to implent it to others
                         System.out.println(indexOfRow);
                         String valueOfRow = String.valueOf(articleTableIN.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
-                        System.out.println(valueOfRow);
-                        try {
+                        System.out.println("kako idee "+valueOfRow);
+                        try { //neka glupost smisliti kako poslati sve u bazu hmm mozda da se pokrenu 2 metode
+                                // clasas query
+                            Integer brojServisa= Integer.valueOf(servicNumber.getText());
                             articles = dbQuerrys.searchBySerialNumber(valueOfRow).get(0);
+                                dbQuerrys.mergingArticleService(brojServisa,valueOfRow);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }
             }

@@ -239,12 +239,12 @@ public class DBQuerrys extends DBcon {
 
     /**
      * geting string and removes idworker thats equal of that string
-     * @param idToremove string that determents what shud be deleted
+     * @param idToRemove string that determents what shud be deleted
      */
     //geting string and removes idworker thats equal of that string
-    public void remove(String idToremove) {
+    public void remove(String idToRemove) {
 
-        String sqlRemove = "delete from radnik where idWorker=" + idToremove;
+        String sqlRemove = "delete from radnik where idWorker=" + idToRemove;
         try {
             preparedStatement = con.prepareStatement(sqlRemove);
             preparedStatement.executeUpdate();
@@ -377,12 +377,39 @@ public class DBQuerrys extends DBcon {
         }
         return service_collection;
     }
+
+    /**
+     *  changing status of proces of service
+     * @param status represent in wich state of proces is servis
+     * @param serviceNumber  unique number for every service
+     * @throws SQLException
+     */
     public void statusChange(Integer status,String serviceNumber) throws SQLException {
   String sqlQuerry="update servisi set status=? where servis_number="+serviceNumber;
   preparedStatement = con.prepareStatement(sqlQuerry);
     preparedStatement.setInt(1,status);
     preparedStatement.executeUpdate();
 
+    }
+    public void mergingArticleService(Integer service,String serialNumber) throws SQLException {
+        Float price =null;
+        System.out.println("heres jonny ");
+        resultSet= statement.executeQuery("select price from artikli where  serialNumber='"+serialNumber+"'");
+        if (resultSet.next())
+        {
+            price=resultSet.getFloat(1);
+            System.out.println(price);
+        }
+        String sqlQuerry ="INSERT INTO article_in_service (serviceNumber, articleNumber,price) values ("+service+",'"+serialNumber+"',"+price+")";
+        System.out.println(sqlQuerry);
+// no idea where im going pach with front gui  see if it will pach  together still need to figure out   qounatity how to fix , probably cheker if there is alredy
+        // someting with same SN and service  to add quantity and price to be added by price extra, big problem about foreging key bullshit
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(sqlQuerry);
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        preparedStatement.executeUpdate();
     }
 
 }

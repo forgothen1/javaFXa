@@ -9,7 +9,7 @@ public class Articles {
     private   Integer quantity;
     private   Integer quantityUse;
     private  Float price;
-
+    private Float sumPrice;
     /**
      * empty constructor
      */
@@ -25,16 +25,19 @@ public class Articles {
      * @param quantity ...
      * @param quantityUse how much article is used in production , this is difrent of sold  someting like sold but not yet
      * @param price its float
+     * @param sumPrice its price of quantity * price probably wont be use in normal use of table
      */
-    public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price) {
+    public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price, Float sumPrice) {
         this.id = id;
         this.name = name;
-         SerialNumber = serialNumber;
-        IdArticles = idArticles;
+         this.SerialNumber = serialNumber;
+        this.IdArticles = idArticles;
         this.description = description;
         this.quantity = quantity;
         this.quantityUse = quantityUse;
         this.price=price;
+        this.sumPrice=sumPrice;
+
     }
 
     public Float getPrice() {
@@ -99,6 +102,14 @@ public class Articles {
 
     public void setQuantityUse(Integer quantityUse) {
         this.quantityUse = quantityUse;
+    }
+
+    public Float getSumPrice() {
+        return sumPrice;
+    }
+
+    public void setSumPrice(Float sumPrice) {
+        this.sumPrice = sumPrice;
     }
 
     @Override

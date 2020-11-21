@@ -41,7 +41,7 @@ public class DBQuerrys extends DBcon {
                 while(resultSet.next()) {
                     articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                             resultSet.getInt("idArtickle"), resultSet.getString("description"),
-                            resultSet.getInt("quantity"), resultSet.getInt("quantityInUse"), resultSet.getFloat("price"));
+                            resultSet.getInt("quantity"), resultSet.getInt("quantityInUse"), resultSet.getFloat("price"),null);
                     article_collection.add(articles);
                 }
         return article_collection;
@@ -57,6 +57,8 @@ public class DBQuerrys extends DBcon {
         String sqlQuerry =
                 "insert into artikli (name,serialNumber,idArtickle,description,quantity,price) values (?,?,?,?,?,?)";
         int i =1;
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
         preparedStatement= con.prepareStatement(sqlQuerry);
         System.out.println("///////////////");
         System.out.println(articles);
@@ -66,6 +68,8 @@ public class DBQuerrys extends DBcon {
         preparedStatement.setString(i++,articles.getDescription());
         preparedStatement.setInt(i++,articles.getQuantity());
         preparedStatement.setFloat(i,articles.getPrice());
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
         preparedStatement.executeUpdate();
     }
 
@@ -112,7 +116,7 @@ public class DBQuerrys extends DBcon {
         {
             articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"),resultSet.getString("description"),
-                    resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getFloat("price"));
+                    resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getFloat("price"),null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -138,7 +142,7 @@ public class DBQuerrys extends DBcon {
             {
                 articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
                         resultSet.getInt("idArtickle"),resultSet.getString("description"),
-                        resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getFloat("price"));
+                        resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getFloat("price"),null);
                 article_collection.add(articles);
             }
         return article_collection;
@@ -389,27 +393,115 @@ public class DBQuerrys extends DBcon {
   preparedStatement = con.prepareStatement(sqlQuerry);
     preparedStatement.setInt(1,status);
     preparedStatement.executeUpdate();
-
     }
-    public void mergingArticleService(Integer service,String serialNumber) throws SQLException {
-        Float price =null;
-        System.out.println("heres jonny ");
+
+    /**
+     * method is called if servic dont have specific article in gui table
+     * @param service number of service
+     * @param serialNumber number of article
+     * @throws SQLException meh
+     */
+    private  void addingArticleService(String service, String serialNumber) throws SQLException {
+        Float price=null;
         resultSet= statement.executeQuery("select price from artikli where  serialNumber='"+serialNumber+"'");
         if (resultSet.next())
         {
             price=resultSet.getFloat(1);
-            System.out.println(price);
         }
-        String sqlQuerry ="INSERT INTO article_in_service (serviceNumber, articleNumber,price) values ("+service+",'"+serialNumber+"',"+price+")";
+        String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
+        String sqlQuerry ="INSERT INTO article_in_service (serviceNumber, articleNumber,price,quanity) " +
+                "values ("+service+ ",'"+serialNumber+"',"+price+",1);";
         System.out.println(sqlQuerry);
-// no idea where im going pach with front gui  see if it will pach  together still need to figure out   qounatity how to fix , probably cheker if there is alredy
-        // someting with same SN and service  to add quantity and price to be added by price extra, big problem about foreging key bullshit
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
         preparedStatement.executeUpdate();
         preparedStatement = con.prepareStatement(sqlQuerry);
         preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate(sqlQuerry2);
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
         preparedStatement.executeUpdate();
+    }
+
+    /**
+     * this method is called if servis have that article in  gui table then its just added quantty
+     * @param service number of service
+     * @param serialNumber number of article
+     * @throws SQLException meh
+     */
+    private void edditingArticleService(String service, String serialNumber) throws SQLException {
+        //still not working propery
+        String sqlQuerry="update article_in_service set quanity=(quanity+1) where serviceNumber="+service+" and articleNumber='"+serialNumber+"'; ";
+        String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
+
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(sqlQuerry);
+        preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate(sqlQuerry2);
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        preparedStatement.executeUpdate();
+    }
+
+    /**
+     * method that deside if its for update or insert in gui table
+     * @param service number of servic
+     * @param serialNumber number of article
+     * @throws SQLException meh
+     */
+    public void mergingArticleService(String service, String serialNumber) throws SQLException {
+        /*napisati logiku za provjeru  sl tabele da ima sa ovim servisom i ovim serial numb dali se podudara ako da onda update a ako je
+        * .isEpmty onda add proslijediti parementre  umoran nemos meda vise*/
+        String brojzaTest=null;
+        String sqlQuerry="select articleNumber from article_in_service where serviceNumber="+service+" and articleNumber='"+serialNumber+"'";
+    resultSet=statement.executeQuery(sqlQuerry);
+    while(resultSet.next())
+    {brojzaTest=resultSet.getString(1); }
+    System.out.println(brojzaTest);
+    if (brojzaTest == null)
+        { addingArticleService(service,serialNumber); }
+    else
+        { edditingArticleService(service,serialNumber); }
+
+    }
+
+    /**
+     * geting what is added of articles in servis by servisnumber
+     * @param servis_number is for specifying what servis iz
+     * @return article_collection  return list of articles with sumprice
+     * @throws SQLException meh
+     */
+    public List<Articles> listOfArticleInServis(Integer servis_number) throws SQLException {
+    article_collection.clear();
+    String sqlQuerry="select artikli.serialNumber, artikli.name, article_in_service.quanity,article_in_service.price," +
+            " article_in_service.sumPrice from artikli inner join (select * from article_in_service where serviceNumber="+servis_number+
+            ")article_in_service on article_in_service.articleNumber=artikli.serialNumber;";
+    System.out.println(sqlQuerry);
+    resultSet=statement.executeQuery(sqlQuerry);
+    while(resultSet.next())
+    {
+        articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
+                null, null, resultSet.getInt("article_in_service.quanity"), null,
+                resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"));
+        article_collection.add(articles);
+    }
+        return article_collection;
+
+    }
+
+    /**
+     *  method that return sumof all artiles for per service when asked for  will see to skip this  trasfer of data later prob will be terminated
+     * @param servisNumber  integer that is send what servis is selected
+     * @return priceOfService float that can return null or sum of prices
+     * @throws SQLException
+     */
+    public Float getingVolePrice(Integer servisNumber) throws SQLException {
+        Float priceOfService=null;
+        String sqlQuery="select sum(sumPrice) from article_in_service where serviceNumber="+servisNumber;
+        resultSet= statement.executeQuery(sqlQuery);
+        if (resultSet.next())
+        {
+         priceOfService = resultSet.getFloat(1);
+        }
+        return priceOfService;
     }
 
 }

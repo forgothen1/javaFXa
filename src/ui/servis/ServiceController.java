@@ -24,10 +24,11 @@ public class ServiceController  implements Initializable {
     public ChoiceBox statusOfServis;
     public Button addToSerivis;
     public ToggleButton lookServis;
+
     @FXML
     private TableView<Articles> articleTableOUT;
     @FXML
-    private TableColumn serialNumberOUT,priceArticleOUT,quantityArticleOUT,nameArticleOUT;
+    private TableColumn serialNumberOUT,priceArticleOUT,quantityArticleOUT,nameArticleOUT,sumPriceOUT;
     @FXML
     private TableView<Articles> articleTableIN;
     @FXML
@@ -133,6 +134,10 @@ public class ServiceController  implements Initializable {
     /////////////////////////////////////
     //  logic for workPane
 
+    /**
+     * this is just for change of status  service i choiceBox
+     * @throws SQLException mhe
+     */
     @FXML
     public void changeOfStatus() throws SQLException {
    //set try method if has someting else  to be disabled
@@ -179,13 +184,36 @@ public class ServiceController  implements Initializable {
                         statusOfServis.getSelectionModel().select(2);
                         break;
                 }
+                        try {
+                            fillingTableOfArtikle();
+                        getPrice();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
         });
     }
+
     //////////////////////////////////////////////////////
     // logic for selectArticklePane
+
+    /**
+     * calling from db sum of all price with specific servis number
+     * @throws SQLException
+     */
+    @FXML
+    public void getPrice() throws SQLException {
+        Integer  ne= service.getSerivisNumber();
+        Float d=  dbQuerrys.getingVolePrice(ne);
+        priceOfServis.setText(String.valueOf(d));
+    }
+    //fali dio koji salje price u  db u tabelu servisi
+
+    /**
+     * transfering articles from articles to service articles and  informing db
+     */
     @FXML
     public void addArticleToServis()  {
         articleTableIN.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -200,45 +228,83 @@ public class ServiceController  implements Initializable {
                         System.out.println("kako idee "+valueOfRow);
                         try { //neka glupost smisliti kako poslati sve u bazu hmm mozda da se pokrenu 2 metode
                                 // clasas query
-                            Integer brojServisa= Integer.valueOf(servicNumber.getText());
-                            articles = dbQuerrys.searchBySerialNumber(valueOfRow).get(0);
-                                dbQuerrys.mergingArticleService(brojServisa,valueOfRow);
-                        } catch (SQLException e) {
+                            String brojServisa= servicNumber.getText();
+                            dbQuerrys.mergingArticleService(brojServisa, valueOfRow);
+                            fillingTableOfArtikle();
+                                getPrice();
+
+                            } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
+                        fillingInsideArticleTable();
                     }
                 }
             }
             });
-
     }
+
+    /**
+     * nada prob whas thinkgin someting but forgot later will be updated
+     */
     @FXML
-    public void openTableArtikle() throws SQLException {
+    private void  updateArticleToServis() {
+   
+      //missing someting ?
+    }
+
+    /**
+     * showing article table and filling its row from db
+     */
+    @FXML
+    private void fillingInsideArticleTable(){
+        articleTableIN.getItems().clear();
+        selectArticklePane.setVisible(true);
+        selectArticklePane.toFront();
+        serialNumberIN.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        articleNameIN.setCellValueFactory(new PropertyValueFactory<>("name"));
+        quantityArticleIN.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        priceArticleIN.setCellValueFactory(new PropertyValueFactory<>("price"));
+        try {
+            articleTableIN.getItems().addAll(dbQuerrys.gettingAllArtikles());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  just hiding and showing table
+     */
+    @FXML
+    public void openTableArtikle() {
         //add to db and to table probably above method will do this all
 
-        if (selectArticklePane.isVisible()){
+        if (selectArticklePane.isVisible())
+        {
             articleTableIN.getItems().clear();
             selectArticklePane.toBack();
-
             selectArticklePane.setVisible(false);
-
         }
-        else {
-
-            selectArticklePane.setVisible(true);
-            selectArticklePane.toFront();
-            serialNumberIN.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
-            articleNameIN.setCellValueFactory(new PropertyValueFactory<>("name"));
-            quantityArticleIN.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-            priceArticleIN.setCellValueFactory(new PropertyValueFactory<>("price"));
-            articleTableIN.getItems().addAll(dbQuerrys.gettingAllArtikles());
+        else
+        {
+            fillingInsideArticleTable();
         }
-
-
     }
 
-
+    /**
+     * filling  table where it shows what articles are included i nservice
+     * @throws SQLException
+     */
+    @FXML
+    public void fillingTableOfArtikle() throws SQLException {
+            articleTableOUT.getItems().clear();
+            Integer servis_number = Integer.valueOf(servicNumber.getText());
+            serialNumberOUT.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+            nameArticleOUT.setCellValueFactory(new PropertyValueFactory<>("name"));
+            quantityArticleOUT.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            priceArticleOUT.setCellValueFactory(new PropertyValueFactory<>("price"));
+            sumPriceOUT.setCellValueFactory(new PropertyValueFactory<>("sumPrice"));
+            articleTableOUT.getItems().addAll(dbQuerrys.listOfArticleInServis(servis_number));
+    }
 
 
     @Override

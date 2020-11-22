@@ -503,6 +503,32 @@ public class DBQuerrys extends DBcon {
         }
         return priceOfService;
     }
+    public void setVolePrice(Integer servisNumber, Float price) throws SQLException {
+        String sqlQuery="UPDATE servisi SET cijenaServisa="+price+" WHERE servis_number="+servisNumber;
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate(sqlQuery);
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        System.out.println("cijena je uploadana u servis");
+        preparedStatement.executeUpdate();
+    }
+    public void removeArticleFromServis(Integer servisNUmber, String articleNumber, Integer quantity) throws SQLException {
+        String sqlQuery=null;
+        if (quantity>1) {
+             sqlQuery="update article_in_service set quanity=(quanity-1) where serviceNumber="+servisNUmber+" and articleNumber='"+articleNumber+"'; ";
+        }
+        else {
+            sqlQuery = "delete from article_in_service where serviceNumber=" + servisNUmber + " and articleNumber='" + articleNumber + "'";
+        }
+        String sqlQuerry2 = "update artikli set quantity= (quantity+1),quantityInUse=(quantityInUse-1) where serialNumber='"+articleNumber+"'";
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate(sqlQuery);
+        preparedStatement.executeUpdate(sqlQuerry2);
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        System.out.println("cijena je uploadana u servis");
+        preparedStatement.executeUpdate();
+    }
 
 }
 

@@ -28,7 +28,7 @@
           <Label fx:id="servicNumber" layoutX="14.0" layoutY="125.0" prefHeight="52.0" prefWidth="67.0" text="servicNumber" textFill="WHITE" />
           <Label fx:id="phone" layoutX="20.0" layoutY="281.0" prefHeight="52.0" prefWidth="67.0" text="phone" textFill="WHITE" />
           <Label fx:id="ownerofprod" layoutX="13.0" layoutY="229.0" prefHeight="52.0" prefWidth="136.0" text="ownerofprod" textFill="WHITE" />
-         <TextField fx:id="priceOfServis" onAction="#getPrice" layoutX="131.0" layoutY="358.0" />
+         <TextField fx:id="priceOfServis"  onAction="#setPrice" layoutX="131.0" layoutY="358.0" />
          <Button fx:id="addToSerivis" layoutX="332.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openTableArtikle" text="dodaj u servis" />
          <ChoiceBox fx:id="statusOfServis" disable="true" layoutX="87.0" layoutY="76.0" onHiding="#changeOfStatus" prefWidth="150.0">
           <items>
@@ -39,7 +39,7 @@
               </FXCollections>
           </items>
          </ChoiceBox>
-         <TableView fx:id="articleTableOUT"  layoutX="414.0" layoutY="38.0" prefHeight="358.0" prefWidth="339.0">
+         <TableView fx:id="articleTableOUT"  onMouseClicked="#deleteArticleFromServis" layoutX="414.0" layoutY="38.0" prefHeight="358.0" prefWidth="339.0">
            <columns>
              <TableColumn fx:id="serialNumberOUT" prefWidth="81.0" text="Serial_number" />
              <TableColumn fx:id="nameArticleOUT" prefWidth="75.0" text="name" />

@@ -208,8 +208,15 @@ public class ServiceController  implements Initializable {
         Integer  ne= service.getSerivisNumber();
         Float d=  dbQuerrys.getingVolePrice(ne);
         priceOfServis.setText(String.valueOf(d));
+        System.out.println("cijena unijeta u polje "+d);
     }
-    //fali dio koji salje price u  db u tabelu servisi
+    @FXML
+    public void setPrice() throws SQLException {
+        System.out.println("dali prolazi ovo");
+        dbQuerrys.setVolePrice(service.getSerivisNumber(), Float.valueOf(priceOfServis.getText()));
+        System.out.println("dali prolazi ovo");
+    }
+
 
     /**
      * transfering articles from articles to service articles and  informing db
@@ -244,12 +251,29 @@ public class ServiceController  implements Initializable {
     }
 
     /**
-     * nada prob whas thinkgin someting but forgot later will be updated
+     * deleting articles from service
      */
     @FXML
-    private void  updateArticleToServis() {
-   
-      //missing someting ?
+    private void  deleteArticleFromServis() {
+        articleTableOUT.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+        public void handle(MouseEvent mouseEvent) {
+            if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                if (mouseEvent.getClickCount() == 2) {
+                    try { System.out.println("sta sad ovdje  "+service.getSerivisNumber() );
+                       String articleNumber= articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getSerialNumber();
+                       Integer articleQuantity= articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getQuantity();
+                        System.out.println(articleNumber);
+                        dbQuerrys.removeArticleFromServis(service.getSerivisNumber(), articleNumber,articleQuantity);
+                        fillingTableOfArtikle();
+                        fillingInsideArticleTable();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    });
     }
 
     /**

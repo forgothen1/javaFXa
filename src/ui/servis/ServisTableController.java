@@ -47,6 +47,10 @@ public class ServisTableController implements Initializable {
 
     private RecordInfo info = new RecordInfo();
 
+    /**
+     * setting table to show all services
+     * @throws SQLException
+     */
     @FXML
     public void setTable() throws SQLException {
          name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -60,6 +64,9 @@ public class ServisTableController implements Initializable {
 
 
         //  status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        /**
+         * this is to check what is writed down in row of this column  and change color of text  in colum status
+         */
         status.setCellFactory(column -> {
             return new TableCell<Service, String>() {
                 @Override

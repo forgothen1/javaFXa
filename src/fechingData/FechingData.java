@@ -25,7 +25,7 @@ public class FechingData {
              if (line.contains(requarment+"@")) {
                  int index = line.indexOf("@")+1;
                  sub= line.substring(index);
-                 //   System.out.println(sub.trim());
+                    System.out.println(sub.trim());
              }
          }
      } catch (FileNotFoundException e) {

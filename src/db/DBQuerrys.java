@@ -334,7 +334,7 @@ public class DBQuerrys extends DBcon {
      */
     public List<Service> tableservis() throws SQLException {
         service_collection.clear();
-        String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status  from servisi";
+        String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status from servisi";
         resultSet=statement.executeQuery(sqlQuery);
         while(resultSet.next()) {
             service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),

@@ -19,7 +19,7 @@ import static java.sql.DriverManager.getConnection;
 public abstract class DBcon extends RecordInfo {
     Logger logCon = Logger.getLogger(DBcon.class);
     FechingData fechingData = new FechingData();
-    String path ="E:/dev stuff/FileName.txt";
+    String path ="resources/fileName.txt";
 
     String base = fechingData.excractor("database",path);
             //"jdbc:mysql://localhost:3306/osoblje" +
@@ -36,7 +36,7 @@ public abstract class DBcon extends RecordInfo {
             con = getConnection(base, user, pass);
              statement=con.createStatement();
              forConnection().info("connected to db with no problem");
-            // logCon.info("halleeeeluja heaven gate open");
+
 
 
         } catch (SQLException e) {

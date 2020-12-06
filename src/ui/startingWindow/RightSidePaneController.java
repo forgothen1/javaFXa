@@ -16,9 +16,12 @@ public class RightSidePaneController implements Initializable {
     @FXML
     private Pane pane;
 
+    /**
+     * loading servis workstation for service
+     * @throws IOException
+     */
     @FXML
     public void nesto() throws IOException {
-
         Parent root = FXMLLoader.load(getClass().getResource("../servis/Service.fxml"));
         Stage stage = new Stage();
         stage.setTitle("new Serivis");

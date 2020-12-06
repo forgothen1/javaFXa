@@ -18,12 +18,20 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServiceController  implements Initializable {
-    public Label descriptions, servicNumber,phone,ownerofprod,nameofprod;
-    public Pane selectPane,workPane,selectArticklePane;
-    public TextField searchField,priceOfServis;
-    public ChoiceBox statusOfServis;
-    public Button addToSerivis;
-    public ToggleButton lookServis;
+
+    @FXML
+    private Label descriptions, servicNumber,phone,ownerofprod,nameofprod,priceOfServiceLabel;
+    @FXML
+    private Pane selectPane,workPane,selectArticklePane;
+    @FXML
+    private TextField searchField,priceOfServis,priceOfHands;
+    @FXML
+    private ChoiceBox statusOfServis;
+    @FXML
+    private Button addToSerivis;
+    @FXML
+    private ToggleButton lookServis;
+
 
     @FXML
     private TableView<Articles> articleTableOUT;
@@ -37,6 +45,7 @@ public class ServiceController  implements Initializable {
     private TableView<Service> serviceTable;
     @FXML
     private TableColumn price,owner,time,description,telephone,numberOfTicket,status,name;
+
     DBQuerrys dbQuerrys = new DBQuerrys();
     Service service = new Service();
     Articles articles= new Articles();
@@ -51,6 +60,7 @@ public class ServiceController  implements Initializable {
     @FXML
     private void setTable() throws SQLException {
         serviceTable.getItems().clear();
+        lookServis.toFront();
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
@@ -115,20 +125,18 @@ public class ServiceController  implements Initializable {
      */
     @FXML
     private void searchOfService(){
+
         serviceTable.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
             try {
+
                 setTable();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else
         {
-            try {
-                serviceTable.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            serviceTable.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
         }
     }
     /////////////////////////////////////
@@ -139,13 +147,12 @@ public class ServiceController  implements Initializable {
      * @throws SQLException mhe
      */
     @FXML
-    public void changeOfStatus() throws SQLException {
+    private void changeOfStatus() throws SQLException {
    //set try method if has someting else  to be disabled
-        String serviceNumber = servicNumber.getText();
+     String serviceNumber = servicNumber.getText();
      Integer status= statusOfServis.getSelectionModel().getSelectedIndex()+1;
      System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
      dbQuerrys.statusChange(status,serviceNumber);
-
         setTable();
     }
 
@@ -153,14 +160,14 @@ public class ServiceController  implements Initializable {
      * sending servis data from selectpane to workpane and arange it
      */
     @FXML
-    public void pullingService()  {
+    private void pullingService()  {
          serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     if(mouseEvent.getClickCount() == 2){
                 //making sure that is avaible for clicking
-                lookServis.toFront();
+
                 // aloving to be modifyed
                 statusOfServis.setDisable(false);
                 service = serviceTable.getSelectionModel().getSelectedItem();
@@ -204,17 +211,21 @@ public class ServiceController  implements Initializable {
      * @throws SQLException
      */
     @FXML
-    public void getPrice() throws SQLException {
+    private void getPrice() throws SQLException {
         Integer  ne= service.getSerivisNumber();
         Float d=  dbQuerrys.getingVolePrice(ne);
         priceOfServis.setText(String.valueOf(d));
         System.out.println("cijena unijeta u polje "+d);
+        setPrice();
     }
+
     @FXML
-    public void setPrice() throws SQLException {
+    private void setPrice() throws SQLException {
+        Float priceofHands= Float.valueOf(priceOfHands.getText())+Float.valueOf(priceOfServis.getText());
+        priceOfServiceLabel.setText(String.valueOf(priceofHands));
         System.out.println("dali prolazi ovo");
-        dbQuerrys.setVolePrice(service.getSerivisNumber(), Float.valueOf(priceOfServis.getText()));
-        System.out.println("dali prolazi ovo");
+        dbQuerrys.setVolePrice(service.getSerivisNumber(),priceofHands);
+        System.out.println("dali prolazi ovo       "+ priceofHands);
     }
 
 
@@ -222,7 +233,7 @@ public class ServiceController  implements Initializable {
      * transfering articles from articles to service articles and  informing db
      */
     @FXML
-    public void addArticleToServis()  {
+    private void addArticleToServis()  {
         articleTableIN.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -239,7 +250,7 @@ public class ServiceController  implements Initializable {
                             dbQuerrys.mergingArticleService(brojServisa, valueOfRow);
                             fillingTableOfArtikle();
                                 getPrice();
-
+                                setPrice();
                             } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -260,13 +271,20 @@ public class ServiceController  implements Initializable {
         public void handle(MouseEvent mouseEvent) {
             if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                 if (mouseEvent.getClickCount() == 2) {
-                    try { System.out.println("sta sad ovdje  "+service.getSerivisNumber() );
-                       String articleNumber= articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getSerialNumber();
-                       Integer articleQuantity= articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getQuantity();
+                    try {
+                        System.out.println("sta sad ovdje  " + service.getSerivisNumber());
+                        String articleNumber = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getSerialNumber();
+                        Integer articleQuantity = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getQuantity();
                         System.out.println(articleNumber);
-                        dbQuerrys.removeArticleFromServis(service.getSerivisNumber(), articleNumber,articleQuantity);
+                        dbQuerrys.removeArticleFromServis(service.getSerivisNumber(), articleNumber, articleQuantity);
                         fillingTableOfArtikle();
-                        fillingInsideArticleTable();
+                        getPrice();
+                        setPrice();
+                        if (selectArticklePane.isVisible()) {
+                            fillingInsideArticleTable();
+                            getPrice();
+                            setPrice();
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -290,6 +308,7 @@ public class ServiceController  implements Initializable {
         priceArticleIN.setCellValueFactory(new PropertyValueFactory<>("price"));
         try {
             articleTableIN.getItems().addAll(dbQuerrys.gettingAllArtikles());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -299,9 +318,8 @@ public class ServiceController  implements Initializable {
      *  just hiding and showing table
      */
     @FXML
-    public void openTableArtikle() {
+    private void openTableArtikle() {
         //add to db and to table probably above method will do this all
-
         if (selectArticklePane.isVisible())
         {
             articleTableIN.getItems().clear();
@@ -319,7 +337,7 @@ public class ServiceController  implements Initializable {
      * @throws SQLException
      */
     @FXML
-    public void fillingTableOfArtikle() throws SQLException {
+    private void fillingTableOfArtikle() throws SQLException {
             articleTableOUT.getItems().clear();
             Integer servis_number = Integer.valueOf(servicNumber.getText());
             serialNumberOUT.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));

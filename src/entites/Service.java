@@ -10,7 +10,7 @@ public class Service {
     private String description;
     private String time;
     private Integer statusInt;
-    private String satusStrg;
+    private String statusStrg;
 
 
     public  Service() {}
@@ -90,11 +90,13 @@ public class Service {
     public void setStatusInt(Integer statusInt) {this.statusInt = statusInt;}
     public String getStatusInt(){
         if (statusInt == 1)
-                return satusStrg ="prijem";
+                return statusStrg ="prijem";
         else if (statusInt == 2)
-            return satusStrg ="obrada";
-        else
-            return satusStrg ="zavrseno";
+            return statusStrg ="obrada";
+        else if (statusInt == 3)
+            return statusStrg ="zavrseno";
+        else  
+         return statusStrg ="naplaceno";
     }
 
 
@@ -110,7 +112,7 @@ public class Service {
                 ", description='" + description + '\'' +
                 ", time='" + time + '\'' +
                 ", status=" + statusInt +
-                ", status1='" + satusStrg + '\'' +
+                ", status1='" + statusStrg + '\'' +
                 '}';
     }
 }

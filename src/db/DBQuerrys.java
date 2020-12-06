@@ -4,6 +4,7 @@ import entites.Articles;
 import entites.Service;
 import entites.Worker;
 import org.apache.log4j.Logger;
+import recordInfo.RecordInfo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ public class DBQuerrys extends DBcon {
     private List<Articles> article_collection = new ArrayList<>();
     private List<Service> service_collection= new ArrayList<>();
     private  Service service = new Service();
+    RecordInfo logginfo;
 
     /**
      *  loading all data from articles table of DB and seding to table  in gui
@@ -253,7 +255,7 @@ public class DBQuerrys extends DBcon {
             preparedStatement = con.prepareStatement(sqlRemove);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("this is sql command " + sqlRemove);
+           logCon.error("this is sql command " + sqlRemove,e);
 
         }
     }
@@ -264,20 +266,26 @@ public class DBQuerrys extends DBcon {
      * @throws SQLException  exception that will be done somewhere else
      */
     /* updating DB with query varable is number to get idWorker */
-    public void  editWorker(Worker worker, String variableForSearch ) throws SQLException {
+    public void  editWorker(Worker worker, String variableForSearch ) {
         String sqlQuery = "update radnik set name=? , surname=? , payment=? , workplace=? , idWorker=? where idWorker="
                 +variableForSearch;
         System.out.println(sqlQuery);
         int i = 1;
-        preparedStatement = con.prepareStatement(sqlQuery);
-        preparedStatement.setString(i++, worker.getName());
-        preparedStatement.setString(i++, worker.getSurname());
-        // payment is int value so it need to be casted to String
-        preparedStatement.setFloat(i++, worker.getPaymant());
-        preparedStatement.setString(i++, worker.getWorkplace());
-        // idworker is int value so it need to be casted to String
-        preparedStatement.setInt(i, worker.getIdWorker());
-        preparedStatement.executeUpdate();
+        try {
+            preparedStatement = con.prepareStatement(sqlQuery);
+            preparedStatement.setString(i++, worker.getName());
+            preparedStatement.setString(i++, worker.getSurname());
+            // payment is int value so it need to be casted to String
+            preparedStatement.setFloat(i++, worker.getPaymant());
+            preparedStatement.setString(i++, worker.getWorkplace());
+            // idworker is int value so it need to be casted to String
+            preparedStatement.setInt(i, worker.getIdWorker());
+            preparedStatement.executeUpdate();
+            logCon.info("worker is eddited");
+        } catch (SQLException e) {
+          logCon.info("worker didnt get eddited",e);
+        }
+
     }
 
     // *********************************************************************
@@ -291,7 +299,7 @@ public class DBQuerrys extends DBcon {
     /**
      * this is just to get last  number of service and to report it
      * @return incrising service number +1  and sending it to add new service
-     * @throws SQLException
+     * @throws SQLException its sql  and its done in addService
      */
     public Integer getingLastservice() throws SQLException {
         Integer neko = null;
@@ -305,9 +313,8 @@ public class DBQuerrys extends DBcon {
     /**
      * adding additional service
      * @param service collecting entiti
-     * @throws SQLException
      */
-    public void addServices(Service service) throws SQLException {
+    public void addServices(Service service)  {
         int i=1;
         DateTimeFormatter myFormat= DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         LocalDateTime time = LocalDateTime.now();
@@ -315,70 +322,97 @@ public class DBQuerrys extends DBcon {
         String timeFreez= time.format(myFormat);
         String sqlQuery="INSERT INTO servisi (nameOfproduct,owner,description,servis_number,telephone,time,status) values (?,?,?,?,?,?,?)";
         System.out.println(sqlQuery);
-        preparedStatement=con.prepareStatement(sqlQuery);
-        preparedStatement.setString(i++,service.getName());
-        preparedStatement.setString(i++,service.getOwner());
-        preparedStatement.setString(i++,service.getDescription());
-        //preparedStatement.setFloat(i++,service.getPrice());
-        preparedStatement.setInt(i++,getingLastservice());
-        preparedStatement.setString(i++,service.getTelephone());
-        preparedStatement.setString(i++,timeFreez);
-        preparedStatement.setInt(i++,1);
-        preparedStatement.executeUpdate();
+        try {
+            preparedStatement=con.prepareStatement(sqlQuery);
+            preparedStatement.setString(i++,service.getName());
+            preparedStatement.setString(i++,service.getOwner());
+            preparedStatement.setString(i++,service.getDescription());
+            preparedStatement.setInt(i++,getingLastservice());
+            preparedStatement.setString(i++,service.getTelephone());
+            preparedStatement.setString(i++,timeFreez);
+            preparedStatement.setInt(i++,1);
+            preparedStatement.executeUpdate();
+            logCon.info("service succesfuly added to DB");
+        } catch (SQLException e) {
+            logCon.error("service didint added to db",e);
+        }
+
     }
 
     /**
      *  loading services from table
      * @return service_collection as list
-     * @throws SQLException
      */
-    public List<Service> tableservis() throws SQLException {
+    public List<Service> tableservis()  {
         service_collection.clear();
         String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status from servisi";
-        resultSet=statement.executeQuery(sqlQuery);
-        while(resultSet.next()) {
-            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
-                    resultSet.getString("owner"), resultSet.getString("telephone"),
-                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
-
-            service_collection.add(service);
+        try {
+            resultSet=statement.executeQuery(sqlQuery);
+            while(resultSet.next()) {
+                service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                        resultSet.getString("owner"), resultSet.getString("telephone"), resultSet.getInt("servis_number"),
+                        resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+                service_collection.add(service);
+            }
+            logCon.info("table witb service is loaded");
+        } catch (SQLException e) {
+          logCon.error("table didnt load from db ",e);
         }
-        return service_collection;
-    }
-    public List<Service> searchOfService(String variableForSearch) throws SQLException {
-        service_collection.clear();
-        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
-                " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
-                +"%' or servis_number like '%" + variableForSearch +"%'";
-        resultSet= statement.executeQuery(sqlQuerry);
-        while(resultSet.next()) {
-            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
-                    resultSet.getString("owner"), resultSet.getString("telephone"),
-                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
 
-            service_collection.add(service);
-        }
         return service_collection;
     }
 
     /**
-     * get services with specific serviceNumber
+     * search for service with nameOfproduct, owner or servis number is mached
+     * @param variableForSearch is parametar that is used for search
+     * @return service_collection
+     */
+    public List<Service> searchOfService(String variableForSearch)  {
+        service_collection.clear();
+        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
+                " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
+                +"%' or servis_number like '%" + variableForSearch +"%'";
+        try {
+            resultSet= statement.executeQuery(sqlQuerry);
+            while(resultSet.next()) {
+                service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                        resultSet.getString("owner"), resultSet.getString("telephone"),
+                        resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+
+                service_collection.add(service);
+            }
+            logCon.info("service with specific search is loaded from db");
+            //ovdje se stalo fali e u catch
+        } catch (SQLException e) {
+           logCon.error("service didnt load from DB where serviceid="+variableForSearch,e);
+        }
+
+        return service_collection;
+    }
+
+    /**
+     * get services with specific serviceNumber, its not used atm probably will be neeed later somewhere
      * @param variableForSearch string that u get value for serviceNumber
      * @return list of services  for further use
-     * @throws SQLException
      */
-    public List<Service> searchOfServiceByServiceNumber(String variableForSearch) throws SQLException {
+    public List<Service> searchOfServiceByServiceNumber(String variableForSearch) {
         service_collection.clear();
         String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
                 " from servisi where  servis_number like '%" + variableForSearch +"%'";
-        resultSet= statement.executeQuery(sqlQuerry);
-        while(resultSet.next()) {
-            service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
-                    resultSet.getString("owner"), resultSet.getString("telephone"),
-                    resultSet.getInt("servis_number"), resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
-
-            service_collection.add(service);
+        try {
+            resultSet= statement.executeQuery(sqlQuerry);
+            while(resultSet.next()) {
+                service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
+                        resultSet.getString("owner"), resultSet.getString("telephone"), resultSet.getInt("servis_number"),
+                        resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+                service_collection.add(service);
+            }
+            logCon.info("service is pulled from db ");
+        } catch (SQLException e)
+        {
+            logCon.error("feild to get service="+variableForSearch,e);
         }
+
         return service_collection;
     }
 
@@ -386,20 +420,26 @@ public class DBQuerrys extends DBcon {
      *  changing status of proces of service
      * @param status represent in wich state of proces is servis
      * @param serviceNumber  unique number for every service
-     * @throws SQLException
      */
-    public void statusChange(Integer status,String serviceNumber) throws SQLException {
-  String sqlQuerry="update servisi set status=? where servis_number="+serviceNumber;
-  preparedStatement = con.prepareStatement(sqlQuerry);
-    preparedStatement.setInt(1,status);
-    preparedStatement.executeUpdate();
+    public void statusChange(Integer status,String serviceNumber)  {
+        String sqlQuerry="update servisi set status=? where servis_number="+serviceNumber;
+        try {
+            preparedStatement = con.prepareStatement(sqlQuerry);
+            preparedStatement.setInt(1,status);
+            preparedStatement.executeUpdate();
+            logCon.info("status CHANGED for service="+serviceNumber);
+        } catch (SQLException e) {
+            logCon.error("status didnt change becouse it didint reach db for service="+serviceNumber,e);
+            e.printStackTrace();
+        }
+
     }
 
     /**
      * method is called if servic dont have specific article in gui table
      * @param service number of service
      * @param serialNumber number of article
-     * @throws SQLException meh
+     * @throws SQLException it will be done in mergingAricleService
      */
     private  void addingArticleService(String service, String serialNumber) throws SQLException {
         Float price=null;
@@ -425,7 +465,7 @@ public class DBQuerrys extends DBcon {
      * this method is called if servis have that article in  gui table then its just added quantty
      * @param service number of service
      * @param serialNumber number of article
-     * @throws SQLException meh
+     * @throws SQLException it will be done in mergingAricleService
      */
     private void edditingArticleService(String service, String serialNumber) throws SQLException {
         //still not working propery
@@ -445,21 +485,29 @@ public class DBQuerrys extends DBcon {
      * method that deside if its for update or insert in gui table
      * @param service number of servic
      * @param serialNumber number of article
-     * @throws SQLException meh
      */
-    public void mergingArticleService(String service, String serialNumber) throws SQLException {
-        /*napisati logiku za provjeru  sl tabele da ima sa ovim servisom i ovim serial numb dali se podudara ako da onda update a ako je
-        * .isEpmty onda add proslijediti parementre  umoran nemos meda vise*/
+    public void mergingArticleService(String service, String serialNumber)  {
         String brojzaTest=null;
         String sqlQuerry="select articleNumber from article_in_service where serviceNumber="+service+" and articleNumber='"+serialNumber+"'";
-    resultSet=statement.executeQuery(sqlQuerry);
-    while(resultSet.next())
-    {brojzaTest=resultSet.getString(1); }
-    System.out.println(brojzaTest);
-    if (brojzaTest == null)
-        { addingArticleService(service,serialNumber); }
-    else
-        { edditingArticleService(service,serialNumber); }
+        try {
+            resultSet=statement.executeQuery(sqlQuerry);
+            while(resultSet.next())
+            {brojzaTest=resultSet.getString(1); }
+            System.out.println(brojzaTest);
+            if (brojzaTest == null)
+            {
+                addingArticleService(service,serialNumber);
+                logCon.info("article is added to service="+service+", and article number="+serialNumber);
+            }
+            else
+            {
+                edditingArticleService(service,serialNumber);
+                logCon.info("article is edited to service="+service+", and article number="+serialNumber);
+            }
+
+        } catch (SQLException e) {
+            logCon.error("article="+serialNumber+", didint add/eddit to service="+service,e);
+        }
 
     }
 
@@ -467,53 +515,82 @@ public class DBQuerrys extends DBcon {
      * geting what is added of articles in servis by servisnumber
      * @param servis_number is for specifying what servis iz
      * @return article_collection  return list of articles with sumprice
-     * @throws SQLException meh
      */
-    public List<Articles> listOfArticleInServis(Integer servis_number) throws SQLException {
+    public List<Articles> listOfArticleInServis(Integer servis_number) {
     article_collection.clear();
     String sqlQuerry="select artikli.serialNumber, artikli.name, article_in_service.quanity,article_in_service.price," +
             " article_in_service.sumPrice from artikli inner join (select * from article_in_service where serviceNumber="+servis_number+
             ")article_in_service on article_in_service.articleNumber=artikli.serialNumber;";
     System.out.println(sqlQuerry);
-    resultSet=statement.executeQuery(sqlQuerry);
-    while(resultSet.next())
-    {
-        articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
-                null, null, resultSet.getInt("article_in_service.quanity"), null,
-                resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"));
-        article_collection.add(articles);
-    }
-        return article_collection;
+        try {
+            resultSet=statement.executeQuery(sqlQuerry);
+            while(resultSet.next())
+            {
+                articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
+                        null, null, resultSet.getInt("article_in_service.quanity"), null,
+                        resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"));
+                article_collection.add(articles);
+            }
+            logCon.info("articles loaded for servis");
+        } catch (SQLException e) {
+            logCon.error("articles didint load from db for service="+servis_number,e);
+            e.printStackTrace();
+        }
 
+        return article_collection;
     }
 
     /**
      *  method that return sumof all artiles for per service when asked for  will see to skip this  trasfer of data later prob will be terminated
      * @param servisNumber  integer that is send what servis is selected
-     * @return priceOfService float that can return null or sum of prices
-     * @throws SQLException
+     * @return priceOfService float that can return null or sum of price
      */
-    public Float getingVolePrice(Integer servisNumber) throws SQLException {
+    public Float getingVolePrice(Integer servisNumber)  {
         Float priceOfService=null;
         String sqlQuery="select sum(sumPrice) from article_in_service where serviceNumber="+servisNumber;
-        resultSet= statement.executeQuery(sqlQuery);
-        if (resultSet.next())
-        {
-         priceOfService = resultSet.getFloat(1);
+        try {
+            resultSet= statement.executeQuery(sqlQuery);
+            if (resultSet.next())
+            {
+                priceOfService = resultSet.getFloat(1);
+            }
+            logCon.info("price of service is retrived");
+        } catch (SQLException e) {
+            logCon.error("price didint collected from db for service="+servisNumber+" ",e);
         }
         return priceOfService;
     }
-    public void setVolePrice(Integer servisNumber, Float price) throws SQLException {
+
+    /**
+     * updating /seting price for services
+     * @param servisNumber servis that price has been updated /added
+     * @param price amount that has been updated to service
+     */
+    public void setVolePrice(Integer servisNumber, Float price)  {
         String sqlQuery="UPDATE servisi SET cijenaServisa="+price+" WHERE servis_number="+servisNumber;
-        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
-        preparedStatement.executeUpdate();
-        preparedStatement.executeUpdate(sqlQuery);
-        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
-        System.out.println("cijena je uploadana u servis");
-        preparedStatement.executeUpdate();
+        try {
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(sqlQuery);
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+            System.out.println("cijena je uploadana u servis");
+            preparedStatement.executeUpdate();
+            logCon.info("price was updated for service="+servisNumber);
+        } catch (SQLException e) {
+            logCon.error("it faild to connect to db and to set price for service , servisNuber="
+                    + servisNumber+", price="+price+"\n",e);
+        }
     }
-    public void removeArticleFromServis(Integer servisNUmber, String articleNumber, Integer quantity) throws SQLException {
-        String sqlQuery=null;
+
+    /**
+     * setting back quantity of article and quantityInUse , and removing or  reducing quantiyty in service of aricle
+     * @param servisNUmber nubmber of service.
+     * @param articleNumber signature code for article
+     * @param quantity  how much there is in use of articles in that service
+     */
+    public void removeArticleFromServis(Integer servisNUmber, String articleNumber, Integer quantity) {
+        String sqlQuery;
+        //this if is depended of quantity article in service if there is more then 1  it will reduce only quantity , but if its only article then it will be deleted
         if (quantity>1) {
              sqlQuery="update article_in_service set quanity=(quanity-1) where serviceNumber="+servisNUmber+" and articleNumber='"+articleNumber+"'; ";
         }
@@ -521,15 +598,20 @@ public class DBQuerrys extends DBcon {
             sqlQuery = "delete from article_in_service where serviceNumber=" + servisNUmber + " and articleNumber='" + articleNumber + "'";
         }
         String sqlQuerry2 = "update artikli set quantity= (quantity+1),quantityInUse=(quantityInUse-1) where serialNumber='"+articleNumber+"'";
-        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
-        preparedStatement.executeUpdate();
-        preparedStatement.executeUpdate(sqlQuery);
-        preparedStatement.executeUpdate(sqlQuerry2);
-        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
-        System.out.println("cijena je uploadana u servis");
-        preparedStatement.executeUpdate();
+        try {
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(sqlQuery);
+            preparedStatement.executeUpdate(sqlQuerry2);
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+            System.out.println("cijena je uploadana u servis");
+            preparedStatement.executeUpdate();
+            logCon.info("article is sucesfuly deleted from service="+servisNUmber+", article="+articleNumber);
+        } catch (SQLException e) {
+            logCon.error("it faild to connect to db and to delete article from article in servis, servisNuber="
+                    +servisNUmber+", articleNumber="+articleNumber+", quantity="+quantity+"\n",e);
+        }
     }
-
 }
 
 

@@ -4,13 +4,15 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <!-- class with gui in working section for service -->
+
 <AnchorPane prefHeight="411.0" prefWidth="792.0" stylesheets="@../style/stil.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServiceController">
     <!-- this pane is used for selecting article from hiden table and pane , base is or shud be sed visibility=false and it will work on double click  -->
-    <Pane fx:id="selectArticklePane" visible="false"  layoutX="7.0" layoutY="14.0" prefHeight="388.0" prefWidth="339.0">
+    <Pane fx:id="selectArticklePane" layoutX="7.0" layoutY="14.0" prefHeight="388.0" prefWidth="339.0" visible="false">
       <children>
           
-         <TableView fx:id="articleTableIN" onMouseClicked="#addArticleToServis" layoutY="49.0" prefHeight="343.0" prefWidth="332.0">
+         <TableView fx:id="articleTableIN" layoutY="49.0" onMouseClicked="#addArticleToServis" prefHeight="343.0" prefWidth="332.0">
            <columns>
              <TableColumn fx:id="serialNumberIN" prefWidth="75.0" text="serialNuber" />
              <TableColumn fx:id="articleNameIN" prefWidth="75.0" text="nameOfArtikle" />
@@ -28,7 +30,7 @@
           <Label fx:id="servicNumber" layoutX="14.0" layoutY="125.0" prefHeight="52.0" prefWidth="67.0" text="servicNumber" textFill="WHITE" />
           <Label fx:id="phone" layoutX="20.0" layoutY="281.0" prefHeight="52.0" prefWidth="67.0" text="phone" textFill="WHITE" />
           <Label fx:id="ownerofprod" layoutX="13.0" layoutY="229.0" prefHeight="52.0" prefWidth="136.0" text="ownerofprod" textFill="WHITE" />
-         <TextField fx:id="priceOfServis"  onAction="#setPrice" layoutX="131.0" layoutY="358.0" />
+         <TextField fx:id="priceOfServis" layoutX="14.0" layoutY="354.0" onAction="#setPrice" prefHeight="25.0" prefWidth="114.0" />
          <Button fx:id="addToSerivis" layoutX="332.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openTableArtikle" text="dodaj u servis" />
          <ChoiceBox fx:id="statusOfServis" disable="true" layoutX="87.0" layoutY="76.0" onHiding="#changeOfStatus" prefWidth="150.0">
           <items>
@@ -39,16 +41,17 @@
               </FXCollections>
           </items>
          </ChoiceBox>
-         <TableView fx:id="articleTableOUT"  onMouseClicked="#deleteArticleFromServis" layoutX="414.0" layoutY="38.0" prefHeight="358.0" prefWidth="339.0">
+         <TableView fx:id="articleTableOUT" layoutX="414.0" layoutY="38.0" onMouseClicked="#deleteArticleFromServis" prefHeight="358.0" prefWidth="339.0">
            <columns>
              <TableColumn fx:id="serialNumberOUT" prefWidth="81.0" text="Serial_number" />
              <TableColumn fx:id="nameArticleOUT" prefWidth="75.0" text="name" />
                <TableColumn fx:id="quantityArticleOUT" prefWidth="75.0" text="quantity" />
                <TableColumn fx:id="priceArticleOUT" prefWidth="75.0" text="price" />
-               <TableColumn fx:id="sumPriceOUT" prefWidth="75.0" text="sumPrice"/>
+               <TableColumn fx:id="sumPriceOUT" prefWidth="75.0" text="sumPrice" />
                </columns>
              </TableView>
-         <TextField layoutX="7.0" layoutY="27.0" />
+         <Label fx:id="priceOfServiceLabel" layoutX="289.0" layoutY="358.0" prefHeight="17.0" prefWidth="67.0" text="Label" textFill="WHITE" />
+         <TextField fx:id="priceOfHands" layoutX="145.0" layoutY="354.0" prefHeight="25.0" prefWidth="125.0" text="0"/>
       </children>
    </Pane>
     <!-- button that show/hide  lookservis -->
@@ -59,10 +62,8 @@
           <TextField fx:id="searchField" layoutX="8.0" layoutY="44.0" onAction="#searchOfService" prefHeight="25.0" prefWidth="86.0" promptText="pretraga" />
           <TableView fx:id="serviceTable" layoutX="109.0" layoutY="2.0" onMouseClicked="#pullingService" prefHeight="168.0" prefWidth="664.0" stylesheets="@../style/Tables.css">
               <columns>
-                  <TableColumn fx:id="numberOfTicket" styleClass="columOfnumb" text="numberOfTicket">
-                  <graphic>
-                     <ChoiceBox prefWidth="150.0" />
-                  </graphic></TableColumn>
+                  <TableColumn fx:id="numberOfTicket" styleClass="columOfnumb" text="numberOfTicket"/>
+
                   <TableColumn fx:id="name" prefWidth="126.0" styleClass="columOfTxt" text="name of article" />
                   <TableColumn fx:id="owner" prefWidth="88.0" styleClass="columOfword" text="owner" />
                   <TableColumn fx:id="telephone" prefWidth="89.0" styleClass="columOfTxt" text="telephone" />

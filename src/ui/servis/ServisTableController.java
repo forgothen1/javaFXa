@@ -121,6 +121,10 @@ public class ServisTableController implements Initializable {
                 System.out.println(valueOfRow);
             } */
     }
+
+    /**
+     * opens new window for addin services
+     */
     @FXML
     public void openAddingWindow()
     {
@@ -142,6 +146,10 @@ public class ServisTableController implements Initializable {
         }
         System.out.println("Button works fine");
     }
+
+    /**
+     * search of service with  parametrs
+     */
     @FXML
     public void searchoFservice() {
         table.getItems().clear();
@@ -153,12 +161,8 @@ public class ServisTableController implements Initializable {
             }
         } else
         {
-            try {
-                table.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
+            table.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 

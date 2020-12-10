@@ -1,7 +1,7 @@
 package entites;
 
 public class Service {
-   private Integer id;
+    private Integer id;
     private String name;
     private Float price;
     private String owner;
@@ -14,6 +14,19 @@ public class Service {
 
 
     public  Service() {}
+
+    /**
+     *
+     * @param id id return INTEGER
+     * @param name name of product that is serviced string(20)
+     * @param price of service Float(5,2)
+     * @param owner  of  product String(30)
+     * @param telephone number varchar(20)
+     * @param serivisNumber number of service Integer and its auto increment
+     * @param description  what is needed to do in service blob
+     * @param time its auto incremented and its time when its acepted in service
+     * @param status  represent in what state it is  working on it finished or  peid  Integer(1)
+     */
 
     public Service(Integer id, String name, Float price, String owner, String telephone, Integer serivisNumber, String description, String time,Integer status) {
         this.id = id;
@@ -90,13 +103,13 @@ public class Service {
     public void setStatusInt(Integer statusInt) {this.statusInt = statusInt;}
     public String getStatusInt(){
         if (statusInt == 1)
-                return statusStrg ="prijem";
+            return statusStrg ="prijem";
         else if (statusInt == 2)
             return statusStrg ="obrada";
         else if (statusInt == 3)
             return statusStrg ="zavrseno";
-        else  
-         return statusStrg ="naplaceno";
+        else
+            return statusStrg ="naplaceno";
     }
 
 

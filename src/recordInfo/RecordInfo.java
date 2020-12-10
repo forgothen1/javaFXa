@@ -18,7 +18,7 @@ public class  RecordInfo {
     }
     public Logger imputOfStuff()
     {
-            PropertyConfigurator.configure("resources/imputofstuff.properties");
+        PropertyConfigurator.configure("resources/imputofstuff.properties");
         return logger;
     }
 }

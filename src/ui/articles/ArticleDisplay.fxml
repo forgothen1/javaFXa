@@ -18,6 +18,6 @@
             <TableColumn fx:id="price" prefWidth="89.0" styleClass="columOfnumb" text="price" />
         </columns>
     </TableView>
-   <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#settingArticle" text="ADD" />
+    <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#settingArticle" text="ADD" />
     <TextField fx:id="searchField" layoutX="217.0" layoutY="12.0" onAction="#SearchArticle" prefHeight="30.0" prefWidth="124.0" promptText=" unesite ovdje" />
 </AnchorPane>

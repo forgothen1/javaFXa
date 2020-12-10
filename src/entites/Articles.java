@@ -1,7 +1,7 @@
 package entites;
 
 public class Articles {
-   private Integer id;
+    private Integer id;
     private  String name;
     private   String SerialNumber;
     private   Integer IdArticles;
@@ -30,7 +30,7 @@ public class Articles {
     public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity, Integer quantityUse, Float price, Float sumPrice) {
         this.id = id;
         this.name = name;
-         this.SerialNumber = serialNumber;
+        this.SerialNumber = serialNumber;
         this.IdArticles = idArticles;
         this.description = description;
         this.quantity = quantity;

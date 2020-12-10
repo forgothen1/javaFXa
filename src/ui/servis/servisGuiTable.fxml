@@ -4,8 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisTableController"
-            >
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisTableController">
 
     <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="925.0"
                stylesheets="@../style/Tables.css" styleClass="table">
@@ -18,10 +17,8 @@
             <TableColumn fx:id="time" prefWidth="120.0" text="time"  styleClass="columOfTxt"/>
             <TableColumn fx:id="price" prefWidth="101.0" text="price" styleClass="columOfnumb"  />
             <TableColumn fx:id="status"  prefWidth="101.0" text="status" styleClass="columOfword" />
-
-
         </columns>
     </TableView>
-   <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#openAddingWindow" text="dodaj" />
-   <TextField fx:id="searchField" layoutX="176.0" layoutY="14.0" onKeyReleased="#searchoFservice" />
+    <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#openAddingWindow" text="dodaj" />
+    <TextField fx:id="searchField" layoutX="176.0" layoutY="14.0" onKeyReleased="#searchoFservice" />
 </AnchorPane>

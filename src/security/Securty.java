@@ -40,7 +40,6 @@ public class Securty {
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 if (!tf.getText().isEmpty()) {
                     s=tf.getText().replaceAll( "[^0-9]+"," ").trim();
-
                     tf.setText(s);
                 }
             }
@@ -58,9 +57,7 @@ public class Securty {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 if (!tf.getText().isEmpty()) {
-
-                    s=tf.getText().replaceAll( "^\\d+(\\.\\d+)?"," ");
-
+                    s=tf.getText().replaceAll( "[^\\d\\.\\d$]"," ").trim();
                     tf.setText(s);
                 }
             }

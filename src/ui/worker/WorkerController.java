@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import recordInfo.RecordInfo;
 import security.Securty;
 
 import java.io.IOException;
@@ -43,8 +44,9 @@ public class WorkerController extends Securty implements Initializable {
     private Pane pane;
     @FXML
     private Button editWorkerButton;
-   private Worker worker;
-   private DBQuerrys dBquery;
+    private Worker worker;
+    private DBQuerrys dBquery;
+    private RecordInfo recordInfo;
     //table adding all content to table from DB
 
     /**
@@ -64,7 +66,7 @@ public class WorkerController extends Securty implements Initializable {
 
     @FXML
     public void setAddPersonButton(javafx.event.ActionEvent actionEvent) {
-             try {
+        try {
             Parent root1 = FXMLLoader.load(getClass().getResource("../worker/AddingGUI.fxml"));
             Stage stage = new Stage();
             stage.setTitle("menaging");
@@ -122,13 +124,13 @@ public class WorkerController extends Securty implements Initializable {
                 try {
                     tableCollectingData();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                   recordInfo.forConnection().error("didnt connect to Db",e);
                 }
                 System.out.println("proda dali se zatvorilo");
                 System.out.println("Button works fine");
             });
         } catch (IOException e) {
-            System.out.println("button don't work ");
+            recordInfo.imputOfStuff().error("new window didint open",e);
         }
     }
 
@@ -138,27 +140,27 @@ public class WorkerController extends Securty implements Initializable {
      */
     @FXML
     public void settingLabels()  {
-         dBquery = new DBQuerrys();
+        dBquery = new DBQuerrys();
 
         worker= table.getSelectionModel().getSelectedItem();
-      //  Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
-     //   System.out.println("index of row: "+indexOfRow); // ready for console check up
-     //   System.out.println("value of idWorker: "+valueOfRow); // ready for console check up
-       // worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(valueOfRow)).get(0);
-   //     System.out.println( worker.toString());  // ready for console check up
-     //   System.out.println(worker.getName());   // ready for console check up
-       labelName.setText(worker.getName());
-       labelSurname.setText(worker.getSurname());
-       labelPayment.setText(String.valueOf(worker.getPaymant()));
-       labelWorkplace.setText(worker.getWorkplace());
+        //  Integer valueOfRow = (Integer) table.getColumns().get(4).getCellObservableValue(indexOfRow).getValue();
+        //   System.out.println("index of row: "+indexOfRow); // ready for console check up
+        //   System.out.println("value of idWorker: "+valueOfRow); // ready for console check up
+        // worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(valueOfRow)).get(0);
+        //     System.out.println( worker.toString());  // ready for console check up
+        //   System.out.println(worker.getName());   // ready for console check up
+        labelName.setText(worker.getName());
+        labelSurname.setText(worker.getSurname());
+        labelPayment.setText(String.valueOf(worker.getPaymant()));
+        labelWorkplace.setText(worker.getWorkplace());
         labalIdworker.setText(String.valueOf(worker.getIdWorker()));
 
         // pane is used to show or hide  labels that is selected from table
-       pane.setVisible(true);
+        pane.setVisible(true);
 
-       editWorkerButton.setDisable(false);
+        editWorkerButton.setDisable(false);
 
-                }
+    }
 
     /**
      * basic search in table if search field is empty  then u will get full list
@@ -166,24 +168,24 @@ public class WorkerController extends Securty implements Initializable {
      */
     //react on pressing ENTER in textField  filters table but its attached directly to DB
     @FXML
-    public void setSearchParameter() throws SQLException {
+    public void setSearchParameter()  {
         DBQuerrys dBquery = new DBQuerrys();
 
         table.getItems().clear();
+        try {
         if (searchField.getText().trim().isEmpty()) {
-            try {
-                tableCollectingData();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            tableCollectingData();
         }
         else if (searchField.getText().length() >= 3) {
             table.getItems().addAll(dBquery.searchOfWorkers(searchField.getText().trim()));
         }
+        } catch (SQLException e) {
+          recordInfo.forConnection().error("didnt load from db",e);
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
- // seting up table cells  where what to hook
+        // seting up table cells  where what to hook
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         Surname.setCellValueFactory(new PropertyValueFactory<>("Surname"));
         Paymant.setCellValueFactory(new PropertyValueFactory<>("paymant"));
@@ -194,7 +196,7 @@ public class WorkerController extends Securty implements Initializable {
         try {
             tableCollectingData();
         } catch (SQLException e) {
-            e.printStackTrace();
+            recordInfo.forConnection().error("didnt load from db",e);
         }
 
     }

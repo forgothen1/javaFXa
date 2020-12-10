@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import recordInfo.RecordInfo;
 import security.Securty;
 
 
@@ -17,15 +18,20 @@ import java.util.ResourceBundle;
 
 public class AddingController extends Securty implements Initializable {
     @FXML
-   public TextField name,surname,paymant,workplace,idWorker;
-    public Button button;
-    public Button removeButton;
-    public String definderForSetupOfWindow;
-    public boolean editable;
+    private TextField name,surname,paymant,workplace,idWorker;
     @FXML
-    public Label infoLine;
-    Worker worker;
-    DBQuerrys dBquery;
+    private Button button;
+    @FXML
+    private Button removeButton;
+    @FXML
+    public String definderForSetupOfWindow;
+    @FXML
+    boolean editable;
+    @FXML
+    private Label infoLine;
+    public Worker worker;
+    public DBQuerrys dBquery;
+    private RecordInfo recordInfo;
 
     /**
      * method for removing worker from DB with idWorker
@@ -33,68 +39,67 @@ public class AddingController extends Securty implements Initializable {
     // method for removing worker from DB with idWorker
     @FXML
     public void remove()  {
-        DBQuerrys dBquery= new DBQuerrys();
-        dBquery.remove(definderForSetupOfWindow);
-        System.out.println("removed "+ definderForSetupOfWindow);
+
+        try {
+            dBquery.remove(definderForSetupOfWindow);
+        } catch (SQLException e) {
+            recordInfo.forConnection().error("didnt load to db",e);
+        }
         infoLine.setText("Radnik je obrisan ");
     }
 
     /**
      * method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
-     * @throws SQLException somwhere will be fixxed
      */
     // method that talks to class inputofData and send new data to implement in DB .trim() rly important later allot problems with out it
     @FXML
-    public void inserintIntoDBWorker() throws SQLException {
+    public void inserintIntoDBWorker() {
 
         //  promjeniti nazit metode,  dodati exceptione posebnop za idworker  da na label izbacuje da
-     //   nemoze da vec ima itd.
+        //   nemoze da vec ima itd.
 
-         if (!paymant.getText().isEmpty() && !name.getText().isEmpty() && !surname.getText().isEmpty()
-                 && !workplace.getText().isEmpty() && !idWorker.getText().isEmpty())
-         {
-             worker = new Worker();
-             dBquery = new DBQuerrys();
-             worker.setName(name.getText().trim());
-             worker.setSurname(surname.getText().trim());
-             worker.setPaymant(Float.valueOf(paymant.getText().trim()));
-             worker.setWorkplace(workplace.getText().trim());
-             worker.setIdWorker(Integer.valueOf(idWorker.getText().trim()));
-             //    System.out.println("*****************************");
-             //  System.out.println(worker.toString());     for geting in console printout
-             if (editable)
-             {
-                 try {
-                     dBquery.editWorker(worker,definderForSetupOfWindow);
-                 } catch (SQLException e) {
-                     e.printStackTrace();
-                 }
-                 infoLine.setText("Radnik je izmjenjen pod idWokrer: "+definderForSetupOfWindow);
-             }
-             else
-             {  dBquery.inputOfWorker(worker);
-                 infoLine.setText("Radnik je dodan u bazu podataka");
-             }
-         }
-         else {
-             System.out.println("niste unijeli sve zahtjevne podatke");
+        if (!paymant.getText().isEmpty() && !name.getText().isEmpty() && !surname.getText().isEmpty()
+                && !workplace.getText().isEmpty() && !idWorker.getText().isEmpty()) {
+            worker.setName(name.getText().trim());
+            worker.setSurname(surname.getText().trim());
+            worker.setPaymant(Float.valueOf(paymant.getText().trim()));
+            worker.setWorkplace(workplace.getText().trim());
+            worker.setIdWorker(Integer.valueOf(idWorker.getText().trim()));
+            //    System.out.println("*****************************");
+            //  System.out.println(worker.toString());     for geting in console printout
+            try {
+                if (editable) {
+                    dBquery.editWorker(worker, definderForSetupOfWindow);
+                    infoLine.setText("Radnik je izmjenjen pod idWokrer: " + definderForSetupOfWindow);
+                } else {
+                    dBquery.inputOfWorker(worker);
+                    infoLine.setText("Radnik je dodan u bazu podataka");
+                }
+
+            } catch (SQLException e) {
+                recordInfo.forConnection().error("ddint menage to loadt ot DB", e);
+            }
+        } else {
+            System.out.println("niste unijeli sve zahtjevne podatke");
             infoLine.setText("niste unijeli sve zahtjevne podatke");
-         }
+        }
     }
 
     /**
      * method that set up new window for editing or adding , changing name of button add/eddit show remove button
-     * @throws SQLException
      */
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
-    public void settingEditingWindow() throws SQLException {
-        dBquery= new DBQuerrys();
+    public void settingEditingWindow() {
         System.out.println("u novom prozoru   "+ editable);
         if(editable){
             button.setText("EDIT");
             removeButton.visibleProperty().setValue(true);
             System.out.println(definderForSetupOfWindow);
-            worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
+            try {
+                worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
+            } catch (SQLException e) {
+                recordInfo.forConnection().error("didnt menage to coonect to db",e);
+            }
             name.setText(worker.getName());
             surname.setText(worker.getSurname());
             paymant.setText(String.valueOf(worker.getPaymant()));
@@ -108,9 +113,9 @@ public class AddingController extends Securty implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         /* dodati komande za editanje , spoji se na metodu za pretragu , te podatke ubaciti po sektorima u textfildove
-        *  i onda da se moze izmjenjat i na pritsak dugmeta da se pokupi trenutni value textfildova i posalje u metodu
-        * koja ce imati sqlquery za alter table
-        */
+         *  i onda da se moze izmjenjat i na pritsak dugmeta da se pokupi trenutni value textfildova i posalje u metodu
+         * koja ce imati sqlquery za alter table
+         */
         addTetLimiter(name,20);
         addTetLimiter(surname,20);
         addTetLimiter(paymant, 7);
@@ -118,11 +123,7 @@ public class AddingController extends Securty implements Initializable {
         addTetLimiter(idWorker, 5);
         addTetLimiter2(paymant);
         addTetLimiter1(idWorker);
-        try {
-            settingEditingWindow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        settingEditingWindow();
 
 
     }

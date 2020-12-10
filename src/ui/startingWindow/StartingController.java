@@ -11,24 +11,24 @@ import java.util.ResourceBundle;
 
 /* class that have controller for starting window few buttons and pane to load other fxml*/
 public class StartingController implements Initializable {
-@FXML
- private Pane secPane;
+    @FXML
+    private Pane secPane;
 
     /**
      * simple way to reload pane
      */
     @FXML
-        public void resetPane() throws IOException {
-            secPane.getChildren().clear();
-            Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
-            secPane.getChildren().add(newLoadedPane);
+    public void resetPane() throws IOException {
+        secPane.getChildren().clear();
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
+        secPane.getChildren().add(newLoadedPane);
 
-        }
+    }
     /**
      * method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear
      * @throws IOException somwehere will be fixed
      */
- /*  method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear*/
+    /*  method that load  worker table and whole gui for workers , upload is used into pane but 1st its clear*/
     @FXML
     public void loadWorkerMenu() throws IOException {
         secPane.getChildren().clear();
@@ -55,9 +55,9 @@ public class StartingController implements Initializable {
      */
     @FXML
     public void loadServisMenu() throws IOException {
-    secPane.getChildren().clear();
-    Pane newLoadedPane =FXMLLoader.load(getClass().getResource("../servis/servisGuiTable.fxml"));
-    secPane.getChildren().add(newLoadedPane);
+        secPane.getChildren().clear();
+        Pane newLoadedPane =FXMLLoader.load(getClass().getResource("../servis/servisGuiTable.fxml"));
+        secPane.getChildren().add(newLoadedPane);
     }
 
     @Override

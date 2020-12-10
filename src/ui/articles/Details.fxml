@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.DetailsController">
+   <children>
+      <Label layoutX="24.0" layoutY="27.0" prefHeight="18.0" prefWidth="72.0" text="serial number" />
+      <Label layoutX="24.0" layoutY="70.0" prefHeight="18.0" prefWidth="44.0" text="name" />
+      <Label layoutX="28.0" layoutY="111.0" prefHeight="18.0" prefWidth="58.0" text="idartikla" />
+      <Label layoutX="32.0" layoutY="152.0" text="quantity" />
+      <Label layoutX="32.0" layoutY="191.0" text="QIU" />
+      <Label layoutX="32.0" layoutY="232.0" text="price" />
+      <TextField layoutX="106.0" layoutY="24.0" />
+      <TextField layoutX="106.0" layoutY="67.0" />
+      <TextField layoutX="106.0" layoutY="148.0" />
+      <TextField layoutX="106.0" layoutY="108.0" />
+      <TextField layoutX="106.0" layoutY="188.0" />
+      <TextField layoutX="99.0" layoutY="228.0" />
+      <TableView layoutX="447.0" layoutY="26.0" prefHeight="329.0" prefWidth="242.0">
+        <columns>
+            <TableColumn prefWidth="75.0" text="DATUM" />
+            <TableColumn prefWidth="54.20001220703125" text="ULAZ" />
+            <TableColumn prefWidth="40.200042724609375" text="IZLAZ" />
+            <TableColumn prefWidth="68.800048828125" text="KOLICINA" />
+            <TableColumn prefWidth="68.800048828125" text="CIJENA" />
+
+        </columns>
+      </TableView>
+      <Label layoutX="32.0" layoutY="287.0" text="Description" />
+      <TextArea layoutX="96.0" layoutY="261.0" prefHeight="114.0" prefWidth="232.0" />
+      <Button layoutX="332.0" layoutY="24.0" mnemonicParsing="false" text="EDIT" />
+   </children>
+</AnchorPane>

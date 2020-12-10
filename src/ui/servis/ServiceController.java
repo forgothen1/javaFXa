@@ -124,7 +124,7 @@ public class ServiceController  implements Initializable {
      * search of service in table
      */
     @FXML
-    private void searchOfService(){
+    private void searchOfService() throws SQLException {
 
         serviceTable.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
@@ -148,11 +148,11 @@ public class ServiceController  implements Initializable {
      */
     @FXML
     private void changeOfStatus() throws SQLException {
-   //set try method if has someting else  to be disabled
-     String serviceNumber = servicNumber.getText();
-     Integer status= statusOfServis.getSelectionModel().getSelectedIndex()+1;
-     System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
-     dbQuerrys.statusChange(status,serviceNumber);
+        //set try method if has someting else  to be disabled
+        String serviceNumber = servicNumber.getText();
+        Integer status= statusOfServis.getSelectionModel().getSelectedIndex()+1;
+        System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
+        dbQuerrys.statusChange(status,serviceNumber);
         setTable();
     }
 
@@ -161,39 +161,41 @@ public class ServiceController  implements Initializable {
      */
     @FXML
     private void pullingService()  {
-         serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        serviceTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     if(mouseEvent.getClickCount() == 2){
-                //making sure that is avaible for clicking
+                        //making sure that is avaible for clicking
 
-                // aloving to be modifyed
-                statusOfServis.setDisable(false);
-                service = serviceTable.getSelectionModel().getSelectedItem();
-                //  price.setText(String.valueOf(service.getPrice()));
-                nameofprod.setText(service.getName());
-                ownerofprod.setText(service.getOwner());
-                descriptions.setText(service.getDescription());
-                phone.setText(service.getTelephone());
-                servicNumber.setText(String.valueOf(service.getSerivisNumber()));
-                System.out.println(servicNumber);
-                String status = service.getStatusInt();
+                        // aloving to be modifyed
+                        statusOfServis.setDisable(false);
+                        service = serviceTable.getSelectionModel().getSelectedItem();
+                        //  price.setText(String.valueOf(service.getPrice()));
+                        nameofprod.setText(service.getName());
+                        ownerofprod.setText(service.getOwner());
+                        descriptions.setText(service.getDescription());
+                        phone.setText(service.getTelephone());
+                        servicNumber.setText(String.valueOf(service.getSerivisNumber()));
+                        System.out.println(servicNumber);
+                        String status = service.getStatusInt();
 
-                switch (status) {
-                    case ("prijem"):
-                        statusOfServis.getSelectionModel().select(0);
-                        break;
-                    case ("obrada"):
-                        statusOfServis.getSelectionModel().select(1);
-                        break;
-                    case ("zavrseno"):
-                        statusOfServis.getSelectionModel().select(2);
-                        break;
-                }
+                        switch (status) {
+                            case ("prijem"):
+                                statusOfServis.getSelectionModel().select(0);
+                                break;
+                            case ("obrada"):
+                                statusOfServis.getSelectionModel().select(1);
+                                break;
+                            case ("zavrseno"):
+                                statusOfServis.getSelectionModel().select(2);
+                                break;
+                            case  ("naplaceno"):
+                                statusOfServis.getSelectionModel().select(3);
+                        }
                         try {
                             fillingTableOfArtikle();
-                        getPrice();
+                            getPrice();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -245,20 +247,20 @@ public class ServiceController  implements Initializable {
                         String valueOfRow = String.valueOf(articleTableIN.getColumns().get(0).getCellObservableValue(indexOfRow).getValue());
                         System.out.println("kako idee "+valueOfRow);
                         try { //neka glupost smisliti kako poslati sve u bazu hmm mozda da se pokrenu 2 metode
-                                // clasas query
+                            // clasas query
                             String brojServisa= servicNumber.getText();
                             dbQuerrys.mergingArticleService(brojServisa, valueOfRow);
                             fillingTableOfArtikle();
-                                getPrice();
-                                setPrice();
-                            } catch (SQLException e) {
+                            getPrice();
+                            setPrice();
+                        } catch (SQLException e) {
                             e.printStackTrace();
                         }
                         fillingInsideArticleTable();
                     }
                 }
             }
-            });
+        });
     }
 
     /**
@@ -268,30 +270,30 @@ public class ServiceController  implements Initializable {
     private void  deleteArticleFromServis() {
         articleTableOUT.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-        public void handle(MouseEvent mouseEvent) {
-            if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                if (mouseEvent.getClickCount() == 2) {
-                    try {
-                        System.out.println("sta sad ovdje  " + service.getSerivisNumber());
-                        String articleNumber = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getSerialNumber();
-                        Integer articleQuantity = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getQuantity();
-                        System.out.println(articleNumber);
-                        dbQuerrys.removeArticleFromServis(service.getSerivisNumber(), articleNumber, articleQuantity);
-                        fillingTableOfArtikle();
-                        getPrice();
-                        setPrice();
-                        if (selectArticklePane.isVisible()) {
-                            fillingInsideArticleTable();
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        try {
+                            System.out.println("sta sad ovdje  " + service.getSerivisNumber());
+                            String articleNumber = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getSerialNumber();
+                            Integer articleQuantity = articleTableOUT.getItems().get(articleTableOUT.getSelectionModel().getFocusedIndex()).getQuantity();
+                            System.out.println(articleNumber);
+                            dbQuerrys.removeArticleFromServis(service.getSerivisNumber(), articleNumber, articleQuantity);
+                            fillingTableOfArtikle();
                             getPrice();
                             setPrice();
+                            if (selectArticklePane.isVisible()) {
+                                fillingInsideArticleTable();
+                                getPrice();
+                                setPrice();
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
                     }
                 }
             }
-        }
-    });
+        });
     }
 
     /**
@@ -338,14 +340,14 @@ public class ServiceController  implements Initializable {
      */
     @FXML
     private void fillingTableOfArtikle() throws SQLException {
-            articleTableOUT.getItems().clear();
-            Integer servis_number = Integer.valueOf(servicNumber.getText());
-            serialNumberOUT.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
-            nameArticleOUT.setCellValueFactory(new PropertyValueFactory<>("name"));
-            quantityArticleOUT.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-            priceArticleOUT.setCellValueFactory(new PropertyValueFactory<>("price"));
-            sumPriceOUT.setCellValueFactory(new PropertyValueFactory<>("sumPrice"));
-            articleTableOUT.getItems().addAll(dbQuerrys.listOfArticleInServis(servis_number));
+        articleTableOUT.getItems().clear();
+        Integer servis_number = Integer.valueOf(servicNumber.getText());
+        serialNumberOUT.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        nameArticleOUT.setCellValueFactory(new PropertyValueFactory<>("name"));
+        quantityArticleOUT.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        priceArticleOUT.setCellValueFactory(new PropertyValueFactory<>("price"));
+        sumPriceOUT.setCellValueFactory(new PropertyValueFactory<>("sumPrice"));
+        articleTableOUT.getItems().addAll(dbQuerrys.listOfArticleInServis(servis_number));
     }
 
 

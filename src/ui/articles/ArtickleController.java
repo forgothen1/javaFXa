@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import recordInfo.RecordInfo;
 import security.Securty;
 
 import java.io.IOException;
@@ -35,6 +36,9 @@ public class ArtickleController extends Securty implements Initializable {
     private TableColumn<Articles,Integer> quantityInUse;
     @FXML
     private TableColumn<Articles, Integer> price;
+    RecordInfo logInfo;
+    DBQuerrys artikl= new DBQuerrys();
+    DBQuerrys DBQuerrys = new DBQuerrys();
 
     /**
      * filling table wih data
@@ -42,8 +46,6 @@ public class ArtickleController extends Securty implements Initializable {
      */
     @FXML
     public void settingTable() throws SQLException {
-
-        DBQuerrys artikl= new DBQuerrys();
         table.getItems().addAll(artikl.gettingAllArtikles());
     }
 
@@ -67,36 +69,34 @@ public class ArtickleController extends Securty implements Initializable {
                 try {
                     settingTable();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    logInfo.forConnection().error("table didint return , feild to connect to db",e);
                 }
                 System.out.println("proda dali se zatvorilo");
             });
         } catch (IOException e) {
-            System.out.println("button dont work ");
+            logInfo.imputOfStuff().error("button dont work",e);
         }
         System.out.println("Button works fine");
     }
 
     /**
-     * search of articles and if seach is activeted empty then its backed all
-     * @throws SQLException trows somwherre
+     * search of articles and if seach is activeted empty then its backed al
      */
     // searching article
-     @FXML
-    public void SearchArticle() throws SQLException {
+    @FXML
+    public void SearchArticle() {
         table.getItems().clear();
-        if (searchField.getText().isEmpty())
-            {settingTable();}
-        else {
-            try {
-                DBQuerrys DBQuerrys = new DBQuerrys();
+        try {
+            if (searchField.getText().isEmpty()) {
+                settingTable();
+            } else {
                 table.getItems().addAll(DBQuerrys.searchArticles(searchField.getText().trim()));
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+
+        } catch (SQLException e) {
+            logInfo.forConnection().error("unable to load from DB.e");
         }
     }
-
     /**
      *  seting stuff that loads on opeing window gui
      * @param url hm

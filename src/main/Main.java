@@ -24,16 +24,16 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/ui/startingWindow/StartingDisplay.fxml"));
 
         primaryStage.setTitle("Prikaz Radnika");
-       // primaryStage.initStyle(StageStyle.UNDECORATED);
-       // BorderPane borderPane = new BorderPane();
-      //  borderPane.setStyle("-fx-background-color: #00FF00");
+        // primaryStage.initStyle(StageStyle.UNDECORATED);
+        // BorderPane borderPane = new BorderPane();
+        //  borderPane.setStyle("-fx-background-color: #00FF00");
         primaryStage.setScene(new Scene(root, 1100, 530));
         primaryStage.show();
 
     }
 
 
- public static Logger logger = Logger.getLogger(Main.class);
+    public static Logger logger = Logger.getLogger(Main.class);
 
     /**
      * main metod that calls start gui + some loggers for now

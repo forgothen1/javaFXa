@@ -53,14 +53,14 @@ public class ServisTableController implements Initializable {
      */
     @FXML
     public void setTable() throws SQLException {
-         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
         time.setCellValueFactory(new PropertyValueFactory<>("time"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         telephone.setCellValueFactory(new PropertyValueFactory<>("telephone"));
         numberOfTicket.setCellValueFactory(new PropertyValueFactory<>("serivisNumber"));
-   //     status.setCellValueFactory(new PropertyValueFactory<>("statusInt"));
+        //     status.setCellValueFactory(new PropertyValueFactory<>("statusInt"));
 
 
         //  status.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -73,7 +73,7 @@ public class ServisTableController implements Initializable {
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty) {
-                      //  setStyle("-fx-alignment: CENTER-LEFT;");
+                        //  setStyle("-fx-alignment: CENTER-LEFT;");
                         int currentIndex = indexProperty()
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
@@ -87,6 +87,9 @@ public class ServisTableController implements Initializable {
                                 break;
                             case "zavrseno":
                                 setTextFill(Color.RED);
+                                break;
+                            case "naplaceno":
+                                setTextFill(Color.VIOLET);
                                 setStyle("-fx-font-family:System bold;");
                                 break;
                         }
@@ -102,7 +105,7 @@ public class ServisTableController implements Initializable {
             };
         });
         table.getItems().addAll(dbQuerrys.tableservis());
-     //   neka stoji za poslije mozda zatreba po potrebi
+        //   neka stoji za poslije mozda zatreba po potrebi
     /*   int d =table.getItems().size();
             System.out.println(d);
             table.getStylesheets().add("ui/style/stil.css");
@@ -142,7 +145,7 @@ public class ServisTableController implements Initializable {
                 System.out.println("proda dali se zatvorilo");
             });
         } catch (IOException e) {
-        info.imputOfStuff().error(e);
+            info.imputOfStuff().error(e);
         }
         System.out.println("Button works fine");
     }
@@ -151,7 +154,7 @@ public class ServisTableController implements Initializable {
      * search of service with  parametrs
      */
     @FXML
-    public void searchoFservice() {
+    public void searchoFservice() throws SQLException {
         table.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
             try {

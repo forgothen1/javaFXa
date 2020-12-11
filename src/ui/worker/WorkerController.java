@@ -43,9 +43,9 @@ public class WorkerController extends Securty implements Initializable {
     @FXML
     private Pane pane;
     @FXML
-    private Button editWorkerButton;
-    private Worker worker;
-    private DBQuerrys dBquery;
+    public Button editWorkerButton;
+    public Worker worker;
+    public DBQuerrys dBquery;
     private RecordInfo recordInfo;
     //table adding all content to table from DB
 
@@ -114,7 +114,7 @@ public class WorkerController extends Securty implements Initializable {
             });
             Parent root1 = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("menaging");
+            stage.setTitle("EDITING");
             stage.setScene(new Scene(root1));
             stage.show();
             /*takes action when u close extra window and it refresh  table  with .clear and calling metode to write to table

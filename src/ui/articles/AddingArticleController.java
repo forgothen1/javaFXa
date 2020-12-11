@@ -53,6 +53,7 @@ public class AddingArticleController extends Securty implements Initializable {
     /* when textfield called serialNumber lost focus and there is more then 3 letter we search DB  and collect data*/
     @FXML
     public void getSerialNumber() {
+        DBQuerrys= new DBQuerrys();
         serialNumber.focusedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (!t1 && serialNumber.getText().length() > 2) {
                 System.out.println(serialNumber.getText().trim());

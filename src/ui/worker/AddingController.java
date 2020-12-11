@@ -18,20 +18,20 @@ import java.util.ResourceBundle;
 
 public class AddingController extends Securty implements Initializable {
     @FXML
-    private TextField name,surname,paymant,workplace,idWorker;
+    public TextField name,surname,paymant,workplace,idWorker;
     @FXML
-    private Button button;
+    public Button button;
     @FXML
-    private Button removeButton;
+    public Button removeButton;
     @FXML
     public String definderForSetupOfWindow;
+
+    public boolean editable;
     @FXML
-    boolean editable;
-    @FXML
-    private Label infoLine;
-    public Worker worker;
-    public DBQuerrys dBquery;
-    private RecordInfo recordInfo;
+    public Label infoLine;
+     Worker worker;
+     DBQuerrys dBquery;
+     RecordInfo recordInfo;
 
     /**
      * method for removing worker from DB with idWorker
@@ -90,6 +90,7 @@ public class AddingController extends Securty implements Initializable {
      */
     /* method that set up new window for editing or adding , changing name of button add/eddit show remove button */
     public void settingEditingWindow() {
+        dBquery= new DBQuerrys();
         System.out.println("u novom prozoru   "+ editable);
         if(editable){
             button.setText("EDIT");
@@ -98,8 +99,7 @@ public class AddingController extends Securty implements Initializable {
             try {
                 worker=dBquery.searchOfWorkerByIdWorker(String.valueOf(definderForSetupOfWindow)).get(0);
             } catch (SQLException e) {
-                recordInfo.forConnection().error("didnt menage to coonect to db",e);
-            }
+           recordInfo.forConnection().error(e); }
             name.setText(worker.getName());
             surname.setText(worker.getSurname());
             paymant.setText(String.valueOf(worker.getPaymant()));

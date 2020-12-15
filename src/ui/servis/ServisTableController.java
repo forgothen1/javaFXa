@@ -14,7 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import recordInfo.RecordInfo;
+import ui.worker.AddingController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,19 +29,7 @@ public class ServisTableController implements Initializable {
     @FXML
     private TableColumn<Object, Object> price;
     @FXML
-    private TableColumn name;
-    @FXML
-    private TableColumn time;
-    @FXML
-    private TableColumn description;
-    @FXML
-    private TableColumn owner;
-    @FXML
-    private TableColumn telephone;
-    @FXML
-    private TableColumn numberOfTicket;
-    @FXML
-    private TableColumn status;
+    private TableColumn name,time,description,owner,telephone,comment,numberOfTicket,status;
     @FXML
     private TableView<Service> table;
     Service service= new Service();
@@ -52,7 +42,7 @@ public class ServisTableController implements Initializable {
      * @throws SQLException
      */
     @FXML
-    public void setTable() throws SQLException {
+    private void setTable() throws SQLException {
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
@@ -104,6 +94,7 @@ public class ServisTableController implements Initializable {
                 }
             };
         });
+        comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         table.getItems().addAll(dbQuerrys.tableservis());
         //   neka stoji za poslije mozda zatreba po potrebi
     /*   int d =table.getItems().size();
@@ -129,7 +120,7 @@ public class ServisTableController implements Initializable {
      * opens new window for addin services
      */
     @FXML
-    public void openAddingWindow()
+    private void openAddingWindow()
     {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../servis/AddingWindow.fxml"));
@@ -154,7 +145,7 @@ public class ServisTableController implements Initializable {
      * search of service with  parametrs
      */
     @FXML
-    public void searchoFservice() throws SQLException {
+    private void searchoFservice() throws SQLException {
         table.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
             try {
@@ -168,6 +159,21 @@ public class ServisTableController implements Initializable {
 
         }
     }
+
+     @FXML
+     public void loadDetails() {
+        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("../servis/Details.fxml"));
+        fxmlLoader.setControllerFactory(new Callback<>() {
+            DetailsController detailsController =new DetailsController();
+             @Override
+             public Object call(Class<?> mainController) {
+                 if (mainController == DetailsController.class) {
+       //              detailsController.definderForSetupOfWindow=;
+                 }
+                 return null;
+             }
+        });
+     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

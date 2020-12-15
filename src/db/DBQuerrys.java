@@ -299,6 +299,8 @@ public class DBQuerrys extends DBcon {
         String timeFreez= time.format(myFormat);
         String sqlQuery="INSERT INTO servisi (nameOfproduct,owner,description,servis_number,telephone,time,status) values (?,?,?,?,?,?,?)";
         System.out.println(sqlQuery);
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
         preparedStatement=con.prepareStatement(sqlQuery);
         preparedStatement.setString(i++,service.getName());
         preparedStatement.setString(i++,service.getOwner());
@@ -308,6 +310,8 @@ public class DBQuerrys extends DBcon {
         preparedStatement.setString(i++,timeFreez);
         preparedStatement.setInt(i++,1);
         preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
     }
 
     /**
@@ -316,12 +320,12 @@ public class DBQuerrys extends DBcon {
      */
     public List<Service> tableservis() throws SQLException {
         service_collection.clear();
-        String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status from servisi";
+        String sqlQuery= "select nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status,coment from servisi";
         resultSet=statement.executeQuery(sqlQuery);
         while(resultSet.next()) {
             service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
                     resultSet.getString("owner"), resultSet.getString("telephone"), resultSet.getInt("servis_number"),
-                    resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+                    resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"),resultSet.getString("coment"));
             service_collection.add(service);
         }
         return service_collection;
@@ -334,14 +338,14 @@ public class DBQuerrys extends DBcon {
      */
     public List<Service> searchOfService(String variableForSearch) throws SQLException {
         service_collection.clear();
-        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
+        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status,coment " +
                 " from servisi where  nameOfproduct like'%"+ variableForSearch +"%' or owner like '%"+ variableForSearch
                 +"%' or servis_number like '%" + variableForSearch +"%'";
         resultSet= statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
                     resultSet.getString("owner"), resultSet.getString("telephone"), resultSet.getInt("servis_number"),
-                    resultSet.getString("description"),resultSet.getString("time"), resultSet.getInt("status"));
+                    resultSet.getString("description"),resultSet.getString("time"), resultSet.getInt("status"),resultSet.getString("coment"));
             service_collection.add(service);
         }
         return service_collection;
@@ -354,13 +358,13 @@ public class DBQuerrys extends DBcon {
      */
     public List<Service> searchOfServiceByServiceNumber(String variableForSearch) throws SQLException {
         service_collection.clear();
-        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status " +
+        String sqlQuerry="SELECT nameOfproduct,owner,description,servis_number,telephone,time,cijenaServisa,status,coment " +
                 " from servisi where  servis_number like '%" + variableForSearch +"%'";
         resultSet= statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             service = new Service(null,resultSet.getString("nameOfProduct"),resultSet.getFloat("cijenaServisa"),
                     resultSet.getString("owner"), resultSet.getString("telephone"), resultSet.getInt("servis_number"),
-                    resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"));
+                    resultSet.getString("description"),resultSet.getString("time"),resultSet.getInt("status"),resultSet.getString("coment"));
             service_collection.add(service);
         }
         logCon.info("service is pulled from db ");
@@ -389,8 +393,7 @@ public class DBQuerrys extends DBcon {
     private  void addingArticleService(String service, String serialNumber) throws SQLException {
         Float price=null;
         resultSet= statement.executeQuery("select price from artikli where  serialNumber='"+serialNumber+"'");
-        if (resultSet.next())
-        {
+        if (resultSet.next()) {
             price=resultSet.getFloat(1);
         }
         String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
@@ -438,13 +441,11 @@ public class DBQuerrys extends DBcon {
         while(resultSet.next())
         {brojzaTest=resultSet.getString(1); }
         System.out.println(brojzaTest);
-        if (brojzaTest == null)
-        {
+        if (brojzaTest == null) {
             addingArticleService(service,serialNumber);
             logCon.info("article is added to service="+service+", and article number="+serialNumber);
         }
-        else
-        {
+        else {
             edditingArticleService(service,serialNumber);
             logCon.info("article is edited to service="+service+", and article number="+serialNumber);
         }
@@ -530,6 +531,50 @@ public class DBQuerrys extends DBcon {
         System.out.println("cijena je uploadana u servis");
         preparedStatement.executeUpdate();
         logCon.info("article is sucesfuly deleted from service="+servisNUmber+", article="+articleNumber);
+    }
+    public void addComment(Integer service,String commnet) throws SQLException {
+        String sqlQuerry="update servisi set coment='"+commnet+"' where servis_number="+service;
+        resultSet=statement.executeQuery(" SET foreign_key_checks = 0");
+        preparedStatement = con.prepareStatement(sqlQuerry);
+        preparedStatement.executeUpdate();
+        resultSet=statement.executeQuery(" SET foreign_key_checks = 1");
+    };
+    public void manualArticleInServisDB(String service,String serialNumber,Integer quantity) throws SQLException {
+         String numberOfArticle=null;
+        String sqlQuerry="select articleNumber from article_in_service where serviceNumber="+service+" and articleNumber='"+serialNumber+"'";
+        resultSet=statement.executeQuery(sqlQuerry);
+        while(resultSet.next())
+        {numberOfArticle=resultSet.getString(1); }
+        if (numberOfArticle==null) {
+            Float price=null;
+            resultSet= statement.executeQuery("select price from artikli where  serialNumber='"+serialNumber+"'");
+            if (resultSet.next()) {
+                price=resultSet.getFloat(1);
+            }
+            String sqlQuerry2 = "update artikli set quantity= (quantity-"+quantity+"),quantityInUse=(quantityInUse+"+quantity+") where serialNumber='"+serialNumber+"'";
+            String sqlQuerry3 ="INSERT INTO article_in_service (serviceNumber, articleNumber,price,quanity) " +
+                    "values ("+service+ ",'"+serialNumber+"',"+price+","+quantity+");";
+            System.out.println(sqlQuerry3);
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement(sqlQuerry3);
+            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(sqlQuerry2);
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+            preparedStatement.executeUpdate();
+        }
+        else
+        {
+            String sqlQuerry3="update article_in_service set quanity=(quanity+"+quantity+") where serviceNumber="+service+" and articleNumber='"+serialNumber+"'; ";
+            String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+            preparedStatement.executeUpdate();
+            preparedStatement = con.prepareStatement(sqlQuerry3);
+            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(sqlQuerry2);
+            preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+            preparedStatement.executeUpdate();
+        }
     }
 }
 

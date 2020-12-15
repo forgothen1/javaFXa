@@ -17,6 +17,7 @@
             <TableColumn fx:id="time" prefWidth="120.0" text="time"  styleClass="columOfTxt"/>
             <TableColumn fx:id="price" prefWidth="101.0" text="price" styleClass="columOfnumb"  />
             <TableColumn fx:id="status"  prefWidth="101.0" text="status" styleClass="columOfword" />
+            <TableColumn fx:id="comment"  prefWidth="101.0" text="comment" styleClass="columOfTxt" />
         </columns>
     </TableView>
     <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#openAddingWindow" text="dodaj" />

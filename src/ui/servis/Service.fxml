@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 
 <!-- class with gui in working section for service -->
@@ -23,16 +24,16 @@
         </children>
     </Pane>
     <!-- pane where there is table of added article to servis , status , general info and price counted -->
-    <Pane fx:id="workPane" layoutX="13.0" prefHeight="410.0" prefWidth="753.0">
+    <Pane fx:id="workPane" layoutX="19.0" prefHeight="410.0" prefWidth="753.0">
         <children>
-            <Label fx:id="descriptions" alignment="TOP_LEFT" layoutX="145.0" layoutY="132.0" prefHeight="190.0" prefWidth="201.0" text="descriptions" textFill="WHITE" />
-            <Label fx:id="nameofprod" layoutX="14.0" layoutY="177.0" prefHeight="52.0" prefWidth="67.0" text="nameofprod" textFill="WHITE" />
-            <Label fx:id="servicNumber" layoutX="14.0" layoutY="125.0" prefHeight="52.0" prefWidth="67.0" text="servicNumber" textFill="WHITE" />
-            <Label fx:id="phone" layoutX="20.0" layoutY="281.0" prefHeight="52.0" prefWidth="67.0" text="phone" textFill="WHITE" />
-            <Label fx:id="ownerofprod" layoutX="13.0" layoutY="229.0" prefHeight="52.0" prefWidth="136.0" text="ownerofprod" textFill="WHITE" />
+            <Label fx:id="descriptions" alignment="TOP_LEFT" layoutX="145.0" layoutY="132.0" prefHeight="93.0" prefWidth="201.0" text="descriptions" textFill="WHITE" />
+            <Label fx:id="nameofprod" layoutX="14.0" layoutY="132.0" prefHeight="52.0" prefWidth="67.0" text="nameofprod" textFill="WHITE" />
+            <Label fx:id="servicNumber" layoutX="4.0" layoutY="80.0" prefHeight="52.0" prefWidth="67.0" text="servicNumber" textFill="WHITE" />
+            <Label fx:id="phone" layoutX="14.0" layoutY="231.0" prefHeight="52.0" prefWidth="67.0" text="phone" textFill="WHITE" />
+            <Label fx:id="ownerofprod" layoutX="13.0" layoutY="179.0" prefHeight="52.0" prefWidth="105.0" text="ownerofprod" textFill="WHITE" />
             <TextField fx:id="priceOfServis" layoutX="14.0" layoutY="354.0" onAction="#setPrice" prefHeight="25.0" prefWidth="114.0" />
             <Button fx:id="addToSerivis" layoutX="332.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openTableArtikle" text="dodaj u servis" />
-            <ChoiceBox fx:id="statusOfServis" disable="true" layoutX="87.0" layoutY="76.0" onHiding="#changeOfStatus" prefWidth="150.0">
+            <ChoiceBox fx:id="statusOfServis" disable="true" layoutX="96.0" layoutY="47.0" onHiding="#changeOfStatus" prefWidth="150.0">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="prijem" />
@@ -52,7 +53,22 @@
                 </columns>
             </TableView>
             <Label fx:id="priceOfServiceLabel" layoutX="289.0" layoutY="358.0" prefHeight="17.0" prefWidth="67.0" text="Label" textFill="WHITE" />
-            <TextField fx:id="priceOfHands" layoutX="145.0" layoutY="354.0" prefHeight="25.0" prefWidth="125.0" text="0" />
+            <TextField fx:id="priceOfHands" layoutX="145.0" layoutY="354.0" prefHeight="25.0" prefWidth="125.0" text="0" onAction="#setPrice"/>
+         <TextArea fx:id="comment" onKeyReleased="#addCommentServis" layoutX="156.0" layoutY="241.0" prefHeight="104.0" prefWidth="244.0" />
+         <Button fx:id="manualBtn" layoutX="468.0" layoutY="2.0" mnemonicParsing="false" onAction="#manualaddOfArticleShow" text="ManualAdd" />
+          <!--this is pan for manual adding-->
+         <Pane fx:id="manualAddPane" layoutX="-4.0" layoutY="47.0" prefHeight="133.0" prefWidth="418.0" visible="false" stylesheets="@../style/pane.css" styleClass="pane">
+            <children>
+               <TextField fx:id="manualSerialNumber" layoutY="14.0" promptText="serialNumber" />
+               <TextField fx:id="manualName" layoutX="170.0" layoutY="14.0" promptText="name" />
+               <TextField fx:id="manualQuantity" layoutY="67.0" promptText="quantity" />
+               <TextField fx:id="manualPrice" layoutX="177.0" layoutY="67.0" promptText="price" />
+               <Button fx:id="manualAddBtn" onAction="#manualaddOfAricles" layoutX="353.0" layoutY="39.0" mnemonicParsing="false" text="Dodaj" />
+            </children>
+            <effect>
+               <Glow />
+            </effect>
+         </Pane>
         </children>
     </Pane>
     <!-- button that show/hide  lookservis -->
@@ -68,10 +84,11 @@
                     <TableColumn fx:id="name" prefWidth="126.0" styleClass="columOfTxt" text="name of article" />
                     <TableColumn fx:id="owner" prefWidth="88.0" styleClass="columOfword" text="owner" />
                     <TableColumn fx:id="telephone" prefWidth="89.0" styleClass="columOfTxt" text="telephone" />
-                    <TableColumn fx:id="description" prefWidth="190.0" styleClass="columOfTxt" text="description"/>
+                    <TableColumn fx:id="description" prefWidth="190.0" styleClass="columOfTxt" text="description" />
                     <TableColumn fx:id="time" prefWidth="120.0" styleClass="columOfTxt" text="time" />
                     <TableColumn fx:id="price" prefWidth="101.0" styleClass="columOfnumb" text="price" />
                     <TableColumn fx:id="status" prefWidth="101.0" styleClass="columOfword" text="status" />
+                    <TableColumn fx:id="commentService" prefWidth="101.0" styleClass="columOfTxt" text="Comment" />
                 </columns>
             </TableView>
         </children>

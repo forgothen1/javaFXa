@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.DetailsController">
+   <children>
+      <ChoiceBox fx:id="statusCB" layoutX="28.0" layoutY="23.0" prefWidth="150.0" />
+      <TextField fx:id="ownerTF" layoutX="208.0" layoutY="23.0" />
+      <TextField fx:id="nameProductTF" layoutX="29.0" layoutY="70.0" />
+      <TextField fx:id="numbTF" layoutX="208.0" layoutY="70.0" />
+      <TextArea fx:id="coment" layoutX="230.0" layoutY="112.0" prefHeight="98.0" prefWidth="150.0" />
+      <TextArea fx:id="description" layoutX="3.0" layoutY="112.0" prefHeight="98.0" prefWidth="200.0" />
+      <TableView fx:id="tableOfArticle" layoutX="409.0" layoutY="21.0" prefHeight="325.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="serialNumbTC" prefWidth="75.0" text="SerialNumb" />
+          <TableColumn fx:id="nameTC" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="quantityTC" prefWidth="75.0" text="Quantity" />
+          <TableColumn fx:id="priceTC" prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="sumPriceTC" prefWidth="75.0" text="SumPrice" />
+        </columns>
+      </TableView>
+      <TextField fx:id="priceTF" layoutX="240.0" layoutY="314.0" />
+   </children>
+</AnchorPane>

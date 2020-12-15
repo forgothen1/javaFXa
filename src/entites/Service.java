@@ -11,6 +11,7 @@ public class Service {
     private String time;
     private Integer statusInt;
     private String statusStrg;
+    private String comment;
 
 
     public  Service() {}
@@ -28,7 +29,7 @@ public class Service {
      * @param status  represent in what state it is  working on it finished or  peid  Integer(1)
      */
 
-    public Service(Integer id, String name, Float price, String owner, String telephone, Integer serivisNumber, String description, String time,Integer status) {
+    public Service(Integer id, String name, Float price, String owner, String telephone, Integer serivisNumber, String description, String time,Integer status,String comment) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -38,6 +39,7 @@ public class Service {
         this.description = description;
         this.time=time;
         this.statusInt =status;
+        this.comment=comment;
     }
 
     public Integer getId() {
@@ -112,6 +114,13 @@ public class Service {
             return statusStrg ="naplaceno";
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     @Override
     public String toString() {
@@ -126,6 +135,7 @@ public class Service {
                 ", time='" + time + '\'' +
                 ", status=" + statusInt +
                 ", status1='" + statusStrg + '\'' +
+                ", status1='" + comment + '\'' +
                 '}';
     }
 }

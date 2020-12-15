@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -18,21 +19,19 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServiceController  implements Initializable {
-
+    public TextArea comment;
     @FXML
     private Label descriptions, servicNumber,phone,ownerofprod,nameofprod,priceOfServiceLabel;
     @FXML
-    private Pane selectPane,workPane,selectArticklePane;
+    private Pane selectPane,workPane,selectArticklePane,manualAddPane;
     @FXML
-    private TextField searchField,priceOfServis,priceOfHands;
+    private TextField searchField,priceOfServis,priceOfHands,manualPrice,manualSerialNumber,manualName,manualQuantity;
     @FXML
     private ChoiceBox statusOfServis;
     @FXML
-    private Button addToSerivis;
+    private Button addToSerivis,manualAddBtn;
     @FXML
     private ToggleButton lookServis;
-
-
     @FXML
     private TableView<Articles> articleTableOUT;
     @FXML
@@ -44,7 +43,7 @@ public class ServiceController  implements Initializable {
     @FXML
     private TableView<Service> serviceTable;
     @FXML
-    private TableColumn price,owner,time,description,telephone,numberOfTicket,status,name;
+    private TableColumn price,owner,time,description,telephone,numberOfTicket,status,name,commentService;
 
     DBQuerrys dbQuerrys = new DBQuerrys();
     Service service = new Service();
@@ -61,6 +60,7 @@ public class ServiceController  implements Initializable {
     private void setTable() throws SQLException {
         serviceTable.getItems().clear();
         lookServis.toFront();
+
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
@@ -102,6 +102,7 @@ public class ServiceController  implements Initializable {
                 }
             };
         });
+        commentService.setCellValueFactory(new PropertyValueFactory<>("comment"));
         serviceTable.getItems().addAll(dbQuerrys.tableservis());
     }
 
@@ -177,6 +178,7 @@ public class ServiceController  implements Initializable {
                         descriptions.setText(service.getDescription());
                         phone.setText(service.getTelephone());
                         servicNumber.setText(String.valueOf(service.getSerivisNumber()));
+                        comment.setText(service.getComment());
                         System.out.println(servicNumber);
                         String status = service.getStatusInt();
 
@@ -209,6 +211,62 @@ public class ServiceController  implements Initializable {
     // logic for selectArticklePane
 
     /**
+     * just showing panel for manual adding of articles to service just needed for temperery solution
+     */
+    @FXML
+    private void manualaddOfArticleShow(){
+        if (!manualAddPane.isVisible()){
+            manualAddPane.setVisible(true);
+            manualName.clear();
+            manualPrice.clear();
+            manualQuantity.clear();
+            manualSerialNumber.clear();
+        }
+        else {manualAddPane.setVisible(false);}
+    }
+
+    /**
+     * adding article to db to rest of articles and adding article to service
+     * @throws SQLException
+     */
+    @FXML
+    private void manualaddOfAricles() throws SQLException {
+        dbQuerrys= new DBQuerrys();
+        String broj=manualSerialNumber.getText().trim();
+        System.out.println(broj);
+
+        try{
+            articles= dbQuerrys.searchBySerialNumber(broj).get(0);
+        if (!articles.getSerialNumber().isEmpty()) {
+            System.out.println("nema tog broja");
+        }} catch (Exception e) {
+
+            articles.setName(manualName.getText().trim());
+            articles.setSerialNumber(manualSerialNumber.getText().trim());
+            articles.setQuantity(Integer.valueOf(manualQuantity.getText().trim()));
+            articles.setPrice(Float.valueOf(manualPrice.getText().trim()));
+            articles.setIdArticles(0);
+            dbQuerrys.addingToArticles(articles);
+        }
+        dbQuerrys.manualArticleInServisDB(servicNumber.getText().trim(),manualSerialNumber.getText().trim(), Integer.valueOf(manualQuantity.getText().trim()));
+        fillingTableOfArtikle();
+        getPrice();
+    }
+
+    /**
+     * its just to add a coment to service that is aloved
+     */
+    @FXML
+    private void addCommentServis() {
+        try {
+            System.out.println(comment.getText().trim());
+            dbQuerrys.addComment(Integer.valueOf(servicNumber.getText().trim()),comment.getText().trim());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
      * calling from db sum of all price with specific servis number
      * @throws SQLException
      */
@@ -221,11 +279,18 @@ public class ServiceController  implements Initializable {
         setPrice();
     }
 
+    /**
+     *  setting sum of price of articles and of hands
+     * @throws SQLException
+     */
     @FXML
     private void setPrice() throws SQLException {
+        if (priceOfHands.getText().trim().isEmpty()){
+            priceOfHands.setText("0");
+        }
         Float priceofHands= Float.valueOf(priceOfHands.getText())+Float.valueOf(priceOfServis.getText());
         priceOfServiceLabel.setText(String.valueOf(priceofHands));
-        System.out.println("dali prolazi ovo");
+        System.out.println("dali prolazi ovo      "+ priceofHands );
         dbQuerrys.setVolePrice(service.getSerivisNumber(),priceofHands);
         System.out.println("dali prolazi ovo       "+ priceofHands);
     }

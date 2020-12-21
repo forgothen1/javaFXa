@@ -92,7 +92,6 @@ public class ArtickleController extends Securty implements Initializable {
             } else {
                 table.getItems().addAll(DBQuerrys.searchArticles(searchField.getText().trim()));
             }
-
         } catch (SQLException e) {
             logInfo.forConnection().error("unable to load from DB.e");
         }

@@ -3,8 +3,6 @@ package db;
 import entites.Articles;
 import entites.Service;
 import entites.Worker;
-import org.apache.log4j.Logger;
-import recordInfo.RecordInfo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -371,6 +369,29 @@ public class DBQuerrys extends DBcon {
         return service_collection;
     }
 
+    /**
+     * edit serivis  if it is wrong in some info
+     * @param service entity service to send whole data of service
+     * @throws SQLException
+     */
+    public void editService(Service service) throws SQLException {
+        int i=1;
+        String sqlQuery="UPDATE servisi set nameOfProduct=?, cijenaServisa=?, owner=?, telephone=?, description=?,status=?,coment=? where servis_number="+service.getSerivisNumber();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement=con.prepareStatement(sqlQuery);
+        preparedStatement.setString(i++,service.getName());
+        preparedStatement.setFloat(i++,service.getPrice());
+        preparedStatement.setString(i++,service.getOwner());
+        preparedStatement.setString(i++,service.getTelephone());
+        preparedStatement.setString(i++,service.getDescription());
+        preparedStatement.setInt(i++, service.getStatusInt());
+        preparedStatement.setString(i++,service.getComment());
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        preparedStatement.executeUpdate();
+
+    }
     /**
      *  changing status of proces of service
      * @param status represent in wich state of proces is servis

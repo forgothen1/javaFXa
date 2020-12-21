@@ -6,7 +6,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.ServisTableController">
 
-    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="925.0"
+    <TableView fx:id="table" onMouseClicked="#loadDetails" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="925.0"
                stylesheets="@../style/Tables.css" styleClass="table">
         <columns>
             <TableColumn fx:id="numberOfTicket" text="numberOfTicket" styleClass="columOfnumb" />

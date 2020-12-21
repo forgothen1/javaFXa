@@ -8,11 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import recordInfo.RecordInfo;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,6 +48,7 @@ public class ServiceController  implements Initializable {
     DBQuerrys dbQuerrys = new DBQuerrys();
     Service service = new Service();
     Articles articles= new Articles();
+    RecordInfo recordInfo;
     public ServiceController() {}
     //////////////////////////
     // logic for selectPane
@@ -57,10 +58,9 @@ public class ServiceController  implements Initializable {
      * @throws SQLException
      */
     @FXML
-    private void setTable() throws SQLException {
+    private void setTable()  {
         serviceTable.getItems().clear();
         lookServis.toFront();
-
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
         owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
@@ -79,7 +79,7 @@ public class ServiceController  implements Initializable {
                         int currentIndex = indexProperty()
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
-                        item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusInt();
+                        item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusStg();
                         switch (item) {
                             case "prijem":
                                 setTextFill(Color.BLUE);
@@ -103,7 +103,11 @@ public class ServiceController  implements Initializable {
             };
         });
         commentService.setCellValueFactory(new PropertyValueFactory<>("comment"));
-        serviceTable.getItems().addAll(dbQuerrys.tableservis());
+        try {
+            serviceTable.getItems().addAll(dbQuerrys.tableservis());
+        } catch (SQLException e) {
+     recordInfo.forConnection().error("didnt load from db",e);
+        }
     }
 
     /**
@@ -129,12 +133,7 @@ public class ServiceController  implements Initializable {
 
         serviceTable.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
-            try {
-
                 setTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         } else
         {
             serviceTable.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
@@ -155,6 +154,19 @@ public class ServiceController  implements Initializable {
         System.out.println("status ide u :"+status+", a servis je : "+serviceNumber);
         dbQuerrys.statusChange(status,serviceNumber);
         setTable();
+    }
+    /**
+     * its just to add a coment to service that is aloved
+     */
+    @FXML
+    private void addCommentServis() {
+        try {
+            System.out.println(comment.getText().trim());
+            dbQuerrys.addComment(Integer.valueOf(servicNumber.getText().trim()),comment.getText().trim());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -180,7 +192,7 @@ public class ServiceController  implements Initializable {
                         servicNumber.setText(String.valueOf(service.getSerivisNumber()));
                         comment.setText(service.getComment());
                         System.out.println(servicNumber);
-                        String status = service.getStatusInt();
+                        String status = service.getStatusStg();
 
                         switch (status) {
                             case ("prijem"):
@@ -195,12 +207,8 @@ public class ServiceController  implements Initializable {
                             case  ("naplaceno"):
                                 statusOfServis.getSelectionModel().select(3);
                         }
-                        try {
                             fillingTableOfArtikle();
                             getPrice();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -254,26 +262,17 @@ public class ServiceController  implements Initializable {
     }
 
     /**
-     * its just to add a coment to service that is aloved
-     */
-    @FXML
-    private void addCommentServis() {
-        try {
-            System.out.println(comment.getText().trim());
-            dbQuerrys.addComment(Integer.valueOf(servicNumber.getText().trim()),comment.getText().trim());
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
      * calling from db sum of all price with specific servis number
-     * @throws SQLException
      */
     @FXML
-    private void getPrice() throws SQLException {
+    private void getPrice()  {
         Integer  ne= service.getSerivisNumber();
-        Float d=  dbQuerrys.getingVolePrice(ne);
+        Float d= null;
+        try {
+            d = dbQuerrys.getingVolePrice(ne);
+        } catch (SQLException e) {
+          recordInfo.forConnection().error("didint load rom DB",e);
+        }
         priceOfServis.setText(String.valueOf(d));
         System.out.println("cijena unijeta u polje "+d);
         setPrice();
@@ -281,21 +280,20 @@ public class ServiceController  implements Initializable {
 
     /**
      *  setting sum of price of articles and of hands
-     * @throws SQLException
      */
     @FXML
-    private void setPrice() throws SQLException {
+    private void setPrice()  {
         if (priceOfHands.getText().trim().isEmpty()){
             priceOfHands.setText("0");
         }
         Float priceofHands= Float.valueOf(priceOfHands.getText())+Float.valueOf(priceOfServis.getText());
         priceOfServiceLabel.setText(String.valueOf(priceofHands));
-        System.out.println("dali prolazi ovo      "+ priceofHands );
-        dbQuerrys.setVolePrice(service.getSerivisNumber(),priceofHands);
-        System.out.println("dali prolazi ovo       "+ priceofHands);
+        try {
+            dbQuerrys.setVolePrice(service.getSerivisNumber(),priceofHands);
+        } catch (SQLException e) {
+            recordInfo.forConnection().error("didnt load from db ",e);
+        }
     }
-
-
     /**
      * transfering articles from articles to service articles and  informing db
      */
@@ -401,10 +399,9 @@ public class ServiceController  implements Initializable {
 
     /**
      * filling  table where it shows what articles are included i nservice
-     * @throws SQLException
      */
     @FXML
-    private void fillingTableOfArtikle() throws SQLException {
+    private void fillingTableOfArtikle() {
         articleTableOUT.getItems().clear();
         Integer servis_number = Integer.valueOf(servicNumber.getText());
         serialNumberOUT.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
@@ -412,16 +409,16 @@ public class ServiceController  implements Initializable {
         quantityArticleOUT.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         priceArticleOUT.setCellValueFactory(new PropertyValueFactory<>("price"));
         sumPriceOUT.setCellValueFactory(new PropertyValueFactory<>("sumPrice"));
-        articleTableOUT.getItems().addAll(dbQuerrys.listOfArticleInServis(servis_number));
+        try {
+            articleTableOUT.getItems().addAll(dbQuerrys.listOfArticleInServis(servis_number));
+        } catch (SQLException e) {
+            recordInfo.forConnection().error("didnt load from artikli in service db table",e);
+        }
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
             setTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

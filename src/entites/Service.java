@@ -103,17 +103,26 @@ public class Service {
     public void setTime(String time){this.time=time ;}
 
     public void setStatusInt(Integer statusInt) {this.statusInt = statusInt;}
-    public String getStatusInt(){
+
+    /**
+     * return status as string  with proper name
+     * @return string
+     */
+    public String getStatusStg(){
         if (statusInt == 1)
             return statusStrg ="prijem";
         else if (statusInt == 2)
             return statusStrg ="obrada";
         else if (statusInt == 3)
             return statusStrg ="zavrseno";
-        else
+        else if (statusInt== 4)
             return statusStrg ="naplaceno";
+        else
+            return String.valueOf(statusInt);
     }
-
+    public Integer getStatusInt(){
+        return statusInt;
+    }
     public String getComment() {
         return comment;
     }

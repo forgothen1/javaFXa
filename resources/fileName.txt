@@ -1,5 +1,5 @@
 runn
 
-database@jdbc:mysql://192.168.1.11:3306/osoblje?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-username@
-password@
+database@jdbc:mysql://127.0.0.1:3306/osoblje?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+username@root
+password@Labumba56

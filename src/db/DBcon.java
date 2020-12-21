@@ -16,7 +16,7 @@ import static java.sql.DriverManager.getConnection;
 /**
  * class for connection with DB here is i location to prop for db ,user ,and  pass
  */
-public abstract class DBcon extends RecordInfo {
+abstract class DBcon extends RecordInfo {
     Logger logCon = Logger.getLogger(DBcon.class);
     FechingData fechingData = new FechingData();
     String path ="resources/fileName.txt";

@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import recordInfo.RecordInfo;
-import ui.worker.AddingController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -67,7 +66,7 @@ public class ServisTableController implements Initializable {
                         int currentIndex = indexProperty()
                                 .getValue() < 0 ? 0
                                 : indexProperty().getValue();
-                        item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusInt();
+                        item = getTableColumn().getTableView().getItems().get(currentIndex).getStatusStg();
                         switch (item) {
                             case "prijem":
                                 setTextFill(Color.BLUE);
@@ -132,7 +131,11 @@ public class ServisTableController implements Initializable {
              * */
             stage.setOnCloseRequest(windowEvent -> {
                 table.getItems().clear();
-
+                try {
+                    setTable();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("proda dali se zatvorilo");
             });
         } catch (IOException e) {
@@ -161,18 +164,24 @@ public class ServisTableController implements Initializable {
     }
 
      @FXML
-     public void loadDetails() {
+     public void loadDetails() throws IOException {
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("../servis/Details.fxml"));
         fxmlLoader.setControllerFactory(new Callback<>() {
             DetailsController detailsController =new DetailsController();
              @Override
              public Object call(Class<?> mainController) {
                  if (mainController == DetailsController.class) {
-       //              detailsController.definderForSetupOfWindow=;
+                     detailsController.service= table.getSelectionModel().getSelectedItem();
+                     System.out.println("neki pokusaj gepasa");
                  }
-                 return null;
+                 return detailsController;
              }
         });
+        Parent root1 =fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Description");
+        stage.setScene(new Scene(root1));
+        stage.show();
      }
 
     @Override

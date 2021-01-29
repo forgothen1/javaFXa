@@ -29,17 +29,20 @@ public class DBQuerrys extends DBcon {
      *  loading all data from articles table of DB and seding to table  in gui
      * @return article_collection list that collect articles
      * @throws SQLException exception that will be done somewhere else
+
      */
     /* loading all data from artikle table to table in gui*/
     public List<Articles> gettingAllArtikles() throws SQLException {
         article_collection.clear();
         /*query for DB*/
-        String sqlQuerry = "select  name, serialNumber, idArtickle, description, quantity, quantityInUse, price  from artikli ";
+        String sqlQuerry = "select  name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi, " +
+                "kolicinaProdato, kolicinaUkupno, price,sumPrice  from artikli";
         resultSet=statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
-                    resultSet.getInt("quantity"), resultSet.getInt("quantityInUse"), resultSet.getFloat("price"),null);
+                    resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"), resultSet.getInt("kolicinaProdato"),
+                    resultSet.getInt("kolicinaUkupno"), resultSet.getFloat("price"),resultSet.getFloat("sumPrice"),null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -68,8 +71,6 @@ public class DBQuerrys extends DBcon {
         preparedStatement.executeUpdate();
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
         preparedStatement.executeUpdate();
-
-
     }
 
     /**
@@ -106,13 +107,14 @@ public class DBQuerrys extends DBcon {
     numbers or letters in serialnumber or name / description /idArticle*/
     public  List<Articles> searchBySerialNumber( String variableForSearch) throws SQLException {
         article_collection.clear();
-        String sqlQuerry = "SELECT name, serialNumber, idArtickle, description, quantity, quantityInUse, price FROM" +
-                " artikli where serialNumber='"+variableForSearch+"'";
+        String sqlQuerry = "SELECT name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi,kolicinaProdato," +
+                " kolicinaUkupno, price FROM artikli where serialNumber='"+variableForSearch+"'";
         resultSet=statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
-                    resultSet.getInt("quantity"), resultSet.getInt("quantityInUse"), resultSet.getFloat("price"), null);
+                    resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
+                    resultSet.getInt("kolicinaUkupno") ,resultSet.getFloat("price"), null,null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -124,19 +126,27 @@ public class DBQuerrys extends DBcon {
      * @return article_collection return articles that is  determit with variableForSearch
      */
     /* searching  artickles by name , description ,serial number or id by part of word*/
-    public List<Articles> searchArticles(String variableForSearch) throws SQLException {
+    public List<Articles> searchArticles(String variableForSearch, String  filtering) throws SQLException {
         article_collection.clear();
-        String sqlQuerry =
-                "SELECT name, serialNumber, idArtickle, description, quantity, quantityInUse, price FROM artikli " +
-                        "WHERE name like '%"+ variableForSearch + "%' or serialNumber like '%"+
+        String sqlQuerry;
+        if (variableForSearch.isEmpty()){
+            sqlQuerry= "select  name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi, " +
+                    "kolicinaProdato, kolicinaUkupno, price  from artikli where sortOfArticle in "+filtering;
+        }
+        else {
+             sqlQuerry =
+                "SELECT name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi,kolicinaProdato, kolicinaUkupno, " +
+                        "price FROM artikli WHERE name like '%"+ variableForSearch + "%' or serialNumber like '%"+
                         variableForSearch+"%' or idArtickle  like" +
-                        "'%"+variableForSearch+"%' or description like '%"+variableForSearch+"%'";
+                        "'%"+variableForSearch+"%' or description like '%"+variableForSearch+"%' and sortOfArticle in "+filtering; }
+        System.out.println(sqlQuerry);
         resultSet=statement.executeQuery(sqlQuerry);
         while(resultSet.next())
         {
             articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"),resultSet.getString("description"),
-                    resultSet.getInt("quantity"),resultSet.getInt("quantityInUse"),resultSet.getFloat("price"),null);
+                    resultSet.getInt("kolicinaUslo"),resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
+                    resultSet.getInt("kolicinaUkupno"),resultSet.getFloat("price"),null,null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -417,7 +427,7 @@ public class DBQuerrys extends DBcon {
         if (resultSet.next()) {
             price=resultSet.getFloat(1);
         }
-        String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
+        String sqlQuerry2 = "update artikli set kolicinaUkupno= (kolicinaUkupno-1),uUpotrebi=(uUpotrebi+1) where serialNumber='"+serialNumber+"'";
         String sqlQuerry ="INSERT INTO article_in_service (serviceNumber, articleNumber,price,quanity) " +
                 "values ("+service+ ",'"+serialNumber+"',"+price+",1);";
         System.out.println(sqlQuerry);
@@ -439,8 +449,8 @@ public class DBQuerrys extends DBcon {
     private void edditingArticleService(String service, String serialNumber) throws SQLException {
         //still not working propery
         String sqlQuerry="update article_in_service set quanity=(quanity+1) where serviceNumber="+service+" and articleNumber='"+serialNumber+"'; ";
-        String sqlQuerry2 = "update artikli set quantity= (quantity-1),quantityInUse=(quantityInUse+1) where serialNumber='"+serialNumber+"'";
-
+        String sqlQuerry2 = "update artikli set kolicinaUkupno= (kolicinaUkupno-1),uUpotrebi=(uUpotrebi+1) where serialNumber='"+serialNumber+"'";
+        System.out.println("proba radi li ovo");
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
         preparedStatement.executeUpdate();
         preparedStatement = con.prepareStatement(sqlQuerry);
@@ -487,8 +497,8 @@ public class DBQuerrys extends DBcon {
         while(resultSet.next())
         {
             articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
-                    null, null, resultSet.getInt("article_in_service.quanity"), null,
-                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"));
+                    null, null, resultSet.getInt("article_in_service.quanity"), null,null,null,
+                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"),null);
             article_collection.add(articles);
         }
         logCon.info("articles loaded for servis");
@@ -543,7 +553,7 @@ public class DBQuerrys extends DBcon {
         else {
             sqlQuery = "delete from article_in_service where serviceNumber=" + servisNUmber + " and articleNumber='" + articleNumber + "'";
         }
-        String sqlQuerry2 = "update artikli set quantity= (quantity+1),quantityInUse=(quantityInUse-1) where serialNumber='"+articleNumber+"'";
+        String sqlQuerry2 = "update artikli set kolicinaUkupno= (kolicinaUkupno+1),uUpotrebi=(uUpotrebi-1) where serialNumber='"+articleNumber+"'";
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
         preparedStatement.executeUpdate();
         preparedStatement.executeUpdate(sqlQuery);

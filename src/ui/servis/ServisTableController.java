@@ -163,6 +163,10 @@ public class ServisTableController implements Initializable {
         }
     }
 
+    /**\
+     * sending data to new window where for specification of service
+     * @throws IOException
+     */
      @FXML
      public void loadDetails() throws IOException {
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("../servis/Details.fxml"));

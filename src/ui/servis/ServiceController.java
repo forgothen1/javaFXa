@@ -55,7 +55,6 @@ public class ServiceController  implements Initializable {
 
     /**
      * seting servis table for chosing servis
-     * @throws SQLException
      */
     @FXML
     private void setTable()  {
@@ -122,7 +121,6 @@ public class ServiceController  implements Initializable {
         {
             selectPane.setVisible(true);
         }
-
     }
 
     /**
@@ -130,12 +128,11 @@ public class ServiceController  implements Initializable {
      */
     @FXML
     private void searchOfService() throws SQLException {
-
         serviceTable.getItems().clear();
         if (searchField.getText().trim().isEmpty()) {
                 setTable();
-        } else
-        {
+        }
+        else {
             serviceTable.getItems().addAll(dbQuerrys.searchOfService(searchField.getText().trim()));
         }
     }
@@ -330,7 +327,8 @@ public class ServiceController  implements Initializable {
      * deleting articles from service
      */
     @FXML
-    private void  deleteArticleFromServis() {
+    private void  deleteArticleFromServis()
+    {
         articleTableOUT.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -369,10 +367,10 @@ public class ServiceController  implements Initializable {
         selectArticklePane.toFront();
         serialNumberIN.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         articleNameIN.setCellValueFactory(new PropertyValueFactory<>("name"));
-        quantityArticleIN.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityArticleIN.setCellValueFactory(new PropertyValueFactory<>("kolicinaUkupno"));
         priceArticleIN.setCellValueFactory(new PropertyValueFactory<>("price"));
         try {
-            articleTableIN.getItems().addAll(dbQuerrys.gettingAllArtikles());
+            articleTableIN.getItems().addAll(dbQuerrys.searchArticles("","(1,0)"));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -398,7 +396,7 @@ public class ServiceController  implements Initializable {
     }
 
     /**
-     * filling  table where it shows what articles are included i nservice
+     * filling  table where it shows what articles are included in service
      */
     @FXML
     private void fillingTableOfArtikle() {

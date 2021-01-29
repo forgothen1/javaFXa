@@ -2,12 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="487.0" prefWidth="770.0" stylesheets="@../style/stil.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ui.startingWindow.StartingController">
+<AnchorPane prefHeight="487.0" prefWidth="770.0" stylesheets="@../style/stil.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.startingWindow.StartingController">
    <children>
-      <VBox layoutX="21.0" layoutY="14.0" prefHeight="378.0" prefWidth="100.0">
+      <VBox layoutX="21.0" layoutY="65.0" prefHeight="327.0" prefWidth="1500.0">
          <children>
             <Button mnemonicParsing="false" onAction="#resetPane" prefHeight="30.0" prefWidth="98.0" text="home" textFill="WHITE" />
             <Label prefHeight="30.0" prefWidth="106.0" text="tabele" textAlignment="right" textFill="WHITE" />
@@ -16,9 +14,17 @@
             <Button mnemonicParsing="false" onAction="#loadWorkerMenu" prefHeight="69.0" prefWidth="100.0" styleClass="button" text="Workers" />
             <Button mnemonicParsing="false" prefHeight="69.0" prefWidth="110.0" styleClass="button" text="Brands" />
          </children></VBox>
-      <Pane fx:id="secPane"  layoutX="121.0" layoutY="14.0" prefHeight="471.0" prefWidth="648.0">
+      <Pane fx:id="secPane" layoutX="121.0" layoutY="35.0" prefHeight="450.0" prefWidth="661.0">
          <children>
          </children></Pane>
+      <ToolBar prefHeight="35.0" prefWidth="770.0">
+        <items>
+          <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Button" />
+           <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="76.0" text="Button" />
+           <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
+           <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" text="Button" />
+        </items>
+      </ToolBar>
    </children>
 
 </AnchorPane>

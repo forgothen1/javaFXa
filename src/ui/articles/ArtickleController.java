@@ -7,9 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import recordInfo.RecordInfo;
@@ -18,27 +16,29 @@ import security.Securty;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ArtickleController extends Securty implements Initializable {
 
+    public Label totalUlazneVrijednosti;
+    public Label totalIzlazneVrijednosti;
+    public Label totalTrenutnevrijednosti;
+    public CheckBox cbMasine,cbDjelovi;
     @FXML
     private TableView<Articles> table;
     @FXML
     private TableColumn<Articles, String> name,serialNumber,description;
     @FXML
-    private TableColumn<Articles, Integer> idArtickle ;
+    private TableColumn<Articles, Integer> idArtickle,prodatoART, stanjeART,UpotrebaART,ulazART ;
     @FXML
     private TextField searchField;
     @FXML
-    private TableColumn<Articles, Integer> quantity;
-    @FXML
-    private TableColumn<Articles,Integer> quantityInUse;
-    @FXML
-    private TableColumn<Articles, Integer> price;
+    private TableColumn<Articles, Float> price, sumPrice,imputPrice,outputPrice;
     RecordInfo logInfo;
     DBQuerrys artikl= new DBQuerrys();
     DBQuerrys DBQuerrys = new DBQuerrys();
+    Articles articles= new Articles();
 
     /**
      * filling table wih data
@@ -46,9 +46,71 @@ public class ArtickleController extends Securty implements Initializable {
      */
     @FXML
     public void settingTable() throws SQLException {
+      //  table.setEditable(true);
+        idArtickle.setCellValueFactory(new PropertyValueFactory<>("IdArticles"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        serialNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        ulazART.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        UpotrebaART.setCellValueFactory(new PropertyValueFactory<>("quantityUse"));
+        prodatoART.setCellValueFactory(new PropertyValueFactory<>("kolicinaProdato"));
+        stanjeART.setCellValueFactory(new PropertyValueFactory<>("kolicinaUkupno"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        imputPrice.setCellValueFactory(new PropertyValueFactory<>("imputPrice"));
+        outputPrice.setCellValueFactory(new PropertyValueFactory<>("outputPrice"));
+        sumPrice.setCellValueFactory(new PropertyValueFactory<>("sumPrice"));
         table.getItems().addAll(artikl.gettingAllArtikles());
+        countdown(artikl.gettingAllArtikles());
     }
 
+    /**
+     * its swich to seperate machines and spere parts if needed
+     * @return String filtering by defoult =(1,2)
+     */
+    @FXML
+    private String filteredArticleByType(){
+        String filtering="(1,2)";
+        if (cbMasine.isSelected() && !cbDjelovi.isSelected()) {
+
+            return  "(1,0)";
+        }
+        else if (cbDjelovi.isSelected() && !cbMasine.isSelected())
+        {   return "(2,0)";
+        }
+        return filtering;
+    }
+
+    /**
+     * counting totals
+     * @throws SQLException
+     */
+    @FXML
+    public void countdown(List <Articles> article_list) {
+
+        Float totalImputPrice = (float) 0;
+        Float totalOutputPrice= (float) 0;
+        Float totalATMPrice=(float) 0;
+        for (int i =0;i<article_list.size();i++) {
+         float b= article_list.get(i).getImputPrice();
+         float b1=article_list.get(i).getOutputPrice();
+         float b2 = article_list.get(i).getKolicinaUkupno()+article_list.get(i).getPrice();
+
+            totalImputPrice= totalImputPrice+b;
+            totalOutputPrice = totalOutputPrice+b1;
+            totalATMPrice = totalATMPrice+b2;
+            totalUlazneVrijednosti.setText(String.valueOf(totalImputPrice));
+            totalIzlazneVrijednosti.setText(String.valueOf(totalOutputPrice));
+            totalTrenutnevrijednosti.setText(String.valueOf(totalATMPrice));
+        }
+    }
+    @FXML
+    public void addingEntrys() throws IOException {
+        Parent root= FXMLLoader.load(getClass().getResource("../articles/proba232p.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("INLISTING ARTIKLI");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
     /**
      * method that is for adding / or edditing article on new fxml
      * @param actionEvent
@@ -80,20 +142,21 @@ public class ArtickleController extends Securty implements Initializable {
     }
 
     /**
-     * search of articles and if seach is activeted empty then its backed al
+     * search of articles and if seach is activeted empty then its backed all
      */
     // searching article
     @FXML
     public void SearchArticle() {
         table.getItems().clear();
         try {
-            if (searchField.getText().isEmpty()) {
+            if (searchField.getText().isEmpty() && !cbMasine.isSelected() && !cbDjelovi.isSelected()) {
                 settingTable();
             } else {
-                table.getItems().addAll(DBQuerrys.searchArticles(searchField.getText().trim()));
+                table.getItems().addAll(DBQuerrys.searchArticles(searchField.getText().trim(), filteredArticleByType()));
+                countdown(DBQuerrys.searchArticles(searchField.getText().trim(), filteredArticleByType()));
             }
         } catch (SQLException e) {
-            logInfo.forConnection().error("unable to load from DB.e");
+            logInfo.forConnection().error("unable to load from DB");
         }
     }
     /**
@@ -103,13 +166,7 @@ public class ArtickleController extends Securty implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        idArtickle.setCellValueFactory(new PropertyValueFactory<>("IdArticles"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        serialNumber.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
-        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        quantityInUse.setCellValueFactory(new PropertyValueFactory<>("quantityUse"));
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
         addTetLimiter(searchField,20);
         try {
             settingTable();

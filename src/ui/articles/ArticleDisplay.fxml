@@ -3,21 +3,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
+<AnchorPane prefHeight="438.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
 
 
-    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="776.0" stylesheets="@../style/Tables.css">
+    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="1065.0" stylesheets="@../style/Tables.css">
 
         <columns>
-            <TableColumn fx:id="idArtickle" prefWidth="48.0" styleClass="columOfnumb" text="ID Article" />
-            <TableColumn fx:id="name" prefWidth="87.0" styleClass="columOfword" text="Name" />
-            <TableColumn fx:id="serialNumber" prefWidth="90.0" styleClass="columOfnumb" text="Serial number" />
-            <TableColumn fx:id="description" prefWidth="197.0" styleClass="columOfTxt" text="description" />
-            <TableColumn fx:id="quantity" prefWidth="60.0" styleClass="columOfnumb" text="quantity" />
-            <TableColumn fx:id="quantityInUse" prefWidth="65.0" styleClass="columOfnumb" text="quantityInUse" />
-            <TableColumn fx:id="price" prefWidth="89.0" styleClass="columOfnumb" text="price" />
+            <TableColumn fx:id="idArtickle" prefWidth="59.99999713897705" styleClass="columOfnumb" text="ID Article" />
+            <TableColumn fx:id="name" prefWidth="75.20001220703125" styleClass="columOfword" text="IME" />
+            <TableColumn fx:id="serialNumber" prefWidth="90.0" styleClass="columOfnumb" text="SerijskiBroj" />
+            <TableColumn fx:id="description" prefWidth="189.59999084472656" styleClass="columOfTxt" text="Opis" />
+            <TableColumn fx:id="ulazART" prefWidth="68.0" styleClass="columOfnumb" text="UlaznaKol." />
+            <TableColumn fx:id="UpotrebaART" prefWidth="65.0" styleClass="columOfnumb" text="koristiKol" />
+            <TableColumn fx:id="prodatoART" prefWidth="60.0" styleClass="columOfnumb" text="ProdataKol." />
+            <TableColumn fx:id="stanjeART" prefWidth="73.0" styleClass="columOfnumb" text="TrenutnoStanje" />
+            <TableColumn fx:id="price" prefWidth="76.5999755859375" styleClass="columOfnumb" text="cijena" />
+            <TableColumn fx:id="imputPrice" prefWidth="89.0" styleClass="columOfnumb" text="CijenaUlaza" />
+            <TableColumn fx:id="outputPrice" prefWidth="89.0" styleClass="columOfnumb" text="CijenaIzlaza" />
+            <TableColumn fx:id="sumPrice" prefWidth="89.0" styleClass="columOfnumb" text="UkupnaCijena" />
         </columns>
     </TableView>
     <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#settingArticle" text="ADD" />
     <TextField fx:id="searchField" layoutX="217.0" layoutY="12.0" onAction="#SearchArticle" prefHeight="30.0" prefWidth="124.0" promptText=" unesite ovdje" />
+   <Button fx:id="ulaz" layoutX="92.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#addingEntrys" text="ulaz" />
+   <Label layoutX="724.0" layoutY="390.0" prefHeight="30.0" prefWidth="73.0" text="total" textFill="WHITE" />
+   <Label fx:id="totalUlazneVrijednosti" layoutX="807.0" layoutY="390.0" prefHeight="18.0" prefWidth="74.0" text="" textFill="#fffefe" />
+   <Label fx:id="totalIzlazneVrijednosti" layoutX="906.0" layoutY="390.0" prefHeight="18.0" prefWidth="74.0" text="Label" textFill="WHITE" />
+   <Label fx:id="totalTrenutnevrijednosti" layoutX="981.0" layoutY="390.0" prefHeight="18.0" prefWidth="91.0" styleClass="columOfnumb" text="Label" textFill="#fffefe" />
+   <CheckBox fx:id="cbMasine" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="83.0" text="Masine" />
+   <CheckBox fx:id="cbDjelovi" layoutX="432.0" layoutY="6.0" mnemonicParsing="false" text="Ugradni Djelovi" />
 </AnchorPane>

@@ -44,6 +44,7 @@ public class AddingArticleController extends Securty implements Initializable {
             }
         } catch (SQLException e) {
             logInfo.forConnection().error("didint menage to connect to db",e);
+
         }
     }
 

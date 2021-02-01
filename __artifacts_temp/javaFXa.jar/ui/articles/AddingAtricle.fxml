@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            stylesheets="@../style/stil.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.AddingArticleController">
+   <children>
+       <Label layoutX="23.0" layoutY="58.0" prefHeight="17.0" prefWidth="87.0" text="SerialNumber" styleClass="nameOfBoxes" />
+       <TextField  fx:id="serialNumber" layoutX="24.0" layoutY="82.0" prefHeight="32.0" prefWidth="99.0" promptText="unesite serial broj" />
+       <Label layoutX="199.0" layoutY="46.0" prefHeight="25.0" prefWidth="58.0" text="idArticle" styleClass="nameOfBoxes" />
+       <TextField fx:id="idArticle" layoutX="187.0" layoutY="83.0" prefHeight="25.0" prefWidth="149.0" promptText="unesite id" />
+       <Label layoutX="400.0" layoutY="58.0" text="name" styleClass="nameOfBoxes" />
+       <TextField fx:id="name" layoutX="356.0" layoutY="83.0" promptText="unesite ime" />
+      <Label layoutX="58.0" layoutY="141.0" text="quanity" styleClass="nameOfBoxes" />
+       <TextField fx:id="quantity" layoutX="14.0" layoutY="175.0" promptText="unesite kolicinu" />
+      <Label layoutX="212.0" layoutY="141.0" prefHeight="17.0" prefWidth="30.0" text="price" styleClass="nameOfBoxes" />
+       <TextField fx:id="price" layoutX="182.0" layoutY="175.0" promptText="unesite cijenu" />
+       <Label layoutX="415.0" layoutY="150.0" text="opis artikla" styleClass="nameOfBoxes" />
+       <TextField fx:id="description" layoutX="356.0" layoutY="175.0" prefHeight="76.0" prefWidth="211.0" promptText="unesite opis" />
+       <Button fx:id="sendingDataButton" layoutX="80.0" layoutY="257.0" mnemonicParsing="false" onAction="#adding" text="Add"  />
+   </children>
+</AnchorPane>

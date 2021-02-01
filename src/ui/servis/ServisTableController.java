@@ -170,9 +170,13 @@ public class ServisTableController implements Initializable {
      @FXML
      public void loadDetails() throws IOException {
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("../servis/Details.fxml"));
-        fxmlLoader.setControllerFactory(new Callback<>() {
+        fxmlLoader.setControllerFactory(new Callback() {
+            @Override
+            public Object call(Object param) {
+                return null;
+            }
+
             DetailsController detailsController =new DetailsController();
-             @Override
              public Object call(Class<?> mainController) {
                  if (mainController == DetailsController.class) {
                      detailsController.service= table.getSelectionModel().getSelectedItem();

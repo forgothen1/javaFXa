@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.servis.DetailsController">
+   <children>
+      <ChoiceBox fx:id="statusCB" layoutX="28.0" layoutY="23.0" prefWidth="150.0">
+          <items>
+              <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="prijem" />
+                  <String fx:value="obrada" />
+                  <String fx:value="zavrseno" />
+                  <String fx:value="naplaceno" />
+              </FXCollections>
+          </items>
+      </ChoiceBox>
+      <TextField fx:id="ownerTF" disable="true" layoutX="203.0" layoutY="70.0" />
+      <TextField fx:id="nameProductTF" disable="true" layoutX="216.0" layoutY="161.0" />
+      <TextField fx:id="numbTF" disable="true" layoutX="216.0" layoutY="112.0" />
+      <TextArea fx:id="coment" disable="true" layoutX="14.0" layoutY="238.0" prefHeight="98.0" prefWidth="150.0" />
+      <TextArea fx:id="description" disable="true" layoutX="3.0" layoutY="112.0" prefHeight="98.0" prefWidth="200.0" />
+      <TableView fx:id="tableOfArticle" layoutX="385.0" layoutY="21.0" prefHeight="326.0" prefWidth="334.0">
+        <columns>
+          <TableColumn fx:id="serialNumbTC" prefWidth="75.0" text="SerialNumb" />
+          <TableColumn fx:id="nameTC" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="quantityTC" prefWidth="75.0" text="Quantity" />
+          <TableColumn fx:id="priceTC" prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="sumPriceTC" prefWidth="75.0" text="SumPrice" />
+        </columns>
+      </TableView>
+      <TextField fx:id="priceTF" disable="true" layoutX="191.0" layoutY="310.0" />
+      <CheckBox fx:id="enableBox" layoutX="229.0" layoutY="27.0" mnemonicParsing="false" onAction="#eneler" prefHeight="18.0" prefWidth="70.0" text="uredi" />
+      <Label fx:id="serviceNumb" layoutX="25.0" layoutY="73.0" prefHeight="18.0" prefWidth="128.0" text="Label" />
+    
+   </children>
+</AnchorPane>

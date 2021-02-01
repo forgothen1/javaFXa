@@ -14,9 +14,13 @@ public class StartingController implements Initializable {
     @FXML
     private Pane secPane;
 
+    public StartingController() {
+    }
+
     /**
      * simple way to reload pane
      */
+
     @FXML
     public void resetPane() throws IOException {
         secPane.getChildren().clear();

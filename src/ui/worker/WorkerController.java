@@ -101,9 +101,14 @@ public class WorkerController extends Securty implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../worker/AddingGUI.fxml"));
             //alowing to connect 2 controllers and to transfer data , that from 1st window travel true here to second window
 
-            fxmlLoader.setControllerFactory(new Callback<>() {
-                AddingController addingController = new AddingController();
+            fxmlLoader.setControllerFactory(new Callback() {
                 @Override
+                public Object call(Object param) {
+                    return null;
+                }
+
+                AddingController addingController = new AddingController();
+
                 public Object call(Class<?> mainController) {
                     if (mainController == AddingController.class) {
                         addingController.definderForSetupOfWindow = labalIdworker.getText();

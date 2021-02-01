@@ -1,0 +1,33 @@
+/**
+basic css file for puting some collor into program*/
+
+
+    .root
+    {
+    -fx-background-color:#1d1d1d;
+
+    }
+    .button
+    {
+     -fx-background-color:#1d1d1d;
+     -fx-text-fill: #ffffff;
+    }
+    #pane Label
+    {
+
+        -fx-text-fill:#ffffff;
+          -fx-font-family:System bold;
+          -fx-font-size: 14;
+    }
+
+    .nameOfBoxes
+    {
+        -fx-text-fill:#ffffff;
+              -fx-font-family:System bold;
+              -fx-font-size: 14;
+    }
+    .labelOfWorker
+    {
+     -fx-text-fill:#ffffff;
+          -fx-font-family:System bold;
+    }

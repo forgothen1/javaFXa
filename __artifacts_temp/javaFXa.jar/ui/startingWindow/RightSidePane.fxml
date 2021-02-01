@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="429.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.startingWindow.RightSidePaneController">
+    <children>
+      <Button mnemonicParsing="false" onAction="#nesto" text="sevisi" />
+      <Label layoutX="95.0" layoutY="189.0" prefHeight="93.0" prefWidth="575.0" text="wellcome to our small workshop" textFill="WHITE">
+          <font>
+              <Font size="36.0" />
+          </font>
+      </Label>
+    </children>
+</AnchorPane>

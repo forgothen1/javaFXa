@@ -1,75 +1,121 @@
 package ui.articles;
 
+import db.DBQuerrys;
 import entites.Articles;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Proba232p implements Initializable {
     public TableView table;
-    public TableColumn nazivTC;
-    public TableColumn serijskiTC;
-    public TableColumn kolTC;
-    public TableColumn nabavnaTC;
+    public TableColumn serijskiTC,nazivTC,nabavnaTC,kolTC,MPCTC,sifraTC,lokacijaTC,desTC, typeTC,slikTC;
+    public Button addToTable,loadToDB;
+    public List <String> artikli= new ArrayList<>();
+    public List <Articles> articles_collection = new ArrayList<>();
+    public TextField SerialNumbTF,priceTF,kolTF,nameTF,sifraTF,lokacijaTF,mpcTF;
+    public TextArea descriptionTA;
+
+    public Articles articles;
+    public DBQuerrys dbQuerrys;
+    public TextField ulazTF,brRacunaTF,nazivFirmeTF;
+    public DatePicker datumSlanjaDP,datumPrijemaDP;
+    public ChoiceBox slikovnaCijenCB,typeCB;
 
 
+
+    /**
+     *  method that  parse selection from checkbox to integer from 1 to 3;
+     * @return integer from 1 to 3
+     */
     @FXML
-    public void nestoTable(){
-        table.setEditable(true);
-        nazivTC.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nazivTC.setCellFactory(TextFieldTableCell.forTableColumn());
-        nazivTC.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Articles, String>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<Articles, String> t) {
-                        ((Articles) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())
-                        ).setName(t.getNewValue());
-                    }
-                });
-        serijskiTC.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
-        serijskiTC.setCellFactory(TextFieldTableCell.forTableColumn());
-        serijskiTC.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Articles, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Articles, String> t) {
-                ((Articles) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())
-                ).setSerialNumber(t.getNewValue());
-            }
-        });
-        kolTC.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        kolTC.setCellFactory(TextFieldTableCell.forTableColumn());
-        kolTC.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Articles, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Articles, String> t) {
-                ((Articles) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())
-                ).setQuantity(Integer.valueOf(t.getNewValue()));
-            }
-        });
-        nabavnaTC.setCellValueFactory(new PropertyValueFactory<>("price"));
-        nabavnaTC.setCellFactory(TextFieldTableCell.forTableColumn());
-        nabavnaTC.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Articles, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Articles, String> t) {
-                ((Articles) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())
-                ).setPrice(Float.valueOf(t.getNewValue()));
-            }
-        });
-        table.getItems().addAll(new Articles());
-
+    public Integer typechange(){
+    String proba = typeCB.getValue().toString();
+    if ( proba.equals("Uredjaj")) {return 1;}
+    else if (proba.equals("Alat")){return 2;}
+    else if (proba.equals("Ugradbeni dio")){return 3;}
+        return null;
     }
+
+    /**
+     * just setting peripherals for table columns
+     */
+    @FXML
+    public void loadTable(){
+        serijskiTC.setCellValueFactory(new PropertyValueFactory<>("SerialNumber"));
+        nazivTC.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nabavnaTC.setCellValueFactory(new PropertyValueFactory<>("entryPrice"));
+        kolTC.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        MPCTC.setCellValueFactory(new PropertyValueFactory<>("price"));
+        sifraTC.setCellValueFactory(new PropertyValueFactory<>("idArticles"));
+        lokacijaTC.setCellValueFactory(new PropertyValueFactory<>("location"));
+        desTC.setCellValueFactory(new PropertyValueFactory<>("description"));
+        typeTC.setCellValueFactory(new PropertyValueFactory<>("sortOfProduct"));
+    }
+    @FXML
+    public void loadTF () throws SQLException {
+        //load tf  from db
+        dbQuerrys= new DBQuerrys();
+       List <Articles> articles_collection2;
+       System.out.println("proba");
+        articles_collection2 = dbQuerrys.searchBySerialNumber(SerialNumbTF.getText().trim());
+        if (!articles_collection2.isEmpty()) {
+            articles = articles_collection2.get(0);
+
+            nameTF.setText(articles.getName());
+            kolTF.setText("1");
+            priceTF.setText(String.valueOf(articles.getEntryPrice()));
+            mpcTF.setText(String.valueOf(articles.getPrice()));
+            sifraTF.setText(String.valueOf(articles.getIdArticles()));
+            lokacijaTF.setText(articles.getLocation());
+
+           descriptionTA.setText(articles.getDescription());
+
+
+        }
+        else { System.out.println("nadaaa"); }
+    }
+
+    /**
+     * fill table with product / articles  from above imput
+     * @throws SQLException
+     */
+    @FXML
+    public void tableFill() throws SQLException {
+        table.getItems().clear();
+    articles = new Articles(null, nameTF.getText(), SerialNumbTF.getText(), Integer.valueOf(sifraTF.getText()), descriptionTA.getText(),
+            Integer.valueOf(kolTF.getText()), null, null, null,
+            Float.valueOf(priceTF.getText()), Float.valueOf(mpcTF.getText()), null, typechange(), lokacijaTF.getText());
+    articles_collection.add(articles);
+    table.getItems().addAll(articles_collection);
+   // loadTF();
+}
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    nestoTable();
+    loadTable();
+    SerialNumbTF.focusedProperty().addListener(new ChangeListener<Boolean>() {
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            if (newValue)
+            {
+                try {
+                    loadTF();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    });
     }
 }

@@ -98,7 +98,7 @@ public class WorkerController extends Securty implements Initializable {
     @FXML
     public void setEditWorkerButton() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../worker/AddingGUI.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/worker/AddingGUI.fxml"));
             //alowing to connect 2 controllers and to transfer data , that from 1st window travel true here to second window
 
             fxmlLoader.setControllerFactory(new Callback() {

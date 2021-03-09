@@ -12,11 +12,13 @@ public class Articles {
     private   Integer quantityUse;
     private   Integer kolicinaProdato;
     private  Integer kolicinaUkupno;
+    private Float entryPrice;
     private  Float price;
     private Float imputPrice;
     private Float outputPrice;
     private Float sumPrice;
     private Integer  sortOfProduct;
+    private String location;
     private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
@@ -33,11 +35,16 @@ public class Articles {
      * @param description of article
      * @param quantity ...
      * @param quantityUse how much article is used in production , this is different of sold something like sold but not yet
+     * @param kolicinaProdato quantity how much it was sold
+     * @param kolicinaUkupno quantity how much there is left
+     * @param entryPrice price for start
      * @param price its float
      * @param sumPrice its price of kolicinaUkupno * price probably won't be use in normal use of table
+     * @param sortOfProduct what type is product its in numbers can be only 1,2,3
+     * @param location its for location of product
      */
     public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity,
-                    Integer quantityUse, Integer kolicinaProdato, Integer kolicinaUkupno, Float price, Float sumPrice, Integer sortOfProduct) {
+                    Integer quantityUse, Integer kolicinaProdato, Integer kolicinaUkupno,Float entryPrice, Float price, Float sumPrice, Integer sortOfProduct, String location) {
         this.id = id;
         this.name = name;
         this.SerialNumber = serialNumber;
@@ -45,11 +52,13 @@ public class Articles {
         this.description = description;
         this.quantity = quantity;
         this.quantityUse = quantityUse;
+        this.entryPrice= entryPrice;
         this.price=price;
         this.sumPrice=sumPrice;
         this.kolicinaProdato=kolicinaProdato;
         this.kolicinaUkupno=kolicinaUkupno;
         this.sortOfProduct=sortOfProduct;
+        this.location=location;
 
     }
 
@@ -133,6 +142,14 @@ public class Articles {
         this.quantityUse = quantityUse;
     }
 
+    public Float getEntryPrice() {
+        return entryPrice;
+    }
+
+    public void setEntryPrice(Float entryPrice) {
+        this.entryPrice = entryPrice;
+    }
+
     public Float getImputPrice() {
         imputPrice=price*quantity;
         imputPrice= Float.valueOf(df.format(imputPrice));
@@ -169,6 +186,14 @@ public class Articles {
         this.sortOfProduct = sortOfProduct;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Articles{" +
@@ -181,11 +206,14 @@ public class Articles {
                 ", quantityUse=" + quantityUse +
                 ", kolicinaProdato=" + kolicinaProdato +
                 ", kolicinaUkupno=" + kolicinaUkupno +
+                ", entryPrice=" + entryPrice +
                 ", price=" + price +
                 ", imputPrice=" + imputPrice +
                 ", outputPrice=" + outputPrice +
                 ", sumPrice=" + sumPrice +
                 ", sortOfProduct=" + sortOfProduct +
+                ", location='" + location + '\'' +
+                ", df=" + df +
                 '}';
     }
 }

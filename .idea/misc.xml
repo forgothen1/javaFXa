@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="C:/branesStuff/proba" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/Brane's Programmin'stuff" />
     <option name="OPTION_SCOPE" value="private" />
     <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
@@ -13,5 +13,13 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ScaladocSettings">
+    <option name="outputDir" value="C:\Users\Crystal_Child\Desktop\Brane's Programmin'stuff" />
+    <option name="additionalFlags" value="" />
+    <option name="maxHeapSize" value="" />
+    <option name="docTitle" value="javaFX documentation" />
+    <option name="verbose" value="true" />
+    <option name="openInBrowser" value="true" />
   </component>
 </project>

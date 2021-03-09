@@ -24,7 +24,7 @@
             <TableColumn prefWidth="40.200042724609375" text="IZLAZ" />
             <TableColumn prefWidth="68.800048828125" text="KOLICINA" />
             <TableColumn prefWidth="68.800048828125" text="CIJENA" />
-            <TableColumn prefWidth="68.800048828125" text="BROJ DOKUMENTA" />
+            <TableColumn prefWidth="68.800048828125" text="BROJ DOKUMENTA"/>
 
         </columns>
       </TableView>

@@ -1,33 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="542.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.Proba232p">
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="657.0" prefWidth="1137.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.Proba232p">
    <children>
-      <TableView fx:id="table" layoutX="119.0" layoutY="177.0" prefHeight="272.0" prefWidth="682.0">
+      <TableView fx:id="table" layoutX="5.0" layoutY="188.0" prefHeight="357.0" prefWidth="767.0">
         <columns>
           <TableColumn fx:id="serijskiTC" prefWidth="75.0" text="serijski BR" />
           <TableColumn fx:id="nazivTC" prefWidth="75.0" text="naziv artikla " />
-            <TableColumn fx:id="kolTC" prefWidth="75.0" text="kol " />
-            <TableColumn fx:id="nabavnaTC" prefWidth="75.0" text="nabavna " />
+            <TableColumn fx:id="kolTC" prefWidth="48.0" text="kol " />
+            <TableColumn fx:id="nabavnaTC" prefWidth="102.0" text="nabavna " />
+            <TableColumn fx:id="MPCTC" prefWidth="102" text="MPC"  />
+            <TableColumn fx:id="sifraTC" prefWidth="102" text="sifra"  />
+            <TableColumn fx:id="lokacijaTC" prefWidth="102" text="lokacija"  />
+            <TableColumn fx:id="desTC" prefWidth="102" text="Opis artikla"  />
+            <TableColumn fx:id="typeTC" prefWidth="102" text="Vrsta"  />
+            <TableColumn fx:id="slikTC" prefWidth="102" text="Velicina Cijene"  />
+
 
         </columns>
       </TableView>
 
+       <TextField fx:id="ulazTF" layoutX="14.0" layoutY="29.0" promptText="ulaz" />
+       <TextField fx:id="brRacunaTF" layoutX="200.0" layoutY="29.0" promptText="broj racuna" />
+       <TextField fx:id="nazivFirmeTF" layoutX="378.0" layoutY="29.0" promptText="naziv firme" />
+       <DatePicker fx:id="datumSlanjaDP" layoutX="539.0" layoutY="29.0" />
+       <DatePicker fx:id="datumPrijemaDP" layoutX="738.0" layoutY="29.0" />
 
-      <TextField layoutX="14.0" layoutY="119.0" promptText="serijski broj" />
-      <TextField layoutX="163.0" layoutY="119.0" promptText="naziv" />
-      <TextField layoutX="312.0" layoutY="119.0" prefHeight="26.0" prefWidth="70.0" promptText="kolicina" />
-       <TextField layoutX="378.0" layoutY="119.0" promptText="nabavna cijena" />
-       <TextField layoutX="14.0" layoutY="29.0" />
-       <TextField layoutX="200.0" layoutY="29.0" />
-       <TextField layoutX="378.0" layoutY="29.0" />
-      <Button layoutX="137.0" layoutY="461.0" mnemonicParsing="false" text="Button" />
-      <Label layoutX="398.0" layoutY="464.0" prefHeight="18.0" prefWidth="41.0" text="total" />
-      <Label layoutX="477.0" layoutY="464.0" prefHeight="18.0" prefWidth="69.0" text="prvi broj" />
-      <Label layoutX="572.0" layoutY="464.0" prefHeight="18.0" prefWidth="70.0" text="drugi broj " />
-      <Label layoutX="669.0" layoutY="456.0" text="treci" />
+      <TextField fx:id="SerialNumbTF" layoutX="14.0" layoutY="79.0" promptText="serijski broj"  />
+      <TextField fx:id="nameTF" layoutX="163.0" layoutY="79.0" promptText="naziv" />
+      <TextField fx:id="kolTF" layoutX="312.0" layoutY="79.0" prefHeight="26.0" prefWidth="70.0" promptText="kolicina" />
+       <TextField fx:id="priceTF" layoutX="378.0" layoutY="79.0" prefHeight="25.0" prefWidth="93.0" promptText="nabavna cijena" />
+       <TextField fx:id="mpcTF" layoutX="471.0" layoutY="80.0" prefHeight="25.0" prefWidth="93.0" promptText="MPC" />
+       <TextField fx:id="sifraTF" layoutX="564.0" layoutY="79.0" prefHeight="25.0" prefWidth="69.0" promptText="sifra" />
+       <TextField fx:id="lokacijaTF" layoutX="633.0" layoutY="80.0" prefHeight="25.0" prefWidth="93.0" promptText="lokacija" />
+       <TextArea fx:id="descriptionTA" layoutX="344.0" layoutY="115.0" prefHeight="59.0" prefWidth="190.0" promptText="opis artikla" />
+
+
+      <Button fx:id="loadToDB" layoutX="1062.0" layoutY="23.0" mnemonicParsing="false" text="UCITAJ ULAZ" />
+      <Label layoutX="404.0" layoutY="547.0" prefHeight="18.0" prefWidth="41.0" text="total" />
+      <Label layoutX="458.0" layoutY="547.0" prefHeight="18.0" prefWidth="69.0" text="prvi broj" />
+      <Label layoutX="539.0" layoutY="547.0" prefHeight="18.0" prefWidth="70.0" text="drugi broj " />
+      <Label layoutX="645.0" layoutY="548.0" text="treci" />
+      <Button fx:id="addToTable" layoutX="1017.0" layoutY="138.0" mnemonicParsing="false" onAction="#tableFill" text="dodaj u tabelu" />
+      <ChoiceBox fx:id="typeCB" layoutX="14.0" layoutY="132.0" prefWidth="150.0" >
+       <items>
+           <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Uredjaj" />
+               <String fx:value="Alat" />
+               <String fx:value="Ugradbeni dio" />
+           </FXCollections>
+       </items>
+      </ChoiceBox>
+      <ChoiceBox fx:id="slikovnaCijenCB" layoutX="181.0" layoutY="132.0" prefWidth="150.0">
+          <items>
+              <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Velika" />
+                  <String fx:value="Srednja" />
+                  <String fx:value="standardna" />
+                  <String fx:value="Mala"/>
+              </FXCollections>
+          </items>
+      </ChoiceBox>
+
+      <Label layoutX="560.0" layoutY="14.0" text="vrijeme izdavanja fakture" />
+      <Label layoutX="763.0" layoutY="14.0" text="vrijeme prijema robe" />
+
+
+
+
 
    </children>
 </AnchorPane>

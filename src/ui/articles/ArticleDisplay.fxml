@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="438.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
+<AnchorPane prefHeight="641.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.articles.ArtickleController">
 
 
-    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="331.0" prefWidth="1065.0" stylesheets="@../style/Tables.css">
+    <TableView fx:id="table" editable="true" layoutX="7.0" layoutY="59.0" prefHeight="494.0" prefWidth="1147.0" stylesheets="@../style/Tables.css">
 
         <columns>
             <TableColumn fx:id="idArtickle" prefWidth="59.99999713897705" styleClass="columOfnumb" text="ID Article" />
@@ -26,10 +26,10 @@
     <Button layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#settingArticle" text="ADD" />
     <TextField fx:id="searchField" layoutX="217.0" layoutY="12.0" onAction="#SearchArticle" prefHeight="30.0" prefWidth="124.0" promptText=" unesite ovdje" />
    <Button fx:id="ulaz" layoutX="92.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#addingEntrys" text="ulaz" />
-   <Label layoutX="724.0" layoutY="390.0" prefHeight="30.0" prefWidth="73.0" text="total" textFill="WHITE" />
-   <Label fx:id="totalUlazneVrijednosti" layoutX="807.0" layoutY="390.0" prefHeight="18.0" prefWidth="74.0" text="" textFill="#fffefe" />
-   <Label fx:id="totalIzlazneVrijednosti" layoutX="906.0" layoutY="390.0" prefHeight="18.0" prefWidth="74.0" text="Label" textFill="WHITE" />
-   <Label fx:id="totalTrenutnevrijednosti" layoutX="981.0" layoutY="390.0" prefHeight="18.0" prefWidth="91.0" styleClass="columOfnumb" text="Label" textFill="#fffefe" />
+   <Label layoutX="734.0" layoutY="566.0" prefHeight="30.0" prefWidth="73.0" text="total" textFill="WHITE" />
+   <Label fx:id="totalUlazneVrijednosti" layoutX="914.0" layoutY="609.0" prefHeight="18.0" prefWidth="74.0" text="some" textFill="#fffefe" />
+   <Label fx:id="totalIzlazneVrijednosti" layoutX="866.0" layoutY="566.0" prefHeight="18.0" prefWidth="74.0" text="Label" textFill="WHITE" />
+   <Label fx:id="totalTrenutnevrijednosti" layoutX="988.0" layoutY="572.0" prefHeight="18.0" prefWidth="91.0" styleClass="columOfnumb" text="Label" textFill="#fffefe" />
    <CheckBox fx:id="cbMasine" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="83.0" text="Masine" />
    <CheckBox fx:id="cbDjelovi" layoutX="432.0" layoutY="6.0" mnemonicParsing="false" text="Ugradni Djelovi" />
 </AnchorPane>

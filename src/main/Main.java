@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
+import java.io.IOException;
 
 
 /**
@@ -20,15 +20,19 @@ public class Main extends Application {
      * @throws Exception exception that will be fixed somewhere
      */
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/ui/startingWindow/StartingDisplay.fxml"));
+    public void start(Stage primaryStage) throws IOException {
 
-        primaryStage.setTitle("Prikaz Radnika");
-        // primaryStage.initStyle(StageStyle.UNDECORATED);
-        // BorderPane borderPane = new BorderPane();
-        //  borderPane.setStyle("-fx-background-color: #00FF00");
-        primaryStage.setScene(new Scene(root, 1100, 530));
-        primaryStage.show();
+
+            Parent root = FXMLLoader.load(getClass().getResource("/ui/startingWindow/StartingDisplay.fxml"));
+            primaryStage.setTitle("Prikaz Radnika");
+            // primaryStage.initStyle(StageStyle.UNDECORATED);
+            // BorderPane borderPane = new BorderPane();
+            // borderPane.setStyle("-fx-background-color: #00FF00");
+            primaryStage.setScene(new Scene(root, 1300, 800));
+            primaryStage.show();
+
+
+
 
     }
 
@@ -39,7 +43,7 @@ public class Main extends Application {
      * main metod that calls start gui + some loggers for now
      * @param args
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args)  {
         logger.info("elooo");
         logger.trace("nesto");
         logger.error("neki problemi");

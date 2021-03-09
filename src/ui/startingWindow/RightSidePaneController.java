@@ -22,7 +22,7 @@ public class RightSidePaneController implements Initializable {
      */
     @FXML
     public void nesto() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../servis/Service.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ui/servis/Service.fxml"));
         Stage stage = new Stage();
         stage.setTitle("new Serivis");
         stage.setScene(new Scene(root));

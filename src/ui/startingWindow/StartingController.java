@@ -24,7 +24,7 @@ public class StartingController implements Initializable {
     @FXML
     public void resetPane() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("/ui/startingWindow/RightSidePane.fxml"));
         secPane.getChildren().add(newLoadedPane);
 
     }
@@ -36,7 +36,7 @@ public class StartingController implements Initializable {
     @FXML
     public void loadWorkerMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../worker/WorkerDisplay.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("/ui/worker/WorkerDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
     }
 
@@ -48,7 +48,7 @@ public class StartingController implements Initializable {
     @FXML
     public void loadArtikleMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("../articles/ArticleDisplay.fxml"));
+        Pane newLoadedPane = FXMLLoader.load(getClass().getResource("/ui/articles/ArticleDisplay.fxml"));
         secPane.getChildren().add(newLoadedPane);
 
     }
@@ -60,19 +60,22 @@ public class StartingController implements Initializable {
     @FXML
     public void loadServisMenu() throws IOException {
         secPane.getChildren().clear();
-        Pane newLoadedPane =FXMLLoader.load(getClass().getResource("../servis/servisGuiTable.fxml"));
+        Pane newLoadedPane =FXMLLoader.load(getClass().getResource("/ui/servis/servisGuiTable.fxml"));
         secPane.getChildren().add(newLoadedPane);
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Pane newLoadedPane = null;
+    @FXML
+    public void emm() {
         try {
-            newLoadedPane = FXMLLoader.load(getClass().getResource("../startingWindow/RightSidePane.fxml"));
+            Pane  newLoadedPane = FXMLLoader.load(getClass().getResource("/ui/startingWindow/RightSidePane.fxml"));
             secPane.getChildren().add(newLoadedPane);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        emm();
     }
 }

@@ -42,7 +42,7 @@ public class DBQuerrys extends DBcon {
             articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"), resultSet.getInt("kolicinaProdato"),
-                    resultSet.getInt("kolicinaUkupno"), resultSet.getFloat("price"),resultSet.getFloat("sumPrice"),null);
+                    resultSet.getInt("kolicinaUkupno"),null, resultSet.getFloat("price"),resultSet.getFloat("sumPrice"),null,null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -107,16 +107,20 @@ public class DBQuerrys extends DBcon {
     numbers or letters in serialnumber or name / description /idArticle*/
     public  List<Articles> searchBySerialNumber( String variableForSearch) throws SQLException {
         article_collection.clear();
+        System.out.println("proba1");
         String sqlQuerry = "SELECT name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi,kolicinaProdato," +
-                " kolicinaUkupno, price FROM artikli where serialNumber='"+variableForSearch+"'";
+                " kolicinaUkupno, price, entryPrice, sortOfArticle, location1 FROM artikli where serialNumber='"+variableForSearch+"'";
         resultSet=statement.executeQuery(sqlQuerry);
+        System.out.println("proba3");
         while(resultSet.next()) {
             articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
-                    resultSet.getInt("kolicinaUkupno") ,resultSet.getFloat("price"), null,null);
+                    resultSet.getInt("kolicinaUkupno"),resultSet.getFloat("entryPrice") ,resultSet.getFloat("price"),
+                    null,resultSet.getInt("sortOfArticle"),resultSet.getString("location1"));
             article_collection.add(articles);
         }
+        System.out.println("proba2");
         return article_collection;
     }
 
@@ -146,7 +150,7 @@ public class DBQuerrys extends DBcon {
             articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"),resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"),resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
-                    resultSet.getInt("kolicinaUkupno"),resultSet.getFloat("price"),null,null);
+                    resultSet.getInt("kolicinaUkupno"),null,resultSet.getFloat("price"),null,null,null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -497,8 +501,8 @@ public class DBQuerrys extends DBcon {
         while(resultSet.next())
         {
             articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
-                    null, null, resultSet.getInt("article_in_service.quanity"), null,null,null,
-                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"),null);
+                    null, null, resultSet.getInt("article_in_service.quanity"), null,null,null,null,
+                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"),null,null);
             article_collection.add(articles);
         }
         logCon.info("articles loaded for servis");

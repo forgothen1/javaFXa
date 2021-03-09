@@ -3,6 +3,7 @@ package db;
 import entites.Articles;
 import entites.Service;
 import entites.Worker;
+import javafx.fxml.FXML;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -567,13 +568,28 @@ public class DBQuerrys extends DBcon {
         preparedStatement.executeUpdate();
         logCon.info("article is sucesfuly deleted from service="+servisNUmber+", article="+articleNumber);
     }
+
+    /**
+     * adding comment for services
+     * @param service declaring what service it is
+     * @param commnet what is needed to add
+     * @throws SQLException
+     */
     public void addComment(Integer service,String commnet) throws SQLException {
         String sqlQuerry="update servisi set coment='"+commnet+"' where servis_number="+service;
         resultSet=statement.executeQuery(" SET foreign_key_checks = 0");
         preparedStatement = con.prepareStatement(sqlQuerry);
         preparedStatement.executeUpdate();
         resultSet=statement.executeQuery(" SET foreign_key_checks = 1");
-    };
+    }
+
+    /**
+     *  manualy adding article in service if needed to add and to add in db  in 1
+     * @param service what service needed
+     * @param serialNumber article what is needed to add
+     * @param quantity how much its needed to add
+     * @throws SQLException
+     */
     public void manualArticleInServisDB(String service,String serialNumber,Integer quantity) throws SQLException {
          String numberOfArticle=null;
         String sqlQuerry="select articleNumber from article_in_service where serviceNumber="+service+" and articleNumber='"+serialNumber+"'";
@@ -610,6 +626,17 @@ public class DBQuerrys extends DBcon {
             preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
             preparedStatement.executeUpdate();
         }
+    }
+
+    /**
+     * *************************************
+     * part for invoice imputing incoming orders
+     *
+     */
+
+    @FXML
+    public void addInvoice() {
+
     }
 }
 

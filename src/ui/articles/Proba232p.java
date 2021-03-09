@@ -23,7 +23,6 @@ public class Proba232p implements Initializable {
     public List <Articles> articles_collection = new ArrayList<>();
     public TextField SerialNumbTF,priceTF,kolTF,nameTF,sifraTF,lokacijaTF,mpcTF;
     public TextArea descriptionTA;
-
     public Articles articles;
     public DBQuerrys dbQuerrys;
     public TextField ulazTF,brRacunaTF,nazivFirmeTF;
@@ -39,9 +38,14 @@ public class Proba232p implements Initializable {
     @FXML
     public Integer typechange(){
     String proba = typeCB.getValue().toString();
-    if ( proba.equals("Uredjaj")) {return 1;}
-    else if (proba.equals("Alat")){return 2;}
-    else if (proba.equals("Ugradbeni dio")){return 3;}
+        switch (proba) {
+            case "Uredjaj":
+                return 1;
+            case "Alat":
+                return 2;
+            case "Ugradbeni dio":
+                return 3;
+        }
         return null;
     }
 
@@ -60,6 +64,11 @@ public class Proba232p implements Initializable {
         desTC.setCellValueFactory(new PropertyValueFactory<>("description"));
         typeTC.setCellValueFactory(new PropertyValueFactory<>("sortOfProduct"));
     }
+
+    /**
+     *  collecting article from Db if its there alredy and fill some tables for faster imput
+     * @throws SQLException
+     */
     @FXML
     public void loadTF () throws SQLException {
         //load tf  from db
@@ -69,14 +78,12 @@ public class Proba232p implements Initializable {
         articles_collection2 = dbQuerrys.searchBySerialNumber(SerialNumbTF.getText().trim());
         if (!articles_collection2.isEmpty()) {
             articles = articles_collection2.get(0);
-
             nameTF.setText(articles.getName());
             kolTF.setText("1");
             priceTF.setText(String.valueOf(articles.getEntryPrice()));
             mpcTF.setText(String.valueOf(articles.getPrice()));
             sifraTF.setText(String.valueOf(articles.getIdArticles()));
             lokacijaTF.setText(articles.getLocation());
-
            descriptionTA.setText(articles.getDescription());
 
 
@@ -86,10 +93,9 @@ public class Proba232p implements Initializable {
 
     /**
      * fill table with product / articles  from above imput
-     * @throws SQLException
      */
     @FXML
-    public void tableFill() throws SQLException {
+    public void tableFill() {
         table.getItems().clear();
     articles = new Articles(null, nameTF.getText(), SerialNumbTF.getText(), Integer.valueOf(sifraTF.getText()), descriptionTA.getText(),
             Integer.valueOf(kolTF.getText()), null, null, null,

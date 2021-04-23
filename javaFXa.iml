@@ -9,7 +9,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="log4j-1.2.17" level="project" />
-      <orderEntry type="library" name="log4j-1.2.171" level="application" />
+    <orderEntry type="library" name="log4j-1.2.171" level="application" />
+    <orderEntry type="library" exported="" name="jasperreports-6.16.0" level="application" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="module-library">
       <library>

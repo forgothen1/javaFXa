@@ -10,9 +10,10 @@ public class PurchesInvoice {
         private String suplayer;
         private String dateSent;
         private String dateRecive;
-        private  Float price;
+        private  Float MPprice;
         private Float  PDV;
-        private Float pricewithPDV;
+        private Float VPPrice;
+        private Float sumPricewithPDV;
         private Integer quantity;
 
 
@@ -28,21 +29,22 @@ public class PurchesInvoice {
      * @param suplayer organisacion who send it
      * @param dateSent its simple date when suplayer send it
      * @param dateRecive its when its recived in company
-     * @param price price with out PDV
+     * @param MPprice price with out PDV
      * @param PDV tax for gov
-     * @param pricewithPDV price with tax / PDV icluded
+     * @param VPPrice price with tax / PDV icluded
      * @param quantity number of articles in invoice;
      */
-    public PurchesInvoice(Integer ID,String entry, String orderNumber, String suplayer, String dateSent,String dateRecive, Float price, Float PDV, Float pricewithPDV,Integer quantity) {
+    public PurchesInvoice(Integer ID,String entry, String orderNumber, String suplayer, String dateSent,String dateRecive, Float MPprice, Float PDV, Float VPPrice,Float sumPricewithPDV,Integer quantity) {
         this.ID=ID;
         this.entry = entry;
         this.orderNumber = orderNumber;
         this.suplayer = suplayer;
         this.dateSent = dateSent;
         this.dateRecive= dateRecive;
-        this.price = price;
+        this.MPprice = MPprice;
         this.PDV = PDV;
-        this.pricewithPDV = pricewithPDV;
+        this.VPPrice = VPPrice;
+        this.sumPricewithPDV=sumPricewithPDV;
         this.quantity= quantity;
     }
 
@@ -94,12 +96,12 @@ public class PurchesInvoice {
         this.dateRecive = dateRecive;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getMPprice() {
+        return MPprice;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setMPprice(Float price) {
+        this.MPprice = price;
     }
 
     public Float getPDV() {
@@ -110,12 +112,20 @@ public class PurchesInvoice {
         this.PDV = PDV;
     }
 
-    public Float getPricewithPDV() {
-        return pricewithPDV;
+    public Float getVPPrice() {
+        return VPPrice;
     }
 
-    public void setPricewithPDV(Float pricewithPDV) {
-        this.pricewithPDV = pricewithPDV;
+    public void setVPPrice(Float VPPrice) {
+        this.VPPrice = VPPrice;
+    }
+
+    public Float getSumPricewithPDV() {
+        return sumPricewithPDV;
+    }
+
+    public void setSumPricewithPDV(Float sumPricewithPDV) {
+        this.sumPricewithPDV = sumPricewithPDV;
     }
 
     public Integer getQuantity() {
@@ -135,10 +145,11 @@ public class PurchesInvoice {
                 ", suplayer='" + suplayer + '\'' +
                 ", dateSent='" + dateSent + '\'' +
                 ", dateRecive='" + dateRecive + '\'' +
-                ", price=" + price +
+                ", MPprice=" + MPprice +
                 ", PDV=" + PDV +
-                ", pricewithPDV=" + pricewithPDV +
-                ", quantity " + quantity+
+                ", VPPrice=" + VPPrice +
+                ", sumPricewithPDV=" + sumPricewithPDV +
+                ", quantity=" + quantity +
                 '}';
     }
 }

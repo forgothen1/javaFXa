@@ -93,7 +93,7 @@ public class ArtickleController extends Securty implements Initializable {
         for (int i =0;i<article_list.size();i++) {
          float b= article_list.get(i).getImputPrice();
          float b1=article_list.get(i).getOutputPrice();
-         float b2 = article_list.get(i).getKolicinaUkupno()+article_list.get(i).getPrice();
+         float b2 = article_list.get(i).getKolicinaUkupno()*article_list.get(i).getPrice();
 
             totalImputPrice= totalImputPrice+b;
             totalOutputPrice = totalOutputPrice+b1;

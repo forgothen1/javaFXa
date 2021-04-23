@@ -1,6 +1,7 @@
 package db;
 
 import entites.Articles;
+import entites.PurchesInvoice;
 import entites.Service;
 import entites.Worker;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ public class DBQuerrys extends DBcon {
     private List<Articles> article_collection = new ArrayList<>();
     private List<Service> service_collection= new ArrayList<>();
     private  Service service = new Service();
+    private PurchesInvoice purchesInvoice = new PurchesInvoice();
 
     /**
      *  loading all data from articles table of DB and seding to table  in gui
@@ -37,13 +39,14 @@ public class DBQuerrys extends DBcon {
         article_collection.clear();
         /*query for DB*/
         String sqlQuerry = "select  name, serialNumber, idArtickle, description, kolicinaUslo, uUpotrebi, " +
-                "kolicinaProdato, kolicinaUkupno, price,sumPrice  from artikli";
+                "kolicinaProdato, kolicinaUkupno, price,sumPrice,jedMjere  from artikli";
         resultSet=statement.executeQuery(sqlQuerry);
         while(resultSet.next()) {
             articles = new Articles(null, resultSet.getString("name"), resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"), resultSet.getInt("kolicinaProdato"),
-                    resultSet.getInt("kolicinaUkupno"),null, resultSet.getFloat("price"),resultSet.getFloat("sumPrice"),null,null);
+                    resultSet.getInt("kolicinaUkupno"),null, resultSet.getFloat("price"),
+                    resultSet.getFloat("sumPrice"),null,null,resultSet.getInt("jedMjere"),null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -56,7 +59,7 @@ public class DBQuerrys extends DBcon {
      */
     /*this allows to add new article in DB*/
     public void addingToArticles(Articles articles) throws SQLException {
-        String sqlQuerry = "insert into artikli (name,serialNumber,idArtickle,description,quantity,price) values (?,?,?,?,?,?)";
+        String sqlQuerry = "insert into artikli (name,serialNumber,idArtickle,description,kolicinaUslo,price) values (?,?,?,?,?,?)";
         int i =1;
         preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
         preparedStatement.executeUpdate();
@@ -118,7 +121,7 @@ public class DBQuerrys extends DBcon {
                     resultSet.getInt("idArtickle"), resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"), resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
                     resultSet.getInt("kolicinaUkupno"),resultSet.getFloat("entryPrice") ,resultSet.getFloat("price"),
-                    null,resultSet.getInt("sortOfArticle"),resultSet.getString("location1"));
+                    null,resultSet.getInt("sortOfArticle"),resultSet.getString("location1"),null,null);
             article_collection.add(articles);
         }
         System.out.println("proba2");
@@ -151,7 +154,7 @@ public class DBQuerrys extends DBcon {
             articles= new Articles(null,resultSet.getString("name"),resultSet.getString("serialNumber"),
                     resultSet.getInt("idArtickle"),resultSet.getString("description"),
                     resultSet.getInt("kolicinaUslo"),resultSet.getInt("uUpotrebi"),resultSet.getInt("kolicinaProdato"),
-                    resultSet.getInt("kolicinaUkupno"),null,resultSet.getFloat("price"),null,null,null);
+                    resultSet.getInt("kolicinaUkupno"),null,resultSet.getFloat("price"),null,null,null,null,null);
             article_collection.add(articles);
         }
         return article_collection;
@@ -503,11 +506,12 @@ public class DBQuerrys extends DBcon {
         {
             articles = new Articles(null, resultSet.getString("artikli.name"), resultSet.getString("artikli.serialNumber"),
                     null, null, resultSet.getInt("article_in_service.quanity"), null,null,null,null,
-                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"),null,null);
+                    resultSet.getFloat("article_in_service.price"),resultSet.getFloat("sumPrice"),null,null,null,null);
             article_collection.add(articles);
         }
         logCon.info("articles loaded for servis");
         return article_collection;
+
     }
 
     /**
@@ -633,10 +637,38 @@ public class DBQuerrys extends DBcon {
      * part for invoice imputing incoming orders
      *
      */
+    /**
+     * writing purchesInvoice to DB;
+     * @throws SQLException
+     */
+    @FXML
+    public void addInvoice(PurchesInvoice purchesInvoice) throws SQLException {
+    //logic for imput to db and to add  more ,
+        int i =1;
+        String sqlQuerry="insert into ulazna_roba(brojulaza, brojStavki, VPvrijednost, MPvrijednost, datumUlaskaRobe, " +
+                "datumSlanjaRobe, nazivDobavljaca, brojFakture, PDV)  values (?,?,?,?,?,?,?,?,?)";
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement=con.prepareStatement(sqlQuerry);
+        preparedStatement.setString(i++,purchesInvoice.getEntry());
+        preparedStatement.setInt(i++, purchesInvoice.getQuantity());
+        preparedStatement.setFloat(i++, purchesInvoice.getVPPrice());
+        preparedStatement.setFloat(i++, purchesInvoice.getMPprice());
+        preparedStatement.setString(i++, purchesInvoice.getDateRecive());
+        preparedStatement.setString(i++, purchesInvoice.getDateSent());
+        preparedStatement.setString(i++,purchesInvoice.getSuplayer());
+        preparedStatement.setString(i++,purchesInvoice.getOrderNumber());
+        preparedStatement.setFloat(i++,purchesInvoice.getPDV());
+      //  preparedStatement.setFloat(i++,purchesInvoice.getSumPricewithPDV());
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+    }
+
 
     @FXML
-    public void addInvoice() {
-
+    public void addingArtiklesFromPurchase(){
+        String sqlQuerry=;
     }
 }
 

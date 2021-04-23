@@ -4,21 +4,26 @@ import java.text.DecimalFormat;
 
 public class Articles {
     private Integer id;
-    private  String name;
-    private   String SerialNumber;
-    private   Integer IdArticles;
-    private   String description;
-    private   Integer quantity;
-    private   Integer quantityUse;
-    private   Integer kolicinaProdato;
-    private  Integer kolicinaUkupno;
+    private String name;
+    private String SerialNumber;
+    private Integer IdArticles;
+    private String description;
+    private Integer jedMjereINT;
+    private String jedMjereStg;
+    private Integer quantity;
+    private Integer quantityUse;
+    private Integer kolicinaProdato;
+    private Integer kolicinaUkupno;
     private Float entryPrice;
-    private  Float price;
+    private Float price;
     private Float imputPrice;
     private Float outputPrice;
     private Float sumPrice;
-    private Integer  sortOfProduct;
+    private Integer sortOfProduct;
+    private String sordOfProductSTG;
     private String location;
+    private Integer sizeOfEtickINT;
+    private String sizeOfEtickSTG;
     private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
@@ -44,7 +49,8 @@ public class Articles {
      * @param location its for location of product
      */
     public Articles(Integer id, String name, String serialNumber, Integer idArticles, String description, Integer quantity,
-                    Integer quantityUse, Integer kolicinaProdato, Integer kolicinaUkupno,Float entryPrice, Float price, Float sumPrice, Integer sortOfProduct, String location) {
+                    Integer quantityUse, Integer kolicinaProdato, Integer kolicinaUkupno,Float entryPrice, Float price,
+                    Float sumPrice, Integer sortOfProduct, String location, Integer jedMjere, Integer sizeOfEtick) {
         this.id = id;
         this.name = name;
         this.SerialNumber = serialNumber;
@@ -59,7 +65,11 @@ public class Articles {
         this.kolicinaUkupno=kolicinaUkupno;
         this.sortOfProduct=sortOfProduct;
         this.location=location;
+        this.jedMjereINT= jedMjere;
+        this.sizeOfEtickINT=sizeOfEtick;
+    }
 
+    public Articles(Object o, String name, String serialNumber, int idArtickle, String description, int kolicinaUslo, int uUpotrebi, int kolicinaProdato, int kolicinaUkupno, Object o1, float price, float sumPrice, Object o2, Object o3, int jedMjere) {
     }
 
     public Integer getKolicinaProdato() {
@@ -186,12 +196,75 @@ public class Articles {
         this.sortOfProduct = sortOfProduct;
     }
 
+    public String getSordOfProductSTG() {
+        if (sortOfProduct==0)
+            return sordOfProductSTG="Uredjaj";
+        else if(sortOfProduct==1)
+            return sordOfProductSTG="Alat";
+        else if (sortOfProduct==2)
+            return sordOfProductSTG="Ugradbeni dio";
+     else
+        return sordOfProductSTG;
+    }
+
+    public void setSordOfProductSTG(String sordOfProductSTG) {
+        this.sordOfProductSTG = sordOfProductSTG;
+    }
+
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getJedMjereINT() {
+        return jedMjereINT;
+    }
+
+    public void setJedMjereINT(Integer jedMjereINT) {
+        this.jedMjereINT = jedMjereINT;
+    }
+
+    public String getJedMjereStg() {
+        if (jedMjereINT==0)
+         return jedMjereStg="komad";
+        else if(jedMjereINT==1)
+            return jedMjereStg="litar";
+        else if (jedMjereINT==2)
+            return jedMjereStg= "metar";
+        else
+        return null;
+    }
+
+    public void setJedMjereStg(String jedMjereStg) {
+        this.jedMjereStg = jedMjereStg;
+    }
+
+    public Integer getSizeOfEtickINT() {
+        return sizeOfEtickINT;
+    }
+
+    public void setSizeOfEtickINT(Integer sizeOfEtickINT) {
+        this.sizeOfEtickINT = sizeOfEtickINT;
+    }
+
+    public String getSizeOfEtickSTG() {
+        if (sizeOfEtickINT==0)
+            return sizeOfEtickSTG="mala";
+        else if(sizeOfEtickINT==1)
+            return sizeOfEtickSTG="standardna";
+        else if(sizeOfEtickINT==2)
+            return sizeOfEtickSTG="srednja";
+        else if (sizeOfEtickINT==3)
+            return sizeOfEtickSTG= "velika";
+        else
+        return sizeOfEtickSTG;
+    }
+
+    public void setSizeOfEtickSTG(String sizeOfEtickSTG) {
+        this.sizeOfEtickSTG = sizeOfEtickSTG;
     }
 
     @Override

@@ -5,10 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-
 
 /**
  * this is main class start gui it has start method
@@ -43,12 +43,13 @@ public class Main extends Application {
      * main metod that calls start gui + some loggers for now
      * @param args
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws JRException {
         logger.info("elooo");
         logger.trace("nesto");
         logger.error("neki problemi");
         launch(args);
 
+       // JasperReport jasperReport= JasperCompileManager.compileReport("");
     }
 
 }

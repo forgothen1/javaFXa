@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="842.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.print.PrintPageController">
+   <children>
+      <Pagination prefHeight="836.0" prefWidth="588.0" />
+      <Pane layoutX="12.0" layoutY="30.0" prefHeight="70.0" prefWidth="201.0" fx:id="pane">
+         <children>
+            <Label fx:id="ulazRobe" layoutX="106.0" layoutY="5.0" text="257/21" />
+            <Label fx:id="naziv" layoutX="50.0" layoutY="22.0" text="motorno ulje 1:50 0,1L" />
+            <Label fx:id="serijskiBR" layoutX="14.0" layoutY="54.0" text="07813198401" />
+            <Label fx:id="cijena" layoutX="88.0" layoutY="46.0" text="1250.90" />
+            <Label fx:id="sifra" layoutX="168.0" layoutY="46.0" text="4887" />
+            <Label layoutX="154.0" layoutY="48.0" text="Sif" />
+            <Label layoutX="129.0" layoutY="46.0" text="KM" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

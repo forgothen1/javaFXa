@@ -73,7 +73,6 @@
                <String fx:value="komad" />
                <String fx:value="litar" />
                <String fx:value="metar" />
-
            </FXCollections>
        </items>
        </ChoiceBox>

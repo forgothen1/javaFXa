@@ -661,14 +661,33 @@ public class DBQuerrys extends DBcon {
         preparedStatement.setFloat(i++,purchesInvoice.getPDV());
       //  preparedStatement.setFloat(i++,purchesInvoice.getSumPricewithPDV());
         preparedStatement.executeUpdate();
-        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
         preparedStatement.executeUpdate();
     }
 
-
+    /**
+     * writing to DB connection bettween entry  and articles
+     * @param purchesInvoice  what entry it is atm
+     * @param articles articles that is adding in store
+     * @throws SQLException
+     */
     @FXML
-    public void addingArtiklesFromPurchase(){
-        String sqlQuerry=;
+    public void addingArtiklesFromPurchase(PurchesInvoice purchesInvoice, Articles articles) throws SQLException {
+        int i = 1;
+        String sqlQuerry = "insert into artiklipoulazu(idArtikla, brojUlaza, kolicina, VPCijena, MPCijena) values (?,?,?,?,?)";
+
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 0");
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(sqlQuerry);
+        preparedStatement.setString(i++, articles.getSerialNumber());
+        preparedStatement.setString(i++, purchesInvoice.getEntry());
+        preparedStatement.setInt(i++, articles.getQuantity());
+        preparedStatement.setFloat(i++, articles.getImputPrice());
+        // preparedStatement.setFloat(i++, articles.getPDV);
+        preparedStatement.setFloat(i++, articles.getPrice());
+        preparedStatement.executeUpdate();
+        preparedStatement = con.prepareStatement(" SET foreign_key_checks = 1");
+        preparedStatement.executeUpdate();
     }
 }
 

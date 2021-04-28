@@ -6,7 +6,7 @@ package entites;
 public class PurchesInvoice {
         private Integer ID;
         private String entry ;
-        private  String orderNumber;
+        private String orderNumber;
         private String suplayer;
         private String dateSent;
         private String dateRecive;

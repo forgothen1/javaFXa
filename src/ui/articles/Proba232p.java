@@ -134,6 +134,7 @@ public class Proba232p implements Initializable {
         for (Articles value : articles_collection) {
             articles = value;
             dbQuerrys.addingToArticles(articles);
+            dbQuerrys.addingArtiklesFromPurchase(purchesInvoice,articles);
         }
     }
 
@@ -146,7 +147,7 @@ public class Proba232p implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     loadTable();
-    SerialNumbTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+    nameTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue)
         {
             try {
